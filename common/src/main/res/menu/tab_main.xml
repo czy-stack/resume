@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@+id/tab_one"
+            android:icon="@drawable/selected_tab_one"
+            android:title="@string/item_main_one"
+    />
+    <item
+            android:id="@+id/tab_two"
+            android:icon="@drawable/selected_tab_two"
+            android:title="@string/item_main_two"
+    />
+    <item
+            android:id="@+id/tab_three"
+            android:icon="@drawable/selected_tab_three"
+            android:title="@string/item_main_three"
+    />
+<!--    <item-->
+<!--            android:id="@+id/tab_four"-->
+<!--            android:icon="@drawable/selected_tab_four"-->
+<!--            android:title="@string/item_main_four"-->
+<!--    />-->
+    <item
+            android:id="@+id/tab_five"
+            android:icon="@drawable/selected_tab_five"
+            android:title="@string/item_main_five"
+            />
+</menu>

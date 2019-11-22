@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:left="0dp" android:right="0dp" android:state_checked="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorBlack" />
+            <stroke android:width="@dimen/divider_height_1dp" android:color="@color/colorBlack" />
+        </shape>
+    </item>
+    <item android:left="0dp" android:right="0dp">
+        <shape android:shape="rectangle">
+            <stroke android:width="@dimen/divider_height_1dp" android:color="@color/colorBlack" />
+        </shape>
+    </item>
+</selector>

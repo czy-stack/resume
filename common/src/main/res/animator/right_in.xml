@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <objectAnimator
+            android:propertyName="x"
+            android:duration="500"
+            android:valueTo="400"
+            android:valueType="intType"/>
+    <objectAnimator
+            android:propertyName="y"
+            android:duration="500"
+            android:valueTo="300"
+            android:valueType="intType"/>
+</set>
+
+
+        <!--<objectAnimator xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--android:duration="1000"-->
+        <!--android:valueTo="200"-->
+        <!--android:valueType="floatType"-->
+        <!--android:propertyName="y"-->
+        <!--android:repeatCount="1"-->
+        <!--android:repeatMode="reverse"/>-->
+
+        <!--<objectAnimator xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--android:duration="1000"-->
+        <!--android:repeatCount="1"-->
+        <!--android:repeatMode="reverse">-->
+        <!--<propertyValuesHolder android:propertyName="x" android:valueTo="400"/>-->
+        <!--<propertyValuesHolder android:propertyName="y" android:valueTo="200"/>-->
+        <!--</objectAnimator>-->
+
+
+        <!--Using Keyframes allows animations to follow more complex paths
+        from the start to the end values. Note that you can specify explicit fractional values (from 0 to 1)
+         for each keyframe to determine when, in the overall duration, the animation should arrive at that value. Alternatively,
+         you can leave the fractions off and the keyframes will be equally distributed within the total duration.
+         Also, a keyframe with no value will derive its value from the target object when the animator starts, just like animators with only one value specified. In addition, an optional interpolator can be specified.
+         The interpolator will be applied on the interval between the keyframe that the interpolator is set on and the previous keyframe. When no interpolator is supplied, the default AccelerateDecelerateInterpolator will be used.-->
+
+        <!--<propertyValuesHolder android:propertyName="x" >-->
+        <!--<keyframe android:fraction="0" android:value="800" />-->
+        <!--<keyframe android:fraction=".2"-->
+        <!--android:interpolator="@android:anim/accelerate_interpolator"-->
+        <!--android:value="1000" />-->
+        <!--<keyframe android:fraction="1"-->
+        <!--android:interpolator="@android:anim/accelerate_interpolator"-->
+        <!--android:value="400" />-->
+        <!--</propertyValuesHolder>-->
+        <!--<propertyValuesHolder android:propertyName="y" >-->
+        <!--<keyframe/>-->
+        <!--<keyframe android:fraction=".2"-->
+        <!--android:interpolator="@android:anim/accelerate_interpolator"-->
+        <!--android:value="300"/>-->
+        <!--<keyframe android:interpolator="@android:anim/accelerate_interpolator"-->
+        <!--android:value="1000" />-->
+        <!--</propertyValuesHolder>-->

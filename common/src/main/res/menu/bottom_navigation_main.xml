@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+            android:id="@+id/tab_one"
+            android:enabled="true"
+            android:icon="@drawable/selected_tab_one"
+            android:title="@string/item_main_one"
+            app:showAsAction="ifRoom" />
+    <item
+            android:id="@+id/tab_two"
+            android:enabled="true"
+            android:icon="@drawable/selected_tab_two"
+            android:title="@string/item_main_two"
+            app:showAsAction="ifRoom" />
+    <item
+            android:id="@+id/tab_three"
+            android:enabled="true"
+            android:icon="@drawable/selected_tab_three"
+            android:title="@string/item_main_three"
+            app:showAsAction="ifRoom" />
+    <item
+            android:id="@+id/tab_four"
+            android:enabled="true"
+            android:icon="@drawable/selected_tab_four"
+            android:title="@string/item_main_four"
+            app:showAsAction="ifRoom" />
+    <item
+            android:id="@+id/tab_five"
+            android:enabled="true"
+            android:icon="@drawable/selected_tab_five"
+            android:title="@string/item_main_five"
+            app:showAsAction="ifRoom" />
+
+</menu>

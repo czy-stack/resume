@@ -1,0 +1,171 @@
+<resources>
+
+    <!--Base application theme.-->
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+<!--        <item name="android:windowContentOverlay">@null</item>-->
+        <!--<item name="android:windowBackground">@android:color/transparent</item>-->
+        <!--<item name="android:actionMenuTextColor">@color/colorWhite</item>-->
+        <item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
+        <item name="toolbarNavigationButtonStyle">@style/ToolbarNavigationButtonStyle</item>
+        <item name="actionMenuTextAppearance">@style/MenuTextAppearance</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="colorControlNormal">@color/color_press_lines</item>
+        <item name="android:textColorHint">@color/color_black_edit_hint</item>
+        <item name="actionMenuTextColor">@color/colorBlack</item>
+        <!--<item name="popupMenuStyle">@style/transparentStyle</item>-->
+        <!--<item name="android:popupTheme">@style/transparentStyle</item>-->
+    </style>
+    <!--防止启动白屏 -->
+    <style name="AppStartTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@color/colorPrimary</item>
+        <!--<item name="android:windowDisablePreview">true</item>-->
+    </style>
+    <style name="AppSearchTheme" parent="AppTheme">
+        <item name="colorControlNormal">#AAAAAA</item>
+    </style>
+
+    <!-- animation 样式 -->
+    <style name="ActivityAnimation" parent="@android:style/Animation">
+        <item name="android:activityOpenEnterAnimation">@anim/right_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/left_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/left_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/right_out</item>
+    </style>
+
+    <!--appbarLayout 属性-->
+    <style name="AppbarStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <!--<item name="elevation">0dp</item>-->
+    </style>
+
+    <!--Navigation_Button-->
+    <style name="ToolbarNavigationButtonStyle" parent="@style/Widget.AppCompat.Toolbar.Button.Navigation">
+        <!--<item name="android:minWidth">15dp</item>-->
+        <item name="android:paddingLeft">@dimen/space_large</item>
+        <item name="android:paddingRight">@dimen/space_normal</item>
+        <item name="android:scaleType">centerInside</item>
+    </style>
+
+    <style name="MenuTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Menu">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/sp_16</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:textColor">@color/transparent</item>
+    </style>
+
+    <!--toolbar 属性-->
+    <style name="ToolbarStyle" parent="Base.Widget.AppCompat.Toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/toolbar_height</item>
+        <!--<item name="titleTextAppearance">@style/ToolBarTitleTextStyle</item>-->
+        <item name="android:background">@color/colorPrimary</item>
+        <!--<item name="android:popupTheme">@style/transparentStyle</item>-->
+        <!--<item name="android:actionOverflowMenuStyle">@style/transparentStyle</item>-->
+        <item name="navigationIcon">@drawable/icon_back_black</item>
+        <!--title 左边距离属性-->
+        <item name="contentInsetStart">0dp</item>
+        <item name="contentInsetStartWithNavigation">0dp</item>
+
+    </style>
+    <!--tabLayout-->
+    <style name="TabLayoutStyle" parent="Widget.Design.TabLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_45</item>
+        <item name="tabMode">fixed</item>
+        <item name="tabTextColor">@color/color_black_hint</item>
+        <item name="tabSelectedTextColor">@color/colorBlack</item>
+        <item name="tabGravity">fill</item>
+        <item name="tabIndicatorColor">@color/colorBlack</item>
+        <item name="tabIndicatorFullWidth">false</item>
+        <item name="tabTextAppearance">@style/TabLayoutTextStyle</item>
+        <item name="tabIndicator">@drawable/indicator</item>
+    </style>
+    <style name="TabLayoutTextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/sp_16</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <!--toobar titile 文字属性-->
+    <style name="ToolBarTitleTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textSize">@dimen/sp_18</item>
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="TransparentStyle" parent="ThemeOverlay.AppCompat.Light">
+        <!--修改菜单的字体颜色-->
+        <item name="android:textColor">@color/transparent</item>
+        <!--修改菜单的背景颜色-->
+        <item name="android:background">@color/transparent</item>
+        <!--背景颜色-->
+        <item name="android:colorBackground">@color/transparent</item>
+        <!--字体颜色-->
+        <item name="android:textColorPrimary">@color/transparent</item>
+    </style>
+
+    <style name="BottomStyle">
+        <item name="android:background">?android:attr/windowBackground</item>
+        <item name="labelVisibilityMode">labeled</item>
+        <item name="itemTextColor">@color/selector_tab_color</item>
+    </style>
+    <style name="InputTextStyle" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_40</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+    </style>
+    <style name="InputLayoutStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">@dimen/space_large</item>
+        <item name="android:paddingEnd">@dimen/space_large</item>
+        <item name="counterMaxLength">18</item>
+        <item name="counterEnabled">false</item>
+        <item name="errorEnabled">true</item>
+    </style>
+
+    <style name="DialogStyle" parent="android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <!--边框-->
+        <item name="android:windowIsFloating">true</item>
+        <!--是否浮现在activity之上-->
+        <item name="android:windowIsTranslucent">false</item>
+        <!--半透明-->
+        <item name="android:windowNoTitle">true</item>
+        <!--无标题-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--背景透明-->
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+    <style name="ButtonStyle">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:borderlessButtonStyle">@style/Widget.AppCompat.Button.Borderless</item>
+    </style>
+
+    <style name="BottomSheetStyle" parent="Theme.AppCompat.Light.Dialog">
+        <item name="bottomSheetStyle">@style/SheetStyle</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
+        <item name="android:colorBackground">@color/transparent</item>
+    </style>
+    <style name="SheetStyle" parent="@style/Widget.Design.BottomSheet.Modal">
+        <item name="behavior_peekHeight">1000dp</item>
+        <item name="behavior_hideable">true</item>
+        <item name="behavior_skipCollapsed">true</item>
+    </style>
+
+    <style name="TransparentEditTextTheme" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/transparent</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="android:maxLength">100</item>
+    </style>
+
+
+</resources>

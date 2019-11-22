@@ -1,0 +1,60 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            buildConfigField("String", "API_HOST", "${API_DEV_HOST}")
+        }
+        debug {
+            buildConfigField("String", "API_HOST", "${API_DEV_HOST}")
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api "androidx.appcompat:appcompat:$appcompat"
+    api "androidx.core:core-ktx:$ktx"
+    api "androidx.legacy:legacy-support-v4:$support"
+    api "androidx.constraintlayout:constraintlayout:$constraintlayout"
+    api "com.google.android.material:material:$material"
+
+    api "com.github.bumptech.glide:glide:$glide"
+
+    api "io.reactivex.rxjava2:rxjava:$rxjava"
+    api "io.reactivex.rxjava2:rxandroid:$rxandroid"
+    api "com.squareup.okhttp3:okhttp:$okhttp"
+    api "com.squareup.okhttp3:logging-interceptor:$okhttp"
+    api "com.squareup.retrofit2:retrofit:$retrofit"
+    api "com.squareup.retrofit2:converter-gson:$retrofit"
+    api "com.squareup.retrofit2:converter-scalars:$retrofit"
+    api "com.squareup.retrofit2:retrofit-adapters:$retrofit"
+    api "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
+    api "com.jakewharton.rxrelay2:rxrelay:$rxdelay"
+    api "com.just.agentweb:agentweb:$agentweb"
+
+    api "org.litepal.android:kotlin:$litepal"
+    api "org.greenrobot:eventbus:$event"
+
+    api "com.scwang.smart:refresh-layout-kernel:$refresh"   //核心必须依赖
+    api "com.scwang.smart:refresh-header-classics:$refresh" //经典刷新头
+    api "com.scwang.smart:refresh-header-material:$refresh"  //谷歌刷新头
+    api "com.scwang.smart:refresh-footer-classics:$refresh"    //经典加载
+
+    testImplementation "junit:junit:$junit"
+    androidTestImplementation "androidx.test:runner:$runner"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso"
+}

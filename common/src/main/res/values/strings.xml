@@ -1,0 +1,53 @@
+<resources>
+
+    <string name="confirm">确定</string>
+    <string name="submit">提交</string>
+    <string name="save">保存</string>
+    <string name="clear">清空</string>
+    <string name="cancel">取消</string>
+
+    <string name="toast_common_net_error">网络异常</string>
+    <string name="toast_common_parse_error">数据解析异常</string>
+    <string name="toast_common_server_error">服务器异常</string>
+    <string name="toast_common_net_timeout">网络超时</string>
+    <string name="toast_common_data_error">数据异常</string>
+    <string name="login_invalid_error">登录超时，请重新登陆</string>
+
+    <!---->
+    <string name="item_main_one">交易</string>
+    <string name="item_main_two">持仓</string>
+    <string name="item_main_three">发现</string>
+    <string name="item_main_four">资讯</string>
+    <string name="item_main_five">我的</string>
+
+    <string name="string_history">历史记录</string>
+
+    <string-array name="string_array_bank">
+        <item>中国银行</item>
+        <item>农业银行</item>
+        <item>工商银行</item>
+        <item>建设银行</item>
+        <item>招商银行</item>
+        <item>光大银行</item>
+        <item>浦发银行</item>
+        <item>兴业银行</item>
+        <item>邮储银行</item>
+        <item>平安银行</item>
+        <item>中信银行</item>
+        <item>华夏银行</item>
+        <item>民生银行</item>
+        <item>广发银行</item>
+        <item>交通银行</item>
+        <item>包商银行</item>
+        <item>东莞银行</item>
+        <item>江苏银行</item>
+        <item>北京银行</item>
+        <item>上海银行</item>
+        <item>杭州银行</item>
+        <item>宁波银行</item>
+        <item>广州银行</item>
+        <item>珠海华润</item>
+        <item>广东南粤</item>
+        <item>浙商银行</item>
+    </string-array>
+</resources>

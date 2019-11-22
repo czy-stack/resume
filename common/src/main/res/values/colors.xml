@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorPrimary">@android:color/holo_green_dark</color>
+    <color name="colorPrimary20">@color/fc5e82_20_percent</color>
+    <color name="colorPrimaryDark">@android:color/holo_green_dark</color>
+    <color name="colorAccent">@android:color/holo_green_dark</color>
+    <color name="colorPrimaryLight">@color/fc5b7f</color>
+    <color name="widget_bg">@color/white</color>
+    <color name="click_bg">#afdfe4</color>
+    <color name="colorWrite">@color/white</color>
+    <color name="colorBlack">@color/c333333</color>
+    <color name="color_black_hint">@color/c999999</color>
+    <color name="color_black_edit_hint">@color/cacaca</color>
+    <color name="tab_select">@color/colorBlack</color>
+    <color name="tab_un_select">@color/cacaca</color>
+    <color name="color_press">#afdfe4</color>
+    <color name="color_press_lines">@color/f1f1f1</color>
+    <color name="color_divide">@color/dddddd</color>
+    <color name="color_text_gray">@color/c666666</color>
+    <color name="colorMore">#ff0000</color>
+    <color name="colorLess">#16b13c</color>
+
+    <!--固定颜色-->
+
+    <!--20%黑-->
+    <color name="black_20_percent">#33000000</color>
+    <!--40%黑-->
+    <color name="black_40_percent">#66000000</color>
+    <!--50%黑-->
+    <color name="black_50_percent">#7f000000</color>
+    <!--66%黑-->
+    <color name="black_66_percent">#aa000000</color>
+    <!--70%黑-->
+    <color name="black_70_percent">#b2000000</color>
+    <!--75%黑-->
+    <color name="black_75_percent">#c0000000</color>
+    <!--80%黑-->
+    <color name="black_80_percent">#cc000000</color>
+    <!--20%白-->
+    <color name="white_20_percent">#33ffffff</color>
+    <!--25%白-->
+    <color name="white_25_percent">#40ffffff</color>
+    <!--30%白-->
+    <color name="white_30_percent">#4cffffff</color>
+    <!--50%白-->
+    <color name="white_50_percent">#7fffffff</color>
+    <!--85%白-->
+    <color name="white_85_percent">#d9ffffff</color>
+    <!--95%白-->
+    <color name="white_95_percent">#f2ffffff</color>
+
+    <color name="c333333">#333333</color>
+    <color name="c999999">#999999</color>
+    <color name="d5d5d5">#d5d5d5</color>
+    <color name="f6ca2e">#f6ca2e</color>
+    <color name="dddddd">#dddddd</color>
+    <color name="cacaca">#cacaca</color>
+    <color name="fc6b9a">#FC6B9A</color>
+    <color name="f1f1f1">#F1F1F1</color>
+    <color name="fc5e82">#FC5E82</color>
+    <color name="fc5b7f">#FC5B7F</color>
+    <color name="fb735f">#FB735F</color>
+    <color name="fa655b">#FA655B</color>
+    <color name="fb7a61">#FB7A61</color>
+    <color name="fb7a61_20_percent">#33FB7A61</color>
+    <color name="fb7960">#FB7960</color>
+    <color name="fc5e82_20_percent">#33FC6B9A</color>
+    <color name="c9c7dfb">#9C7DFB</color>
+    <color name="c9c7efc">#9C7EFC</color>
+    <color name="c9c7efc_20_percent">#339C7EFC</color>
+    <color name="c666666">#666666</color>
+    <color name="d71b1c">	#cc0001</color>
+    <color name="e94444">#E94444</color>
+
+    <color name="white">@android:color/white</color>
+    <color name="black">@android:color/black</color>
+    <color name="transparent">@android:color/transparent</color>
+
+</resources>

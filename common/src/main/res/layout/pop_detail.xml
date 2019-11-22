@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_pop_detail"
+        android:maxHeight="@dimen/dp_50">
+
+    <TextView
+            android:id="@+id/tv_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="240dp"
+            android:textColor="@color/colorBlack"
+            android:paddingStart="@dimen/dp_5"
+            android:textSize="@dimen/sp_12" />
+</FrameLayout>
