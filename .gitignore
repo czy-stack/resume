@@ -14,15 +14,15 @@
 .cxx
 ### Android template
 # Built application files
-*.apk
-*.ap_
+#*.apk
+#*.ap_
 *.aab
 
 # Files for the ART/Dalvik VM
-*.dex
+#*.dex
 
 # Java class files
-*.class
+#*.class
 
 # Generated files
 bin/
@@ -49,19 +49,7 @@ proguard/
 # Android Studio captures folder
 captures/
 
-# IntelliJ
-*.iml
-.idea/workspace.xml
-.idea/tasks.xml
-.idea/gradle.xml
-.idea/assetWizardSettings.xml
-.idea/dictionaries
-.idea/libraries
-# Android Studio 3 in .gitignore file.
-.idea/caches
-.idea/modules.xml
-# Comment next line if keeping position of elements in Navigation Editor is relevant for you
-.idea/navEditor.xml
+
 
 # Keystore files
 # Uncomment the following lines if you do not want to check your keystore files in.
@@ -69,7 +57,7 @@ captures/
 #*.keystore
 
 # External native build folder generated in Android Studio 2.2 and later
-.externalNativeBuild
+#.externalNativeBuild
 
 # Google Services (e.g. APIs or Firebase)
 # google-services.json
@@ -88,32 +76,12 @@ fastlane/readme.md
 
 # Version control
 vcs.xml
-
-# lint
-lint/intermediates/
-lint/generated/
-lint/outputs/
-lint/tmp/
-# lint/reports/
-
-.gitignore
-.idea/codeStyles/
-.idea/misc.xml
-.idea/runConfigurations.xml
-app/.gitignore
-app/build.gradle
-app/libs/
-app/proguard-rules.pro
-app/src/
-build.gradle
-common/.gitignore
-common/build.gradle
-common/consumer-rules.pro
-common/libs/
-common/proguard-rules.pro
-common/src/
-gradle.properties
-gradle/
-gradlew
-gradlew.bat
-settings.gradle
+.idea/caches/
+.idea/gradle.xml
+.idea/libraries/
+.idea/modules.xml
+.idea/vcs.xml
+.idea/workspace.xml
+Resume.iml
+app/app.iml
+common/common.iml
