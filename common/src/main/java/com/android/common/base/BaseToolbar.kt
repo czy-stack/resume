@@ -12,11 +12,11 @@ import com.android.common.R
  * @创建日期  2019-11-21
  */
 class BaseToolbar : Toolbar {
-    constructor(context: Context?) : this(context, null)
+    constructor(context: Context) : this(context, null)
 
-    constructor(context: Context?, @Nullable attrs: AttributeSet?) : this(context, attrs, R.attr.toolbarStyle)
+    constructor(context: Context, @Nullable attrs: AttributeSet?) : this(context, attrs, R.attr.toolbarStyle)
 
-    constructor(context: Context?, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(
+    constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(
         context,
         attrs,
         defStyleAttr

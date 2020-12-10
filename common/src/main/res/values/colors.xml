@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">@android:color/holo_green_dark</color>
+    <color name="colorPrimary">@android:color/holo_orange_light</color>
     <color name="colorPrimary20">@color/fc5e82_20_percent</color>
-    <color name="colorPrimaryDark">@android:color/holo_green_dark</color>
-    <color name="colorAccent">@android:color/holo_green_dark</color>
+    <color name="colorPrimaryDark">@android:color/holo_orange_light</color>
+    <color name="colorAccent">@android:color/holo_orange_light</color>
     <color name="colorPrimaryLight">@color/fc5b7f</color>
     <color name="widget_bg">@color/white</color>
     <color name="click_bg">#afdfe4</color>

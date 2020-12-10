@@ -6,7 +6,7 @@ import com.android.resume.R
 
 /**
  * @作者 陈忠岳
- * @主要功能  股票宝启动页
+ * @主要功能  启动页
  * @创建日期  2019-11-21
  */
 class SplashActivity : BaseActivity<SplashContract.Presenter>(), SplashContract.View {

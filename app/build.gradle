@@ -6,13 +6,49 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
+    applicationVariants.all { variant ->
+        variant.outputs.all { // 遍历所有的输出类型，一般是debug和release
+            //定义apk的名字，拼接variant的版本号
+            def apkName = "_${variant.versionName}"
+            //判断是否为空
+            if (!variant.flavorName.isEmpty()) {
+                apkName += "_${variant.flavorName}"
+            }
+            //赋值属性
+            if (GATEWAY.toString() == "production") {
+                outputFileName = "resume_production"
+            } else if (GATEWAY.toString() == "test") {
+                outputFileName = "resume_test"
+            } else if (GATEWAY.toString() == "develop") {
+                outputFileName = "resume_develop"
+            }
+
+            String time = new Date().format("_YYYYMMddHH")
+            if (variant.buildType.name == "release") {
+                outputFileName += apkName = "_release" + time + ".apk"
+            } else {
+                outputFileName += apkName = "_debug" + time + ".apk"
+            }
+        }
+    }
     defaultConfig {
         applicationId "com.android.resume"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        switch (GATEWAY) {
+            case "production":
+                buildConfigField 'Integer', 'GATEWAY', '0'
+                break
+            case "test":
+                buildConfigField 'Integer', 'GATEWAY', '1'
+                break
+            case "develop":
+                buildConfigField 'Integer', 'GATEWAY', '2'
+                break
+        }
+        buildConfigField 'Integer', 'APPTYPE', APP_TYPE
     }
     buildTypes {
         release {
@@ -20,14 +56,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(path: ':common')
-    testImplementation "junit:junit:$junit"
-    androidTestImplementation "androidx.test:runner:$runner"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso"
+    implementation project(path: ':sign')
     debugImplementation "com.squareup.leakcanary:$leakcanary"
     implementation "com.aliyun.ams:alicloud-android-hotfix:$hotfix"
 

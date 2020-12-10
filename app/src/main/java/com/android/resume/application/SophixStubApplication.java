@@ -41,6 +41,7 @@ public class SophixStubApplication extends SophixApplication {
                     .getPackageInfo(this.getPackageName(), 0)
                     .versionName;
         } catch (Exception e) {
+            e.printStackTrace();
         }
         final SophixManager instance = SophixManager.getInstance();
         instance.setContext(this)

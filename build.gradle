@@ -1,14 +1,14 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.3.60'
+    ext.kotlin_version = '1.3.72'
     repositories {
         google()
         jcenter()
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.2'
+        classpath 'com.android.tools.build:gradle:4.1.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
         // NOTE: Do not place your application dependencies here; they belong
@@ -30,25 +30,26 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
+
 ext {
-    compileSdkVersion = 28
+    compileSdkVersion = 30
     versionCode = 1
     versionName = "1.0.0"
     minSdkVersion = 21
-    targetSdkVersion = 28
-
+    targetSdkVersion = 30
+    jvmTarget = "1.8"
 
     //android
-    appcompat = "1.1.0"
-    ktx = "1.1.0"
-    constraintlayout = "1.1.3"
-    material = "1.2.0-alpha02"
+    appcompat = "1.2.0"
+    ktx = "1.3.2"
+    constraintlayout = "2.0.4"
+    material = "1.3.0-alpha04"
     support = "1.0.0"
 
     //test
-    junit = "4.12"
-    runner = "1.2.0"
-    espresso = "3.2.0"
+    junit = '4.13.1'
+    runner = '1.3.0'
+    espresso = '3.3.0'
 
     //rxjava  https://github.com/ReactiveX/RxJava   https://github.com/ReactiveX/RxAndroid
     rxjava = "2.2.10"

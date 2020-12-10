@@ -1,2 +1,2 @@
-include ':app', ':common'
-rootProject.name='Resume'
+include ':app', ':common', ':sign', ':kotlin'
+rootProject.name = 'Resume'

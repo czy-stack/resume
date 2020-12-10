@@ -51,8 +51,8 @@ class WebActivity : BaseActivity<WebContract.Presenter>(), WebContract.View, Lif
             loadsImagesAutomatically = true
             domStorageEnabled = true
             databaseEnabled = true
-            setAppCacheEnabled(true)
-            setAppCachePath(applicationContext.getDir("web", Context.MODE_PRIVATE).path)
+//            setAppCacheEnabled(true)
+//            setAppCachePath(applicationContext.getDir("web", Context.MODE_PRIVATE).path)
             defaultTextEncodingName = "utf-8";//设置编码格式
             cacheMode = WebSettings.LOAD_DEFAULT
             allowFileAccess = true
@@ -62,8 +62,9 @@ class WebActivity : BaseActivity<WebContract.Presenter>(), WebContract.View, Lif
 
     override fun initData() {
         tv_title.text = intent.getStringExtra(Constants.INTENT_TITLE)
-        LogUtils.i("WebActivity",msg = intent.getStringExtra(Constants.INTENT_STRING))
-        web.loadUrl(intent.getStringExtra(Constants.INTENT_STRING))
+        intent.getStringExtra(Constants.INTENT_STRING)?.let {
+            LogUtils.i("WebActivity",msg = it)
+            web.loadUrl(it) }
     }
 
     override fun initListener() {

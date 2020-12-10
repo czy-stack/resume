@@ -47,12 +47,12 @@ object DateUtils {
     }
 
     /**
-     * 获取时
+     * 获取时 (24小时制)
      *
      * @return int
      */
     fun getHour(): Int {
-        return Calendar.getInstance().get(Calendar.HOUR)
+        return Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
     }
 
     /**
@@ -94,6 +94,15 @@ object DateUtils {
             it.roll(Calendar.DATE, -1)//日期回滚一天，也就是最后一天
             it.get(Calendar.DATE)
         }
+    }
+
+    /**
+     * 是否双休日
+     *
+     * @return Boolean  true 不是双休日
+     */
+    fun isWeek(): Boolean {
+        return Calendar.getInstance().get(Calendar.DAY_OF_WEEK)!=1 && Calendar.getInstance().get(Calendar.DAY_OF_WEEK)!=7
     }
 
     /**

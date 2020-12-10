@@ -99,24 +99,22 @@ class TestActivity : BaseActivity<TestContract.Presenter>(), TestContract.View, 
             tv_clear.visibility = View.GONE
         }
         adapter.addItemClickListener(this)
-        radio.setOnCheckedChangeListener(object : RadioGroup.OnCheckedChangeListener {
-            override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
-                when (checkedId) {
-                    R.id.rb_two -> {
-                        if (type != MainConstants.H) {
-                            type = MainConstants.H
-                            presenter.getShares(notes, MainConstants.H)
-                        }
+        radio.setOnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
+                R.id.rb_two -> {
+                    if (type != MainConstants.H) {
+                        type = MainConstants.H
+                        presenter.getShares(notes, MainConstants.H)
                     }
-                    R.id.rb_three -> {
-                        if (type != MainConstants.M) {
-                            type = MainConstants.M
-                            presenter.getShares(notes, MainConstants.M)
-                        }
+                }
+                R.id.rb_three -> {
+                    if (type != MainConstants.M) {
+                        type = MainConstants.M
+                        presenter.getShares(notes, MainConstants.M)
                     }
                 }
             }
-        })
+        }
     }
 
 
