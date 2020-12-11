@@ -21,6 +21,7 @@
     <color name="colorMore">#ff0000</color>
     <color name="colorLess">#16b13c</color>
 
+
     <!--固定颜色-->
 
     <!--20%黑-->
@@ -50,6 +51,12 @@
     <!--95%白-->
     <color name="white_95_percent">#f2ffffff</color>
 
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+
     <color name="c333333">#333333</color>
     <color name="c999999">#999999</color>
     <color name="d5d5d5">#d5d5d5</color>
@@ -75,6 +82,7 @@
 
     <color name="white">@android:color/white</color>
     <color name="black">@android:color/black</color>
+
     <color name="transparent">@android:color/transparent</color>
 
 </resources>
