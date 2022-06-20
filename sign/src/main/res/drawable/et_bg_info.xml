@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true">
+        <shape android:shape="rectangle" >
+            <stroke android:width="@dimen/divider_height_1dp" android:color="@color/colorPrimary" />
+            <solid android:color="@color/click_bg" />
+        </shape>
+    </item>
+
+    <item android:state_selected="false">
+        <shape android:shape="rectangle" >
+            <stroke android:width="@dimen/divider_height_1dp" android:color="@color/color_black_edit_hint" />
+            <solid android:color="@color/widget_bg" />
+        </shape>
+    </item>
+
+    <item android:state_enabled="false" >
+        <shape android:shape="rectangle">
+            <stroke android:width="@dimen/divider_height_1dp" android:color="#999999" />
+            <solid android:color="@color/color_black_edit_hint" />
+        </shape>
+    </item>
+</selector>

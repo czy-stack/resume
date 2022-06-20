@@ -24,7 +24,7 @@ abstract class RxObserver<T>(val context: Context) : Observer<T> {
     private var disposable: Disposable? = null
     override fun onComplete() {
         disposable?.let {
-            if (!it.isDisposed) {
+            if (it.isDisposed) {
                 it.dispose()
             }
         }
@@ -64,7 +64,7 @@ abstract class RxObserver<T>(val context: Context) : Observer<T> {
             e.printStackTrace()
         }
         disposable?.let {
-            if (!it.isDisposed) {
+            if (it.isDisposed) {
                 it.dispose()
             }
         }

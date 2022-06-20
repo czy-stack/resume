@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.item_single_choice.view.*
  * @主要功能 单选列表
  * @创建日期  2019-11-21
  */
-class SingleChoiceAdapter(private val context: Context, list: List<SimpleMapStringBooleanBean>) :
+class  SingleChoiceAdapter(private val context: Context, list: List<SimpleMapStringBooleanBean>) :
     BaseAdapter<SimpleMapStringBooleanBean>(list) {
     private var selectPosition = -1
 
