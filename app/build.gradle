@@ -15,13 +15,14 @@ android {
                 apkName += "_${variant.flavorName}"
             }
             //赋值属性
-            if (GATEWAY.toString() == "production") {
-                outputFileName = "resume_production"
-            } else if (GATEWAY.toString() == "test") {
-                outputFileName = "resume_test"
-            } else if (GATEWAY.toString() == "develop") {
-                outputFileName = "resume_develop"
-            }
+            outputFileName = "LitePal"
+//            if (GATEWAY.toString() == "production") {
+//                outputFileName = "resume_production"
+//            } else if (GATEWAY.toString() == "test") {
+//                outputFileName =  "resume_test"
+//            } else if (GATEWAY.toString() == "develop") {
+//                outputFileName =  "resume_develop"
+//            }
 
             String time = new Date().format("_YYYYMMddHH")
             if (variant.buildType.name == "release") {
@@ -37,25 +38,55 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
-        switch (GATEWAY) {
-            case "production":
-                buildConfigField 'Integer', 'GATEWAY', '0'
-                break
-            case "test":
-                buildConfigField 'Integer', 'GATEWAY', '1'
-                break
-            case "develop":
-                buildConfigField 'Integer', 'GATEWAY', '2'
-                break
-        }
-        buildConfigField 'Integer', 'APPTYPE', APP_TYPE
+//        switch (GATEWAY) {
+//            case "production":
+//                buildConfigField 'Integer', 'GATEWAY', '0'
+//                break
+//            case "test":
+//                buildConfigField 'Integer', 'GATEWAY', '1'
+//                break
+//            case "develop":
+//                buildConfigField 'Integer', 'GATEWAY', '2'
+//                break
+//        }
+//        buildConfigField 'Integer', 'APPTYPE', APP_TYPE
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
+        debug {
+            zipAlignEnabled true
+        }
     }
+
+    flavorDimensions "app","environment"
+    productFlavors{
+        //正式包
+        resume {
+            resValue "string", "app_name", "LitePal"//正式环境下app名称
+            dimension "app"
+        }
+        //测试包
+        resumetest {
+            resValue "string", "app_name", "LitePal_Text"//正式环境下app名称
+            dimension "app"
+        }
+
+        production{
+            dimension "environment"
+            buildConfigField('String','BASE_URL','"http://183.134.216.111:18003/"')
+        }
+        envtest{
+                dimension "environment"
+                buildConfigField('String','BASE_URL','"http://183.134.216.111:18003/"')
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

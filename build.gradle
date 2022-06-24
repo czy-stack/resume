@@ -4,8 +4,7 @@ buildscript {
     ext.kotlin_version = '1.3.72'
     repositories {
         google()
-        jcenter()
-
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.1'
@@ -19,10 +18,14 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
-        maven {
-            url "http://maven.aliyun.com/nexus/content/repositories/releases"
-        }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        mavenLocal()
+        mavenCentral()
+        google()
+        maven { url "https://jitpack.io" }
+        mavenCentral(){url "http://jcenter.bintray.com/"}
     }
 }
 
@@ -35,7 +38,7 @@ ext {
     compileSdkVersion = 30
     versionCode = 1
     versionName = "1.0.0"
-    minSdkVersion = 21
+    minSdkVersion = 24
     targetSdkVersion = 30
     jvmTarget = "1.8"
 
@@ -61,7 +64,7 @@ ext {
     okhttp = '4.2.2'
 
     //轻量级WebView
-    agentweb = "4.1.2"
+    agentweb = "4.1.3"
     //glide   https://github.com/bumptech/glide
     glide = '4.10.0'
     //数据库框架 https://github.com/LitePalFramework/LitePal

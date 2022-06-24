@@ -2,11 +2,10 @@ package com.android.resume.activity.test
 
 import android.content.Context
 import androidx.lifecycle.LifecycleOwner
-import com.android.common.http.RxSimpleObserver
 import com.android.common.lifecycle.LifecyclePresenter
 import com.android.common.utils.register
 import com.android.common.utils.unregister
-import com.android.resume.activity.test.TestContract
+import com.example.kotlin.activity.test.TestContract
 
 import com.example.kotlin.bean.ShareData
 import com.example.kotlin.constants.MainConstants

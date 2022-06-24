@@ -16,9 +16,11 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
 
+<!-- android 12 特性      启动页面 exported 设置为true  -->
         <activity
             android:name=".activity.splash.SplashActivity"
-            android:theme="@style/AppStartTheme">
+            android:theme="@style/AppStartTheme"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />

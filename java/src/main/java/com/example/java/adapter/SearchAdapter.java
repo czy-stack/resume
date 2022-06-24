@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.common.base.BaseAdapter;
 import com.example.java.R;
 import com.example.java.bean.ShareData;
+import com.example.java.constacts.MainConstants;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -35,7 +36,7 @@ class SearchAdapter extends BaseAdapter<ShareData> {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_history_search, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_search, parent, false);
         return new ViewHolder(view);
     }
 
@@ -43,9 +44,8 @@ class SearchAdapter extends BaseAdapter<ShareData> {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {;
         ShareData shareData = list.get(position);
         switch (shareData.getType()){
-//            case MainConstants.HK:
-//                break;
-//                case Main
+            case MainConstants.HK:
+                break;
         }
     }
 }

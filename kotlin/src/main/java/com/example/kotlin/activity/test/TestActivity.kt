@@ -1,7 +1,6 @@
 package com.android.resume.activity.test
 
 import android.view.View
-import android.widget.RadioGroup
 import android.widget.SearchView
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -11,6 +10,7 @@ import com.android.common.constants.EventConstants
 import com.android.common.event.Event
 import com.android.common.inter.OnItemClickListener
 import com.example.kotlin.R
+import com.example.kotlin.activity.test.TestContract
 import com.example.kotlin.adapter.HistorySearchAdapter
 import com.example.kotlin.adapter.SearchAdapter
 import com.example.kotlin.bean.ShareData

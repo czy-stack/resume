@@ -1,4 +1,4 @@
-package com.android.resume.activity.test
+package com.example.kotlin.activity.test
 
 import com.android.common.base.BasePresenter
 import com.android.common.base.BaseView
