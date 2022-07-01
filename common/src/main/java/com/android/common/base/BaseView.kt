@@ -23,5 +23,4 @@ interface BaseView<T:BasePresenter> {
 
     fun finish()
 
-
 }

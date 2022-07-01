@@ -7,7 +7,7 @@ import android.widget.LinearLayout
 import androidx.annotation.Nullable
 import com.android.common.utils.LogUtils
 import com.example.sign.R
-import kotlinx.android.synthetic.main.view_info.view.*
+import com.example.sign.databinding.ViewInfoBinding
 
 /**
  * @作者 陈忠岳
@@ -27,7 +27,8 @@ class InfoView : LinearLayout {
         defStyleAttr: Int,
         defStyleRes: Int
     ) : super(context, attrs, defStyleAttr, defStyleRes){
-        LayoutInflater.from(context).inflate(R.layout.view_info, this);
+        binding = ViewInfoBinding.inflate(LayoutInflater.from(context))
+//        LayoutInflater.from(context).inflate(R.layout.view_info, this);
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.InfoView)
         typedArray.apply {
             getString(R.styleable.InfoView_head_text)?.let {
@@ -53,6 +54,7 @@ class InfoView : LinearLayout {
     private var footText: String = ""
     private var viewType: Int
     private var editType: Int
+    private lateinit var binding : ViewInfoBinding
 
     companion object {
         const val EDIT = 1;//viewType 可编辑
@@ -65,19 +67,19 @@ class InfoView : LinearLayout {
 
     private fun initView() {
         if (headText.isNotEmpty()) {
-            tv_head.text = headText
+            binding.tvHead.text = headText
         }
         if (footText.isNotEmpty()) {
-            tv_foot.text = footText
+            binding.tvFoot.text = footText
         }
         setEditType(editType)
         setViewType(viewType)
-        setOnClickListener { ed_info.performClick()
-            tv_head.setOnClickListener {
+        setOnClickListener { binding.edInfo.performClick()
+            binding.tvHead.setOnClickListener {
                 LogUtils.i(msg ="tv_head" )
             }
         LogUtils.i(msg ="performClick" )}
-        ed_info.setOnTouchListener { v, event ->
+        binding.edInfo.setOnTouchListener { v, event ->
             super.onTouchEvent(event)
 //            if (v.id == R.id.ed_info&&canScrollVertically(ed_info.id)){
 //                v.parent.requestDisallowInterceptTouchEvent(true)
@@ -85,7 +87,7 @@ class InfoView : LinearLayout {
 //            }
             true
         }
-        ed_info.setOnClickListener { LogUtils.i(msg ="ed_setOnClickListener" ) }
+        binding.edInfo.setOnClickListener { LogUtils.i(msg ="ed_setOnClickListener" ) }
 //        ed_info.isFocusable = true
 //        ed_info.isFocusableInTouchMode = true
 //        ed_info.requestFocus();
@@ -111,20 +113,20 @@ class InfoView : LinearLayout {
         this.viewType = viewType
         when(viewType){
             SCAN -> {
-                ed_info.isFocusable = false
+                binding.edInfo.isFocusable = false
             }
             WRITE -> {
-                ed_info.isFocusable = true
+                binding.edInfo.isFocusable = true
             }
             CHOOSE ->{
-                ed_info.isFocusable = false
+                binding.edInfo.isFocusable = false
             }
         }
     }
 
     public fun setEditType(editType: Int) {
         this.editType = editType
-        ed_info.isEnabled = (editType == EDIT)
+        binding.edInfo.isEnabled = (editType == EDIT)
     }
 
 //    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {

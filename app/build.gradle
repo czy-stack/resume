@@ -1,11 +1,13 @@
-apply plugin: 'com.android.application'
-
-apply plugin: 'kotlin-android'
-
-apply plugin: 'kotlin-android-extensions'
-
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-parcelize'
+}
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
+    buildFeatures {
+        viewBinding true
+    }
     applicationVariants.all { variant ->
         variant.outputs.all { // 遍历所有的输出类型，一般是debug和release
             //定义apk的名字，拼接variant的版本号
@@ -76,14 +78,13 @@ android {
             resValue "string", "app_name", "LitePal_Text"//正式环境下app名称
             dimension "app"
         }
-
         production{
             dimension "environment"
             buildConfigField('String','BASE_URL','"http://183.134.216.111:18003/"')
         }
         envtest{
-                dimension "environment"
-                buildConfigField('String','BASE_URL','"http://183.134.216.111:18003/"')
+            dimension "environment"
+            buildConfigField('String','BASE_URL','"http://183.134.216.111:18003/"')
         }
     }
 

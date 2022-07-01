@@ -11,8 +11,8 @@ import com.android.common.utils.post
 import com.example.kotlin.R
 import com.example.kotlin.bean.ShareData
 import com.example.kotlin.constants.MainConstants
+import com.example.kotlin.databinding.ItemSearchBinding
 import com.example.kotlin.db.DBManager
-import kotlinx.android.synthetic.main.item_search.view.*
 
 /**
  * @作者 陈忠岳
@@ -20,9 +20,9 @@ import kotlinx.android.synthetic.main.item_search.view.*
  * @创建日期  2019-11-22
  */
 class SearchAdapter(private val context: Context, list: List<ShareData>) :
-    BaseAdapter<ShareData>(list) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_search, parent, false)
+    BaseAdapter<ShareData,ItemSearchBinding>(list) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<ItemSearchBinding> {
+        val view = ItemSearchBinding.inflate(LayoutInflater.from(context),parent, false)
         return ViewHolder(view)
     }
 
@@ -30,19 +30,19 @@ class SearchAdapter(private val context: Context, list: List<ShareData>) :
         return list.size
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder:ViewHolder<ItemSearchBinding>, position: Int) {
         val item = list[position]
-        holder.itemView.apply {
+        holder.binding.apply {
             when (item.type) {
                 MainConstants.HK -> {
-                    iv_icon.setImageDrawable(context.getDrawable(R.mipmap.icon_hk))
+                    ivIcon.setImageDrawable(context.getDrawable(R.mipmap.icon_hk))
                 }
                 MainConstants.USA -> {
-                    iv_icon.setImageDrawable(context.getDrawable(R.mipmap.icon_m))
+                    ivIcon.setImageDrawable(context.getDrawable(R.mipmap.icon_m))
                 }
             }
-            tv_name.text = StringBuilder(item.name).append("        ").append(item.describe)
-            setOnClickListener {
+            tvName.text = StringBuilder(item.name).append("        ").append(item.describe)
+            holder.itemView.setOnClickListener {
                 DBManager.save(item)
                 Event(type = EventConstants.FUTURES_TAB,message = item.name).post()
             }

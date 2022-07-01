@@ -6,6 +6,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.android.common.http.RxSimpleObserver
 import com.android.common.lifecycle.LifecyclePresenter
 import com.android.common.utils.RxUtils
+import com.android.resume.activity.test.TestActivity
 import com.android.resume.bean.Record
 import com.android.resume.http.ApiClient
 import com.example.sign.activity.SignActivity
@@ -27,20 +28,20 @@ class SplashPresenter(
     lifecycleOwner
 ), SplashContract.Presenter {
     override fun saveInfoAll() {
-//        ApiClient.saveInfoAll(object : RxSimpleObserver<List<Record>>(context) {
-//            override fun onSuccess(resultBean: List<Record>) {
-//                LitePal.saveAllAsync(resultBean).listen {
+        ApiClient.saveInfoAll(object : RxSimpleObserver<List<Record>>(context) {
+            override fun onSuccess(resultBean: List<Record>) {
+                LitePal.saveAllAsync(resultBean).listen {
                     startTimer()
-//                }
-//            }
-//        })
+                }
+            }
+        })
     }
 
     private fun startTimer() {
         addDisposable(
             RxUtils.timer(1, TimeUnit.SECONDS,
                 Consumer {
-                    context.startActivity(Intent(context, SignActivity::class.java))
+                    context.startActivity(Intent(context, TestActivity::class.java))
                     view.finish()
                 })
         )

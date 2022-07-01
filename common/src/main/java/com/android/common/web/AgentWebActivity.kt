@@ -8,8 +8,8 @@ import androidx.lifecycle.LifecycleOwner
 import com.android.common.R
 import com.android.common.base.BaseActivity
 import com.android.common.constants.Constants
+import com.android.common.databinding.ActivityAgentWebBinding
 import com.just.agentweb.AgentWeb
-import kotlinx.android.synthetic.main.activity_agent_web.*
 
 
 /**
@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_agent_web.*
  * @主要功能
  * @创建日期  2019-11-21
  */
-class AgentWebActivity : BaseActivity<AgentWebContract.Presenter>(), AgentWebContract.View,
+class AgentWebActivity : BaseActivity<AgentWebContract.Presenter, ActivityAgentWebBinding>(), AgentWebContract.View,
     LifecycleOwner {
     override lateinit var presenter: AgentWebContract.Presenter
 
@@ -32,6 +32,7 @@ class AgentWebActivity : BaseActivity<AgentWebContract.Presenter>(), AgentWebCon
     }
 
     override fun getLayoutId(): Int {
+        binding = ActivityAgentWebBinding.inflate(layoutInflater)
         return R.layout.activity_agent_web
     }
 
@@ -43,7 +44,7 @@ class AgentWebActivity : BaseActivity<AgentWebContract.Presenter>(), AgentWebCon
 
         AgentWeb.with(this)//传入Activity
             .setAgentWebParent(
-                linear,
+                binding.linear,
                 LinearLayout.LayoutParams(-1, -1)
             )//传入AgentWeb 的父控件 ，如果父控件为 RelativeLayout ， 那么第二参数需要传入 RelativeLayout.LayoutParams
             .useDefaultIndicator()// 使用默认进度条
@@ -60,6 +61,10 @@ class AgentWebActivity : BaseActivity<AgentWebContract.Presenter>(), AgentWebCon
     }
 
     override fun initListener() {
+    }
+
+    override fun setBinding(): ActivityAgentWebBinding {
+        return ActivityAgentWebBinding.inflate(layoutInflater)
     }
 
 

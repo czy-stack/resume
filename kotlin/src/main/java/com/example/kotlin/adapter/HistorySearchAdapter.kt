@@ -11,10 +11,10 @@ import com.android.common.utils.post
 import com.example.kotlin.R
 import com.example.kotlin.bean.ShareData
 import com.example.kotlin.constants.MainConstants
+import com.example.kotlin.databinding.ItemHistorySearchBinding
 import com.example.kotlin.db.DBManager
 
 
-import kotlinx.android.synthetic.main.item_history_search.view.*
 
 /**
  * @作者 陈忠岳
@@ -22,28 +22,28 @@ import kotlinx.android.synthetic.main.item_history_search.view.*
  * @创建日期  2019-11-2
  */
 class HistorySearchAdapter(private val context: Context, list: List<ShareData>) :
-    BaseAdapter<ShareData>(list) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_history_search, parent, false)
+    BaseAdapter<ShareData,ItemHistorySearchBinding>(list) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<ItemHistorySearchBinding> {
+        val view = ItemHistorySearchBinding.inflate(LayoutInflater.from(context), parent, false)
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder<ItemHistorySearchBinding>, position: Int) {
         val item = list[position]
-        holder.itemView.apply {
+        holder.binding.apply {
             when (item.type) {
                 MainConstants.HK -> {
-                    iv_icon.setImageDrawable(context.getDrawable(R.mipmap.icon_hk))
+                    ivIcon.setImageDrawable(context.getDrawable(R.mipmap.icon_hk))
                 }
                 MainConstants.USA -> {
-                    iv_icon.setImageDrawable(context.getDrawable(R.mipmap.icon_m))
+                    ivIcon.setImageDrawable(context.getDrawable(R.mipmap.icon_m))
                 }
             }
-            tv_name.text = StringBuilder(item.name).append("        ").append(item.describe)
+            tvName.text = StringBuilder(item.name).append("        ").append(item.describe)
 
-            setOnClickListener { Event(type = EventConstants.FUTURES_TAB,message = item.name).post() }
+            holder.itemView.setOnClickListener { Event(type = EventConstants.FUTURES_TAB,message = item.name).post() }
 
-            iv_delete.setOnClickListener {
+            ivDelete.setOnClickListener {
                 DBManager.delete(item)
                 removeItem(position)
             }

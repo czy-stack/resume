@@ -1,3 +1,2 @@
-include ':java'
-include ':app', ':common', ':sign', ':kotlin'
+include ':app', ':common', ':sign', ':kotlin' , ':java'
 rootProject.name = 'Resume'
