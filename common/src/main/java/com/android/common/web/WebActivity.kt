@@ -10,8 +10,9 @@ import androidx.lifecycle.LifecycleOwner
 import com.android.common.R
 import com.android.common.base.BaseActivity
 import com.android.common.constants.Constants
+import com.android.common.databinding.ActivityAgentWebBinding
+import com.android.common.databinding.ActivityWebBinding
 import com.android.common.utils.LogUtils
-import kotlinx.android.synthetic.main.activity_web.*
 
 
 /**
@@ -19,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_web.*
  * @主要功能
  * @创建日期  2019-11-21
  */
-class WebActivity : BaseActivity<WebContract.Presenter>(), WebContract.View, LifecycleOwner {
+class WebActivity : BaseActivity<WebContract.Presenter,ActivityWebBinding>(), WebContract.View, LifecycleOwner {
     override lateinit var presenter: WebContract.Presenter
 
 
@@ -40,7 +41,7 @@ class WebActivity : BaseActivity<WebContract.Presenter>(), WebContract.View, Lif
     override fun initView() {
         presenter         = WebPresenter(this, this, this)
 
-        web.settings.apply {
+        binding.web.settings.apply {
             javaScriptEnabled = true
             useWideViewPort = true
             loadWithOverviewMode = true
@@ -57,22 +58,22 @@ class WebActivity : BaseActivity<WebContract.Presenter>(), WebContract.View, Lif
             cacheMode = WebSettings.LOAD_DEFAULT
             allowFileAccess = true
         }
-        web.webViewClient = WebViewClient()
+        binding.web.webViewClient = WebViewClient()
     }
 
     override fun initData() {
-        tv_title.text = intent.getStringExtra(Constants.INTENT_TITLE)
+        binding.tvTitle.text = intent.getStringExtra(Constants.INTENT_TITLE)
         intent.getStringExtra(Constants.INTENT_STRING)?.let {
             LogUtils.i("WebActivity",msg = it)
-            web.loadUrl(it) }
+            binding.web.loadUrl(it) }
     }
 
     override fun initListener() {
-        toolbar.setOnClickListener { finish() }
+        binding.toolbar.setOnClickListener { finish() }
     }
 
     override fun onDestroy() {
-        web?.let {
+        binding.web.let {
             it.loadDataWithBaseURL(null, "", "tex/html", "utf-8", null)
             it.clearHistory()
             (it.parent as ViewGroup).removeView(it)
@@ -82,11 +83,15 @@ class WebActivity : BaseActivity<WebContract.Presenter>(), WebContract.View, Lif
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_BACK && web.canGoBack()) {
-            web.goBack()
+        if (keyCode == KeyEvent.KEYCODE_BACK && binding.web.canGoBack()) {
+            binding.web.goBack()
             return true
         }
         return super.onKeyDown(keyCode, event)
+    }
+
+    override fun setBinding(): ActivityWebBinding {
+        return ActivityWebBinding.inflate(layoutInflater)
     }
 
 }

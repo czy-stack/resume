@@ -12,6 +12,7 @@ import com.android.common.base.BaseAdapter;
 import com.example.java.R;
 import com.example.java.bean.ShareData;
 import com.example.java.constacts.MainConstants;
+import com.example.java.databinding.ItemSearchBinding;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -23,7 +24,7 @@ import java.util.List;
  * @创建日期 6/2/22
  */
 
-class SearchAdapter extends BaseAdapter<ShareData> {
+class SearchAdapter extends BaseAdapter<ShareData, ItemSearchBinding> {
     private Context context;
     private List<ShareData> list;
 
@@ -35,13 +36,13 @@ class SearchAdapter extends BaseAdapter<ShareData> {
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_search, parent, false);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        ItemSearchBinding view = ItemSearchBinding.inflate(LayoutInflater.from(context), parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {;
+    public void onBindViewHolder(@NonNull ViewHolder<ItemSearchBinding> holder, int position) {
         ShareData shareData = list.get(position);
         switch (shareData.getType()){
             case MainConstants.HK:

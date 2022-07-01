@@ -5,9 +5,12 @@ import android.view.View
 import android.view.WindowManager
 import androidx.annotation.ColorRes
 import androidx.annotation.LayoutRes
+import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.viewbinding.ViewBinding
 import com.android.common.R
+import com.android.common.databinding.ActivityWebBinding
 import com.android.common.utils.RxUtils
 import com.android.common.utils.snack
 import com.android.common.utils.toast
@@ -19,19 +22,26 @@ import java.util.concurrent.TimeUnit
  * @主要功能
  * @创建日期  2019-11-21
  */
-abstract class BaseActivity<T : BasePresenter> : AppCompatActivity(), BaseView<T> {
+abstract class BaseActivity<T : BasePresenter,B:ViewBinding> : AppCompatActivity(), BaseView<T> {
 
     abstract override val presenter: T
+    lateinit var binding : B
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(getLayoutId())
+        binding = setBinding()
+        setContentView(binding.root)
         init()
     }
 
     @LayoutRes
     protected abstract fun getLayoutId(): Int
+
+    @NonNull
+    protected abstract fun setBinding() :B
+
 
     private fun init() {
         initView()

@@ -2,6 +2,7 @@ package com.android.common.base
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import com.android.common.inter.OnItemClickListener
 import com.android.common.inter.OnItemLongClickListener
 
@@ -10,9 +11,11 @@ import com.android.common.inter.OnItemLongClickListener
  * @主要功能
  * @创建日期  2019-07-11
  */
-abstract class BaseAdapter<T>(var list: List<T>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+abstract class BaseAdapter<T,B : ViewBinding>(var list: List<T>) : RecyclerView.Adapter<BaseAdapter.ViewHolder<B>>() {
     protected var itemClick: OnItemClickListener? = null
     protected var itemLongClick: OnItemLongClickListener? = null
+    protected var binding : B? = null
+
     override fun getItemCount(): Int {
         return list.size
     }
@@ -68,6 +71,12 @@ abstract class BaseAdapter<T>(var list: List<T>) : RecyclerView.Adapter<Recycler
         notifyItemRangeRemoved(0,size)
     }
 
-    protected class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    class ViewHolder<B : ViewBinding>(val binding: B) : RecyclerView.ViewHolder(binding.root)
+
+
+//    class BaseHolder<V : ViewBinding?>(val viewBinding: V) : RecyclerView.ViewHolder(
+//        viewBinding!!.root
+//    )
 
 }
+

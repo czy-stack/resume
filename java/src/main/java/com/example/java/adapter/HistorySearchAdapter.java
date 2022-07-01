@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.common.base.BaseAdapter;
 import com.example.java.R;
 import com.example.java.bean.ShareData;
+import com.example.java.databinding.ItemHistorySearchBinding;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ import java.util.List;
  * @创建日期 6/2/22
  */
 
-class HistorySearchAdapter extends BaseAdapter<ShareData> {
+class HistorySearchAdapter extends BaseAdapter<ShareData, ItemHistorySearchBinding> {
     private Context context;
     private List<ShareData> list;
     public HistorySearchAdapter(Context context, List<ShareData> list){
@@ -29,15 +30,17 @@ class HistorySearchAdapter extends BaseAdapter<ShareData> {
         this.list = list;
     }
 
+
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_history_search, parent, false);
+    public ViewHolder<ItemHistorySearchBinding> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        ItemHistorySearchBinding view = ItemHistorySearchBinding.inflate(LayoutInflater.from(context),parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder<ItemHistorySearchBinding> holder, int position) {
 
     }
+
 }

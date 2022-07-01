@@ -87,7 +87,7 @@ abstract class RxObserver<T>(val context: Context) : Observer<T> {
             }else if (it.message.isNullOrEmpty()){
 //                context.getString(R.string.toast_common_net_error).toast(context)
             }else {
-                it.message.toast(context)
+                it.message?.toast(context)
             }
         }
     }

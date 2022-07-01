@@ -4,7 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import com.android.common.R
-import kotlinx.android.synthetic.main.dialog_confirm.*
+import com.android.common.databinding.DialogConfirmBinding
 
 /**
  * @作者 陈忠岳
@@ -24,25 +24,29 @@ class ConfirmDialog(
         fun confirm()
         fun cancel()
     }
+    private lateinit var binding :DialogConfirmBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.dialog_confirm)
+        binding = DialogConfirmBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         init()
     }
 
     private fun init() {
-        tv_title.text = title
-        tv_message.text = message
-        tv_cancel.text = cancel
-        tv_confirm.text = confirm
-        tv_confirm.setOnClickListener {
-            result.confirm()
-            cancel()
-        }
-        tv_cancel.setOnClickListener {
-            result.cancel()
-            cancel()
+        binding.let {
+            it.tvTitle.text = title
+            it.tvMessage.text = message
+            it.tvCancel.text = cancel
+            it.tvConfirm.text = confirm
+            it.tvConfirm.setOnClickListener {
+                result.confirm()
+                cancel()
+            }
+            it.tvCancel.setOnClickListener {
+                result.cancel()
+                cancel()
+            }
         }
     }
 }

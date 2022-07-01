@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.common.R
 import com.android.common.base.BaseAdapter
 import com.android.common.bean.SimpleMapStringBooleanBean
-import kotlinx.android.synthetic.main.item_single_choice.view.*
+import com.android.common.databinding.ItemSingleChoiceBinding
 
 /**
  * @作者 陈忠岳
@@ -15,19 +15,19 @@ import kotlinx.android.synthetic.main.item_single_choice.view.*
  * @创建日期  2019-11-21
  */
 class  SingleChoiceAdapter(private val context: Context, list: List<SimpleMapStringBooleanBean>) :
-    BaseAdapter<SimpleMapStringBooleanBean>(list) {
+    BaseAdapter<SimpleMapStringBooleanBean,ItemSingleChoiceBinding>(list) {
     private var selectPosition = -1
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_single_choice, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<ItemSingleChoiceBinding> {
+        val view = ItemSingleChoiceBinding.inflate(LayoutInflater.from(context), parent, false)
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder<ItemSingleChoiceBinding>, position: Int) {
         val item = list[position]
-        holder.itemView.let {
-            it.tv_content.text = item.name
-            it.tv_content.isSelected = item.select
+        holder.binding.tvContent.let {
+            it.text = item.name
+            it.isSelected = item.select
             it.setOnClickListener { checkItem(position) }
         }
     }

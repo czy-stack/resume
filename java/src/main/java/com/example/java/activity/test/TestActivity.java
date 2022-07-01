@@ -1,10 +1,14 @@
 package com.example.java.activity.test;
 
+import android.view.LayoutInflater;
+
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.android.common.base.BaseActivity;
 import com.android.common.inter.OnItemClickListener;
 import com.example.java.bean.ShareData;
+import com.example.java.databinding.ActivityTestBinding;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -16,11 +20,17 @@ import java.util.List;
  * @创建日期 6/2/22
  */
 
-class TestActivity extends BaseActivity<TestContract.Presenter> implements TestContract.View, LifecycleOwner, OnItemClickListener {
+class TestActivity extends BaseActivity<TestContract.Presenter, ActivityTestBinding> implements TestContract.View, LifecycleOwner, OnItemClickListener {
     @NotNull
     @Override
     public TestContract.Presenter getPresenter() {
         return new TestPresenter(this, this, this);
+    }
+
+    @NonNull
+    @Override
+    protected ActivityTestBinding setBinding() {
+        return ActivityTestBinding.inflate(getLayoutInflater());
     }
 
     @Override
@@ -52,4 +62,6 @@ class TestActivity extends BaseActivity<TestContract.Presenter> implements TestC
     public void setShares(List<ShareData> list, Boolean history) {
 
     }
+
+
 }
