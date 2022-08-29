@@ -21,10 +21,11 @@ class SplashActivity : BaseActivity<SplashContract.Presenter,ActivitySplashBindi
 
     override fun initView() {
         presenter = SplashPresenter(this, this, this)
+//        presenter.start()
     }
 
     override fun initData() {
-        presenter.saveInfoAll()
+//        presenter.saveInfoAll()
     }
 
     override fun initListener() {
@@ -34,4 +35,8 @@ class SplashActivity : BaseActivity<SplashContract.Presenter,ActivitySplashBindi
     override fun setBinding(): ActivitySplashBinding {
         return  ActivitySplashBinding.inflate(layoutInflater)
     }
+
+//    override fun setPresenter(): SplashContract.Presenter {
+//        return SplashPresenter(this, this, this)
+//    }
 }

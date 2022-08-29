@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit
  */
 abstract class BaseActivity<T : BasePresenter,B:ViewBinding> : AppCompatActivity(), BaseView<T> {
 
-    abstract override val presenter: T
+    override lateinit var presenter: T
     lateinit var binding : B
 
 
@@ -42,6 +42,9 @@ abstract class BaseActivity<T : BasePresenter,B:ViewBinding> : AppCompatActivity
     @NonNull
     protected abstract fun setBinding() :B
 
+//    @NonNull
+//    protected abstract fun setPresenter() :T
+
 
     private fun init() {
         initView()
@@ -55,6 +58,8 @@ abstract class BaseActivity<T : BasePresenter,B:ViewBinding> : AppCompatActivity
     protected abstract fun initData()
 
     protected abstract fun initListener()
+
+
 
     override fun showToastView(message: Any) {
         message.toast(this)

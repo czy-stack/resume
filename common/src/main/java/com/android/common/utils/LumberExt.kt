@@ -55,11 +55,13 @@ fun ImageView.glideCache(context:Context,url:String,requestOptions: BaseRequestO
 
 /**
  * 校验手机号
+ * "^((13[0-9])|(15[^4])|(18[0-9])|(17[0-8])|(14[5-9])|(166)|(19[8,9])|)\\d{8}$"
  * @return 校验通过返回true，否则返回false
  */
 fun CharSequence.isMobile() :Boolean{
     return Pattern.matches("^(0(10|2\\d|[3-9]\\d\\d)[- ]{0,3}\\d{7,8}|0?1[3584]\\d{9})$", this);
 }
+
 
 /**
 * event post

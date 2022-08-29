@@ -1,15 +1,12 @@
 package com.android.resume.application
 
-import android.app.Activity
 import android.app.Application
 import android.content.MutableContextWrapper
-import android.os.Bundle
 import android.webkit.WebView
-import com.android.common.utils.CrashHandlerTemp
+import com.android.common.utils.CrashHandlerOptic
 import com.android.resume.BuildConfig
 import com.scwang.smart.refresh.header.MaterialHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
-import com.taobao.sophix.SophixManager
 import io.reactivex.plugins.RxJavaPlugins
 import org.litepal.LitePal
 
@@ -18,7 +15,7 @@ import org.litepal.LitePal
  * @主要功能
  * @创建日期  2019-11-21
  */
-class MyApplication : Application(), Application.ActivityLifecycleCallbacks {
+class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -28,16 +25,14 @@ class MyApplication : Application(), Application.ActivityLifecycleCallbacks {
         //LitePal初始化
         LitePal.initialize(this)
 
-        registerActivityLifecycleCallbacks(this)
-
 //        SophixManager.getInstance().queryAndLoadNewPatch()
 
-        if (BuildConfig.DEBUG) {
-            RxJavaPlugins.setErrorHandler {
-            }
+//        if (BuildConfig.DEBUG) {
+//            RxJavaPlugins.setErrorHandler {
+//            }
             //CrashHandler.instance.init(this)
-            CrashHandlerTemp.getInstance().init(this)
-        }
+            CrashHandlerOptic.getInstance().init(this)
+//        }
         //设置全局的Header构建器
         SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, layout ->
             //            layout.setPrimaryColorsId(
@@ -57,26 +52,4 @@ class MyApplication : Application(), Application.ActivityLifecycleCallbacks {
 //            }
 //        }
     }
-
-    override fun onActivityPaused(activity: Activity) {
-    }
-
-    override fun onActivityStarted(activity: Activity) {
-    }
-
-    override fun onActivityDestroyed(activity: Activity) {
-    }
-
-    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
-    }
-
-    override fun onActivityStopped(activity: Activity) {
-    }
-
-    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-    }
-
-    override fun onActivityResumed(activity: Activity) {
-    }
-
 }

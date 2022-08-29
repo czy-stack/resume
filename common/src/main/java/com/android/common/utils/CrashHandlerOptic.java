@@ -13,54 +13,48 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * Created by mc on 2019/1/21.
+ * @作者 陈忠岳
+ * @主要功能 崩溃日志生成
+ * @创建日期 2022/6/27
  */
 
-public class CrashHandlerTemp implements Thread.UncaughtExceptionHandler {
+public class CrashHandlerOptic implements Thread.UncaughtExceptionHandler{
     /** 崩溃日志存储*/
     public static final String CRASH_REPORT_FILE_STORE_KEY = "CRASH_REPORT_FILE_STORE_KEY";
     /** 崩溃文件存储文件夹*/
-    public static final String CREASH_FILE_FOLDER = "RESUME";
+    public static final String CRASH_FILE_FOLDER = "Crash";
 
-    /** Debug Log Tag */
-//    public static final String TAG = "CrashHandler";
-    /** 是否开启日志输出, 在Debug状态下开启, 在Release状态下关闭以提升程序性能 */
-    public static final boolean DEBUG = true;
-//    public static final String VERSION_NAME = "versionName";
-//    public static final String VERSION_CODE = "versionCode";
-//    public static final String STACK_TRACE = "STACK_TRACE";
-    /** 错误报告文件的扩展名 */
+//    错误报告文件的扩展名
 //    public static final String CRASH_REPORTER_EXTENSION = ".cr";
 
     /** CrashHandler实例 */
-    private static CrashHandlerTemp instance;
-    /** 程序的Context对象 */
-    private Context mContext;
+//    private volatile static CrashHandler instance = null;
     /** 系统默认的UncaughtException处理类 */
     private Thread.UncaughtExceptionHandler mDefaultHandler;
+    /** 程序的Context对象 */
+    private Context mContext;
     /** 正在执行中标识 */
     private boolean processing;
 
     /** 保证只有一个CrashHandler实例 */
-    private CrashHandlerTemp() {
+    private CrashHandlerOptic() {
     }
 
     /** 获取CrashHandler实例 ,单例模式 */
-    public synchronized static CrashHandlerTemp getInstance() {
-        if (instance == null) {
-            instance = new CrashHandlerTemp();
-        }
-        return instance;
+    public synchronized static CrashHandlerOptic getInstance() {
+//        if (instance == null) {
+//            instance = new CrashHandler();
+//        }
+//        return instance;
+        return new CrashHandlerOptic();
     }
 
     /**
      * 初始化,注册Context对象, 获取系统默认的UncaughtException处理器, 设置该CrashHandler为程序的默认处理器
-     *
-     * @param ctx
      */
-    public void init(Context ctx) {
+    public void init(Context context) {
         processing = false;
-        mContext = ctx;
+        mContext = context;
         mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(this);
     }
@@ -92,7 +86,7 @@ public class CrashHandlerTemp implements Thread.UncaughtExceptionHandler {
     /**
      * 自定义错误处理,收集错误信息 发送错误报告等操作均在此完成. 开发者可以根据自己的情况来自定义异常处理逻辑
      *
-     * @param exception
+     * @param exception Throwable
      * @return true:如果处理了该异常信息;否则返回false
      */
     private boolean handleException(Throwable exception) {
@@ -110,11 +104,11 @@ public class CrashHandlerTemp implements Thread.UncaughtExceptionHandler {
             }
         }.start();
         // 保存日志文件
-        save2File(crashReport);
+        saveFile(crashReport);
         return true;
     }
 
-    private File save2File(String crashReport) {
+    private File saveFile(String crashReport) {
         // TODO Auto-generated method stub
 //        PreferencesUtils.putString(mContext,CRASH_REPORT_FILE_STORE_KEY,crashReport);
         String fileName = "crash-" + System.currentTimeMillis() + ".txt";
@@ -122,16 +116,14 @@ public class CrashHandlerTemp implements Thread.UncaughtExceptionHandler {
                 Environment.MEDIA_MOUNTED)) {
             try {
                 File dir = new File(Environment.getExternalStorageDirectory()
-                        .getAbsolutePath() + File.separator + CREASH_FILE_FOLDER);
+                        .getAbsolutePath() + File.separator + CRASH_FILE_FOLDER);
                 if (!dir.exists())
                     dir.mkdir();
-                File file = new File(dir, fileName);
+                File file = new File(mContext.getCacheDir(), fileName);
                 FileOutputStream fos = new FileOutputStream(file);
                 fos.write(crashReport.toString().getBytes());
                 fos.close();
                 return file;
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -143,20 +135,18 @@ public class CrashHandlerTemp implements Thread.UncaughtExceptionHandler {
     /**
      * 获取APP崩溃异常报告
      *
-     * @param ex
-     * @return
+     * @param exception Throwable
+     * @return 崩溃异常报告
      */
-    private String getCrashReport(Context context, Throwable ex) {
+    private String getCrashReport(Context context, Throwable exception) {
         PackageInfo pinfo = getPackageInfo(context);
-        StringBuffer exceptionStr = new StringBuffer();
-        exceptionStr.append("Version: " + pinfo.versionName + "("
-                + pinfo.versionCode + ")\n");
-        exceptionStr.append("Android: " + android.os.Build.VERSION.RELEASE
-                + "(" + android.os.Build.MODEL + ")\n");
-        exceptionStr.append("Exception: " + ex.getMessage() + "\n");
-        StackTraceElement[] elements = ex.getStackTrace();
-        for (int i = 0; i < elements.length; i++) {
-            exceptionStr.append(elements[i].toString() + "\n");
+        StringBuilder exceptionStr = new StringBuilder();
+        exceptionStr.append("Version: ").append(pinfo.versionName).append("(").append(pinfo.versionCode).append(")\n");
+        exceptionStr.append("Android: ").append(android.os.Build.VERSION.RELEASE).append("(").append(android.os.Build.MODEL).append(")\n");
+        exceptionStr.append("Exception: ").append(exception.getMessage()).append("\n");
+        StackTraceElement[] elements = exception.getStackTrace();
+        for (StackTraceElement element : elements) {
+            exceptionStr.append(element.toString()).append("\n");
         }
         return exceptionStr.toString();
     }
@@ -164,14 +154,14 @@ public class CrashHandlerTemp implements Thread.UncaughtExceptionHandler {
     /**
      * 获取App安装包信息
      *
-     * @return
+     * @return 安装包信息
      */
     private PackageInfo getPackageInfo(Context context) {
         PackageInfo info = null;
         try {
             info = context.getPackageManager().getPackageInfo(
                     context.getPackageName(), 0);
-        } catch (PackageManager.NameNotFoundException e) {
+        } catch (PackageManager.NameNotFoundException ignored) {
         }
         if (info == null)
             info = new PackageInfo();

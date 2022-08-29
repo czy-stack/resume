@@ -1,22 +1,20 @@
-package com.android.resume.activity.splash
+package com.example.kotlin.activity.camera
 
 import com.android.common.base.BasePresenter
 import com.android.common.base.BaseView
-import com.android.resume.databinding.ActivitySplashBinding
+import com.example.kotlin.bean.ShareData
 
 /**
  * @作者 陈忠岳
  * @主要功能
- * @创建日期  2019-11-21
+ * @创建日期  2022/8/23
  */
-interface SplashContract {
+class CameraContract {
 
     interface View : BaseView<Presenter> {
-
     }
 
     interface Presenter : BasePresenter {
-        fun saveInfoAll()
     }
 
 }

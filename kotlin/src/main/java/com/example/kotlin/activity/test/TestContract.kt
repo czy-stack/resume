@@ -3,6 +3,7 @@ package com.example.kotlin.activity.test
 import com.android.common.base.BasePresenter
 import com.android.common.base.BaseView
 import com.example.kotlin.bean.ShareData
+import com.example.kotlin.databinding.ActivityTestBinding
 
 /**
  * @作者 陈忠岳

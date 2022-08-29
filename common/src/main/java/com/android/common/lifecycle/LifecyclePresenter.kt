@@ -1,30 +1,32 @@
 package com.android.common.lifecycle
 
-import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.*
 import com.android.common.utils.LogUtils
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import retrofit2.http.Tag
 
 /**
  * @作者 陈忠岳
  * @主要功能
  * @创建日期  2019-11-21
  */
-abstract class LifecyclePresenter(private val mLifecycleOwner: LifecycleOwner) : FullLifecycleObserver {
+abstract class LifecyclePresenter(private val mLifecycleOwner: LifecycleOwner):DefaultLifecycleObserver  {
     //常用rxJava disposable
     private var compositeDisposable: CompositeDisposable? = null
+    private val tag = "Lifecycle_"
 
 
     init {
         init()
     }
     private fun init(){
-        LogUtils.i("Lifecycle_init", mLifecycleOwner.javaClass.toString())
-        mLifecycleOwner.lifecycle.addObserver(FullLifecycleObserverAdapter(mLifecycleOwner, this))
+        LogUtils.d(tag+"init", mLifecycleOwner.javaClass.toString())
+        mLifecycleOwner.lifecycle.addObserver(this)
     }
 
     override fun onCreate(owner: LifecycleOwner) {
-        LogUtils.i("Lifecycle_onCreate", owner.javaClass.toString())
+        LogUtils.d(tag+"onCreate", owner.javaClass.toString())
     }
 
     override fun onStart(owner: LifecycleOwner) {
@@ -40,7 +42,7 @@ abstract class LifecyclePresenter(private val mLifecycleOwner: LifecycleOwner) :
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        LogUtils.i("Lifecycle_onDestroy", owner.javaClass.toString())
+        LogUtils.d(tag+"onDestroy", owner.javaClass.toString())
         clearDisposable()
     }
 

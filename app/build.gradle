@@ -40,6 +40,9 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
+        ndk {
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+        }
 //        switch (GATEWAY) {
 //            case "production":
 //                buildConfigField 'Integer', 'GATEWAY', '0'
@@ -98,6 +101,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(path: ':common')
     implementation project(path: ':sign')
+    implementation project(path: ':kotlin')
     debugImplementation "com.squareup.leakcanary:$leakcanary"
     implementation "com.aliyun.ams:alicloud-android-hotfix:$hotfix"
 

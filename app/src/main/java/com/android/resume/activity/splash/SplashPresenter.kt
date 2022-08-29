@@ -6,11 +6,10 @@ import androidx.lifecycle.LifecycleOwner
 import com.android.common.http.RxSimpleObserver
 import com.android.common.lifecycle.LifecyclePresenter
 import com.android.common.utils.RxUtils
-import com.android.resume.activity.test.TestActivity
 import com.android.resume.bean.Record
 import com.android.resume.http.ApiClient
-import com.example.sign.activity.SignActivity
-import io.reactivex.functions.Consumer
+import com.example.kotlin.activity.pqpo.CameraTestActivity
+import com.example.kotlin.activity.test.TestActivity
 import org.litepal.LitePal
 import java.util.concurrent.TimeUnit
 
@@ -39,16 +38,17 @@ class SplashPresenter(
 
     private fun startTimer() {
         addDisposable(
-            RxUtils.timer(1, TimeUnit.SECONDS,
-                Consumer {
-                    context.startActivity(Intent(context, TestActivity::class.java))
-                    view.finish()
-                })
+            RxUtils.timer(1, TimeUnit.SECONDS
+            ) {
+                context.startActivity(Intent(context, TestActivity::class.java))
+                view.finish()
+            }
         )
     }
 
     override fun start() {
-
+        context.startActivity(Intent(context, CameraTestActivity::class.java))
+        view.finish()
     }
 
 }

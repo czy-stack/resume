@@ -50,7 +50,7 @@ dependencies {
     api "com.squareup.retrofit2:retrofit:$retrofit"
     api "com.squareup.retrofit2:converter-gson:$retrofit"
     api "com.squareup.retrofit2:converter-scalars:$retrofit"
-    api "com.squareup.retrofit2:retrofit-adapters:$retrofit"
+    api 'com.squareup.retrofit2:retrofit-adapters:2.8.0'
     api "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
     api "com.jakewharton.rxrelay2:rxrelay:$rxdelay"
     api "com.just.agentweb:agentweb:$agentweb"

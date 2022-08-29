@@ -20,6 +20,7 @@ import com.taobao.sophix.listener.PatchLoadStatusListener;
 public class SophixStubApplication extends SophixApplication {
     private final String TAG = "SophixStubApplication";
 
+
     // 此处SophixEntry应指定真正的Application，并且保证RealApplicationStub类名不被混淆。
     @Keep
     @SophixEntry(MyApplication.class)
