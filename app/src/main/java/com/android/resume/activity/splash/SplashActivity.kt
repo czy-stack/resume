@@ -21,7 +21,6 @@ class SplashActivity : BaseActivity<SplashContract.Presenter,ActivitySplashBindi
 
     override fun initView() {
         presenter = SplashPresenter(this, this, this)
-//        presenter.start()
     }
 
     override fun initData() {

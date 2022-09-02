@@ -19,7 +19,7 @@ class FragmentOldListAdapter(private var list: List<Fragment>,private var string
         return list.size
     }
 
-    override fun getPageTitle(position: Int): CharSequence? {
+    override fun getPageTitle(position: Int): CharSequence {
         return strings[position]
     }
 }

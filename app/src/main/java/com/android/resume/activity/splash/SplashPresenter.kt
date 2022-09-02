@@ -6,10 +6,10 @@ import androidx.lifecycle.LifecycleOwner
 import com.android.common.http.RxSimpleObserver
 import com.android.common.lifecycle.LifecyclePresenter
 import com.android.common.utils.RxUtils
-import com.android.resume.bean.Record
 import com.android.resume.http.ApiClient
 import com.example.kotlin.activity.pqpo.CameraTestActivity
 import com.example.kotlin.activity.test.TestActivity
+import com.example.kotlin.bean.Record
 import org.litepal.LitePal
 import java.util.concurrent.TimeUnit
 

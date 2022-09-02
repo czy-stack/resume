@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/widget_height"
+    android:layout_gravity="center_vertical"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/tv_head"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        style="@style/tv_base_style"
+        android:clickable="false"
+        android:focusable="false"
+         />
+
+    <AutoCompleteTextView
+        android:id="@+id/ed_info"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/widget_height"
+        style="@style/et_style"
+        android:inputType="number"
+        android:autofillHints=""
+        />
+
+    <TextView
+        android:id="@+id/tv_foot"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginStart="5dp"
+        style="@style/tv_base_style"
+        android:clickable="false"
+        android:focusable="false"
+         />
+
+</LinearLayout>

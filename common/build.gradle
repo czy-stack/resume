@@ -34,12 +34,12 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin"
     api "androidx.appcompat:appcompat:$appcompat"
     api "androidx.core:core-ktx:$ktx"
-    api "androidx.legacy:legacy-support-v4:$support"
     api "androidx.constraintlayout:constraintlayout:$constraintlayout"
     api "com.google.android.material:material:$material"
+    api "androidx.annotation:annotation:$appcompat"
 
     api "com.github.bumptech.glide:glide:$glide"
 
@@ -58,10 +58,10 @@ dependencies {
     api "org.litepal.android:kotlin:$litepal"
     api "org.greenrobot:eventbus:$event"
 
-    api "com.scwang.smart:refresh-layout-kernel:$refresh"   //核心必须依赖
-    api "com.scwang.smart:refresh-header-classics:$refresh" //经典刷新头
-    api "com.scwang.smart:refresh-header-material:$refresh"  //谷歌刷新头
-    api "com.scwang.smart:refresh-footer-classics:$refresh"    //经典加载
+//    api "com.scwang.smart:refresh-layout-kernel:$refresh"   //核心必须依赖
+//    api "com.scwang.smart:refresh-header-classics:$refresh" //经典刷新头
+//    api "com.scwang.smart:refresh-header-material:$refresh"  //谷歌刷新头
+//    api "com.scwang.smart:refresh-footer-classics:$refresh"    //经典加载
 
 //    testImplementation "junit:junit:$junit"
 //    androidTestImplementation "androidx.test:runner:$runner"

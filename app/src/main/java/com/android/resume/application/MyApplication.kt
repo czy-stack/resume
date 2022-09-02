@@ -5,8 +5,6 @@ import android.content.MutableContextWrapper
 import android.webkit.WebView
 import com.android.common.utils.CrashHandlerOptic
 import com.android.resume.BuildConfig
-import com.scwang.smart.refresh.header.MaterialHeader
-import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import io.reactivex.plugins.RxJavaPlugins
 import org.litepal.LitePal
 
@@ -27,23 +25,23 @@ class MyApplication : Application() {
 
 //        SophixManager.getInstance().queryAndLoadNewPatch()
 
-//        if (BuildConfig.DEBUG) {
-//            RxJavaPlugins.setErrorHandler {
-//            }
+        if (BuildConfig.DEBUG) {
+            RxJavaPlugins.setErrorHandler {
+            }
             //CrashHandler.instance.init(this)
             CrashHandlerOptic.getInstance().init(this)
-//        }
+        }
         //设置全局的Header构建器
-        SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, layout ->
+//        SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, layout ->
             //            layout.setPrimaryColorsId(
 //                R.color.colorLess, R.color.colorMore
 //            )
-            return@setDefaultRefreshHeaderCreator MaterialHeader(context).apply {
+//            return@setDefaultRefreshHeaderCreator MaterialHeader(context).apply {
                 //                setColorSchemeResources(R.color.colorAccent)
 //                setProgressBackgroundColorSchemeResource(R.color.colorMore)
 //                setBackgroundColor(R.color.colorLess)
-            }
-        }
+//            }
+//        }
         //设置全局的Footer构建器
 //        SmartRefreshLayout.setDefaultRefreshFooterCreator { context, layout ->
 //            return@setDefaultRefreshFooterCreator ClassicsFooter(context).apply {

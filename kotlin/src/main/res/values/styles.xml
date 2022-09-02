@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="et_style" parent="@style/tv_base_style" >
         <item name="android:background">@drawable/et_bg_info</item>
         <item name="android:layout_marginStart">5dp</item>
         <item name="android:minWidth">100dp</item>
     </style>
-
 
     <style name="tv_base_style">
         <item name="android:maxLines">1</item>
@@ -15,5 +13,4 @@
         <item name="android:layout_centerInParent">true</item>
         <item name="android:gravity">center</item>
     </style>
-
 </resources>

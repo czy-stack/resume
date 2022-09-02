@@ -1,2 +1,5 @@
 include ':app', ':common', ':sign', ':kotlin' , ':java'
 rootProject.name = 'Resume'
+include ':testhttp'
+include ':testhttp'
+include ':jetpak'

@@ -70,14 +70,14 @@ abstract class BaseFragment<T : BasePresenter> : Fragment(), BaseView<T> {
         (context as AppCompatActivity).finish()
     }
 
-    override fun getContext(): Context {
-        if (mContext!=null){
-            appContext = mContext.applicationContext
-            return mContext
-        }else if (super.getContext()!=null){
-            return super.getContext()!!
-        }else{
-            return appContext
-        }
-    }
+//    override fun getContext(): Context {
+//        if (mContext!=null){
+//            appContext = mContext.applicationContext
+//            return mContext
+//        }else if (super.getContext()!=null){
+//            return super.getContext()!!
+//        }else{
+//            return appContext
+//        }
+//    }
 }

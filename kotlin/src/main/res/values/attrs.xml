@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="InfoView">
+        <attr name="head_text" format="string" />
+
+        <attr name="foot_text" format="string" />
+
+        <attr name="view_type" format="integer" >
+            <enum name="edit" value="1" />
+            <enum name="no_edit" value="2" />
+        </attr>
+
+        <attr name="edit_type" format="integer" >
+            <enum name="scan" value="1" />
+            <enum name="write" value="2" />
+            <enum name="choose" value="3" />
+        </attr>
+    </declare-styleable>
+</resources>

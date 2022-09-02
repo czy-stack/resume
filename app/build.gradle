@@ -89,6 +89,14 @@ android {
             dimension "environment"
             buildConfigField('String','BASE_URL','"http://183.134.216.111:18003/"')
         }
+        ocr{
+            dimension "app"
+            applicationId "com.android.ocr"
+        }
+        camera{
+            dimension "app"
+            applicationId "com.android.camera"
+        }
     }
 
     compileOptions {

@@ -1,13 +1,18 @@
 package com.android.common.base
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.annotation.ColorRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.viewbinding.ViewBinding
 import com.android.common.R
 import com.android.common.databinding.ActivityWebBinding
@@ -79,6 +84,24 @@ abstract class BaseActivity<T : BasePresenter,B:ViewBinding> : AppCompatActivity
     }
 
     /**
+     * app全屏
+     */
+    protected fun windowFullScreen(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.insetsController?.hide(WindowInsets.Type.statusBars())
+        }else{
+            val windowInsetsController = ViewCompat.getWindowInsetsController(window.decorView)
+            windowInsetsController?.let {
+                it.hide(WindowInsetsCompat.Type.statusBars())
+                it.hide(WindowInsetsCompat.Type.ime())
+                it.hide(WindowInsetsCompat.Type.systemBars())
+                it.hide(WindowInsetsCompat.Type.navigationBars())
+                it.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            }
+        }
+    }
+
+    /**
      * 状态栏颜色 默认透明
      */
     protected fun colorStatusBar( @ColorRes color: Int = R.color.transparent) {
@@ -110,9 +133,9 @@ abstract class BaseActivity<T : BasePresenter,B:ViewBinding> : AppCompatActivity
     }
 
     private fun startTimer(millisecond: Int) {
-        RxUtils.timer(millisecond.toLong(),TimeUnit.MILLISECONDS, Consumer {
+        RxUtils.timer(millisecond.toLong(),TimeUnit.MILLISECONDS) {
             closeScreenOn()
-        })
+        }
     }
 
 }
