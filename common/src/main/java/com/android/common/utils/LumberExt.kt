@@ -1,6 +1,9 @@
 package com.android.common.utils
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.net.Uri
+import android.provider.MediaStore
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
@@ -8,14 +11,14 @@ import androidx.core.content.ContextCompat
 import com.android.common.R
 import com.android.common.constants.TypeConstants
 import com.android.common.event.Event
-import com.android.common.event.RxBus
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.BaseRequestOptions
-import io.reactivex.functions.Consumer
 import org.greenrobot.eventbus.EventBus
+import java.io.ByteArrayOutputStream
+import java.io.IOException
+import java.io.InputStream
 import java.math.BigDecimal
-import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 
 /**
@@ -195,5 +198,15 @@ fun String.getError():String{
         else -> return  ""
     }
 }
+
+fun Uri.uriToByte(context: Context): ByteArray {
+    return context.contentResolver.openInputStream(this)!!.readBytes()
+}
+
+@Throws(IOException::class)
+fun Uri.readBytes(context: Context): ByteArray? =
+    context.contentResolver.openInputStream(this)?.use { it.buffered().readBytes() }
+
+
 
 

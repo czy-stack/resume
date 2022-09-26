@@ -30,5 +30,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
             android:padding="@dimen/space_normal"
-            android:src="@mipmap/icon_dialog_cancel"/>
+            android:src="@mipmap/icon_dialog_cancel"
+        />
 </FrameLayout>

@@ -10,6 +10,30 @@
         android:layout_height="wrap_content"
         android:text="Take Photo"/>
 
+    <Button
+        android:id="@+id/bt_start_bluetooth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="打开蓝牙"/>
+
+    <Button
+        android:id="@+id/bt_scan_secure_bluetooth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="扫描安全设备列表(客户端)"/>
+
+    <Button
+        android:id="@+id/bt_scan_insecure_bluetooth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="扫描不安全设备列表(客户端)"/>
+
+    <Button
+        android:id="@+id/bt_discoverable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="可检测(服务端)"/>
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"

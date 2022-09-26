@@ -110,6 +110,8 @@ dependencies {
     implementation project(path: ':common')
     implementation project(path: ':sign')
     implementation project(path: ':kotlin')
+    implementation project(path: ':java')
+    implementation project(path: ':jetpack')
     debugImplementation "com.squareup.leakcanary:$leakcanary"
     implementation "com.aliyun.ams:alicloud-android-hotfix:$hotfix"
 

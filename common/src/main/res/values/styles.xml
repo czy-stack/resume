@@ -1,7 +1,7 @@
 <resources>
 
     <!--Base application theme.-->
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -20,7 +20,7 @@
         <!--<item name="android:popupTheme">@style/transparentStyle</item>-->
     </style>
     <!--防止启动白屏 -->
-    <style name="AppStartTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="AppStartTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@color/colorPrimary</item>
         <!--<item name="android:windowDisablePreview">true</item>-->

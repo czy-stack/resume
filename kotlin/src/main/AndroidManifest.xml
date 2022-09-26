@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.kotlin">
+
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+
     <application>
 <!--        <provider-->
 <!--            android:authorities="${applicationId}.provider"-->
@@ -16,6 +20,7 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.camera.CameraActivity"/>
         <activity android:name=".activity.pqpo.CameraTestActivity"/>
+        <activity android:name=".activity.device.DeviceListActivity"/>
 
     </application>
 

@@ -1,21 +1,22 @@
 package com.example.kotlin.activity.camera
 
-import android.content.ContentValues
+import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
-import android.os.Environment
-import android.provider.MediaStore
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.FileProvider
+import androidx.annotation.LayoutRes
 import androidx.lifecycle.LifecycleOwner
 import com.android.common.base.BaseActivity
+import com.android.common.manager.BluetoothExt
+import com.android.common.manager.BluetoothExt.Companion.REQUEST_ENABLE_BT
+import com.android.common.utils.LogUtils
+import com.android.common.utils.toast
 import com.bumptech.glide.Glide
-import com.example.kotlin.BuildConfig
+import com.example.kotlin.R
+import com.example.kotlin.activity.device.DeviceListActivity
 import com.example.kotlin.databinding.ActivityCameraBinding
-import java.io.File
-
+import com.example.kotlin.service.BluetoothService
 
 /**
  * @作者 陈忠岳
@@ -25,7 +26,6 @@ import java.io.File
 class CameraActivity : BaseActivity<CameraContract.Presenter, ActivityCameraBinding>(),
     CameraContract.View,
     LifecycleOwner {
-    override lateinit var presenter: CameraContract.Presenter
     private lateinit var registerForActivityResult : ActivityResultLauncher<Uri>
     private var uri : Uri? = null
     override fun getLayoutId(): Int {
@@ -38,27 +38,51 @@ class CameraActivity : BaseActivity<CameraContract.Presenter, ActivityCameraBind
 
     override fun initView() {
         presenter = CameraPresenter(this, this, this)
-        uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val values = ContentValues()
-            values.put(MediaStore.MediaColumns.DISPLAY_NAME, "图片名称.jpg")
-            values.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
-            contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
-        }else{
-            FileProvider.getUriForFile(this, "com.example.kotlin.provider",File(externalCacheDir!!.absolutePath+"img.jpg"))
+        uri = presenter.getPhotoUri()
+        registerForActivityResult = registerForActivityResult(ActivityResultContracts.TakePicture() ) {
+            if (it)
+                Glide.with(this).load(uri).into(binding.imageView)
         }
-
-        registerForActivityResult = registerForActivityResult(ActivityResultContracts.TakePicture()) {
-                if (it)
-                    Glide.with(this).load(uri).into(binding.imageView)
-            }
     }
 
     override fun initData() {
+        BluetoothExt.instance.init(this)
+
     }
 
     override fun initListener() {
-        binding.btnTakePhoto.setOnClickListener {
+        binding.btnTakePhoto.setOnClickListener {  // 拍照
             registerForActivityResult.launch(uri)
         }
+
+        binding.btStartBluetooth.setOnClickListener {  // 打开蓝牙
+            if (!BluetoothExt.instance.checkBluetooth(this)){
+              registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+                    if (it.resultCode == RESULT_OK){
+                        presenter.startBluetooth()
+                    }else {
+                        LogUtils.i(this@CameraActivity.localClassName,"BT not enabled")
+                        this.toast( R.string.bt_not_enabled_leaving)
+                    }
+                }.launch(Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE))
+            }
+        }
+
+        binding.btScanSecureBluetooth.setOnClickListener { //安全扫描
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+                presenter.connectDevice(it.data,true)
+            }.launch(Intent(this, DeviceListActivity::class.java ))
+        }
+
+        binding.btScanInsecureBluetooth.setOnClickListener { //非安全扫描
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+                presenter.connectDevice(it.data,false)
+            }.launch(Intent(this, DeviceListActivity::class.java ))
+        }
+
+        binding.btDiscoverable.setOnClickListener {  //可检测
+            BluetoothExt.instance.discoverable(this)
+        }
     }
+
 }

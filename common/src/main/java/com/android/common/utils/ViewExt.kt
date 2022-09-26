@@ -4,6 +4,8 @@ import android.content.Context
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
 import com.android.common.R
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.functions.Consumer
@@ -27,12 +29,17 @@ fun Any.snack(view: View, duration: Int = Snackbar.LENGTH_SHORT) {
 fun Any.snack(view: View, duration: Int = Snackbar.LENGTH_INDEFINITE,listener :View.OnClickListener) {
     Snackbar.make(view, this.toString(), duration)
         .setAction("朕晓得了",listener).show()
-    Snackbar.make(view, this.toString(), duration)
 }
 
 fun Any.toast(context: Context?, duration: Int = Toast.LENGTH_SHORT) {
     Toast(context).cancel()
     Toast.makeText(context, this.toString(), duration).show()
+}
+
+
+fun Context?.toast(@StringRes stringRes: Int, duration: Int = Toast.LENGTH_SHORT) {
+    Toast(this).cancel()
+    Toast.makeText(this, this?.getString(stringRes), duration).show()
 }
 
 

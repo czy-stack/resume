@@ -7,6 +7,8 @@ import com.android.common.http.RxSimpleObserver
 import com.android.common.lifecycle.LifecyclePresenter
 import com.android.common.utils.RxUtils
 import com.android.resume.http.ApiClient
+import com.example.jetpack.MainActivity
+import com.example.jetpack.ui.activity.word.WordActivity
 import com.example.kotlin.activity.pqpo.CameraTestActivity
 import com.example.kotlin.activity.test.TestActivity
 import com.example.kotlin.bean.Record
@@ -47,7 +49,7 @@ class SplashPresenter(
     }
 
     override fun start() {
-        context.startActivity(Intent(context, CameraTestActivity::class.java))
+        context.startActivity(Intent(context, MainActivity::class.java))
         view.finish()
     }
 

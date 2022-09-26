@@ -1,5 +1,7 @@
 package com.example.kotlin.activity.camera
 
+import android.content.Intent
+import android.net.Uri
 import com.android.common.base.BasePresenter
 import com.android.common.base.BaseView
 import com.example.kotlin.bean.ShareData
@@ -15,6 +17,9 @@ class CameraContract {
     }
 
     interface Presenter : BasePresenter {
+        fun startBluetooth()
+        fun getPhotoUri() : Uri?
+        fun connectDevice(data:Intent? ,secure:Boolean)
     }
 
 }

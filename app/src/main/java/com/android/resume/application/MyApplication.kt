@@ -5,7 +5,12 @@ import android.content.MutableContextWrapper
 import android.webkit.WebView
 import com.android.common.utils.CrashHandlerOptic
 import com.android.resume.BuildConfig
+import com.example.jetpack.WordsApplication
+import com.example.jetpack.db.WordRoomDatabase
+import com.example.jetpack.repository.inDb.WordRepository
 import io.reactivex.plugins.RxJavaPlugins
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 import org.litepal.LitePal
 
 /**
@@ -13,7 +18,7 @@ import org.litepal.LitePal
  * @主要功能
  * @创建日期  2019-11-21
  */
-class MyApplication : Application() {
+class MyApplication : WordsApplication() {
 
     override fun onCreate() {
         super.onCreate()
