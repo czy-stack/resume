@@ -12,6 +12,7 @@ import com.example.jetpack.ui.activity.word.WordActivity
 import com.example.kotlin.activity.pqpo.CameraTestActivity
 import com.example.kotlin.activity.test.TestActivity
 import com.example.kotlin.bean.Record
+import com.example.sudo.ui.activegame.ActiveGameActivity
 import org.litepal.LitePal
 import java.util.concurrent.TimeUnit
 
@@ -49,7 +50,7 @@ class SplashPresenter(
     }
 
     override fun start() {
-        context.startActivity(Intent(context, MainActivity::class.java))
+        context.startActivity(Intent(context, ActiveGameActivity::class.java))
         view.finish()
     }
 

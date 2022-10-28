@@ -112,6 +112,7 @@ dependencies {
     implementation project(path: ':kotlin')
     implementation project(path: ':java')
     implementation project(path: ':jetpack')
+    implementation project(path: ':sudo')
     debugImplementation "com.squareup.leakcanary:$leakcanary"
     implementation "com.aliyun.ams:alicloud-android-hotfix:$hotfix"
 

@@ -55,6 +55,7 @@ class WordActivity : AppCompatActivity(){
                 wordViewModel.insert(Word(word))
             }
         }
+
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
             registerForActivityResult.launch(Intent(this,NewWordActivity::class.java))
         }

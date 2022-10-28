@@ -7,3 +7,4 @@ java  java代码test项目
 kotlin  kotlin代码test项目
 jetpack jetpack风格代码
 sign 签到项目
+sudo 数独游戏

@@ -1,2 +1,2 @@
-include ':app', ':common', ':sign', ':kotlin' , ':java' , ':jetpack'
+include ':app', ':common', ':sign', ':kotlin' , ':java' , ':jetpack',':sudo'
 rootProject.name = 'resume'
