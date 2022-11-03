@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.sudo">
     <application>
-        <activity android:name=".ui.activegame.ActiveGameActivity"/>
-        <activity android:name=".ui.newgame.NewGameActivity"/>
+        <activity android:name=".ui.activegame.ActiveGameActivity"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".ui.newgame.NewGameActivity"
+            android:configChanges="orientation|keyboardHidden"/>
     </application>
 </manifest>

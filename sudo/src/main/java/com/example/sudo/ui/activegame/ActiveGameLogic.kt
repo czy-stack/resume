@@ -1,5 +1,6 @@
 package com.example.sudo.ui.activegame
 
+import com.android.common.utils.LogUtils
 import com.example.sudo.common.BaseLogic
 import com.example.sudo.common.DispatcherProvider
 import com.example.sudo.domain.IGameRepository
@@ -29,6 +30,7 @@ class ActiveGameLogic(
     }
 
     override fun onEvent(event: ActiveGameEvent) {
+        LogUtils.i("onEvent",event.toString())
         when (event) {
             is ActiveGameEvent.OnInput -> onInput(
                 event.input,

@@ -1,8 +1,7 @@
 <resources>
 
     <!--Base application theme.-->
-<!--    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">-->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -19,6 +18,10 @@
         <item name="actionMenuTextColor">@color/colorBlack</item>
         <!--<item name="popupMenuStyle">@style/transparentStyle</item>-->
         <!--<item name="android:popupTheme">@style/transparentStyle</item>-->
+    </style>
+
+    <style name="Theme.GraphSudoku" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:statusBarColor" >@color/purple_700</item>
     </style>
     <!--防止启动白屏 -->
     <style name="AppStartTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">

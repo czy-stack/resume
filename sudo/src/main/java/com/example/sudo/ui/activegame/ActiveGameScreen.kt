@@ -1,5 +1,6 @@
 package com.example.sudo.ui.activegame
 
+import android.util.Log
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.tween
@@ -23,10 +24,13 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.android.common.utils.LogUtils
 import com.example.sudo.ui.components.AppToolbar
 import com.example.sudo.R
 import com.example.sudo.common.toTime
+import com.example.sudo.computationlogic.sqrt
 import com.example.sudo.ui.*
+import com.example.sudo.ui.components.LoadingScreen
 
 /**
  * @作者 陈忠岳
@@ -81,13 +85,14 @@ fun ActiveGameScreen(
             NewGameIcon(onEventHandler)
         }
     }
-
+    LogUtils.i("onEvent",contentTransitionState.currentState.name)
     Box(modifier = Modifier
         .fillMaxHeight()
         .padding(4.dp),
         contentAlignment = Alignment.TopCenter) {
         when(contentTransitionState.currentState){
             ActiveGameScreenState.ACTIVE -> Box(Modifier.alpha(activeAlpha)) {
+
                 GameContent(onEventHandler,viewModel)
             }
             ActiveGameScreenState.COMPLETE ->{
@@ -98,7 +103,11 @@ fun ActiveGameScreen(
                     )
                 }
             }
-            else -> {}
+            ActiveGameScreenState.LOADING ->{
+                Box(Modifier.alpha(loadingAlpha)) {
+                    LoadingScreen()
+                }
+            }
         }
     }
 }
@@ -121,6 +130,7 @@ fun GameContent(
     onEventHandler: (ActiveGameEvent) -> Unit,
     viewModel: ActiveGameViewModel
 ){
+    LogUtils.i("onEvent",onEventHandler.toString())
     BoxWithConstraints {
         val screenWidth = with(LocalDensity.current){
             constraints.maxWidth.toDp()
@@ -307,11 +317,23 @@ fun SudokuBoard(onEventHandler: (ActiveGameEvent) -> Unit,
         boardState = it
     }
 
+    SudokuTextFields(onEventHandler,tileOffset,boardState)
+
+    BoardGrid(boundary = boundary, tileOffset = tileOffset)
 }
 
 @Composable
 fun TimerText(viewModel: ActiveGameViewModel){
 
+    var timerState by remember {
+        mutableStateOf("")
+    }
+
+    viewModel.subTimerState = {
+        timerState = it.toTime()
+    }
+
+    Text(modifier = Modifier.requiredHeight(36.dp), text = timerState, style = activeGameSubtitle.copy(color = MaterialTheme.colors.secondary))
 }
 
 @Composable
@@ -360,5 +382,26 @@ fun SudokuTextFields(onEventHandler: (ActiveGameEvent) -> Unit,
                     .height(tileOffset.dp)
             )
         }
+    }
+}
+
+@Composable
+fun BoardGrid(boundary: Int,tileOffset: Float) {
+    (1 until boundary).forEach {
+        val width = if ( it % boundary.sqrt == 0) 3.dp else 1.dp
+
+        Divider(color = MaterialTheme.colors.primaryVariant,
+            modifier = Modifier
+                .absoluteOffset((tileOffset * it).dp, 0.dp)
+                .fillMaxHeight()
+                .width(width))
+
+        val height = if (it % boundary.sqrt == 0) 3.dp else 1.dp
+
+        Divider(color = MaterialTheme.colors.primaryVariant,
+        modifier = Modifier
+            .absoluteOffset(0.dp, (tileOffset * it).dp)
+            .fillMaxWidth()
+            .height(height))
     }
 }

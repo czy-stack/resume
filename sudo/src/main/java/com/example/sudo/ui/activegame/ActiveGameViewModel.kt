@@ -1,5 +1,6 @@
 package com.example.sudo.ui.activegame
 
+import com.android.common.utils.LogUtils
 import com.example.sudo.domain.Difficulty
 import com.example.sudo.domain.SudokuPuzzle
 import com.example.sudo.domain.getHash
@@ -43,7 +44,7 @@ class ActiveGameViewModel {
         }
 
         val contentState: ActiveGameScreenState
-
+        LogUtils.i("onEvent",isComplete.toString())
         if (isComplete) {
             isCompleteState = true
             contentState = ActiveGameScreenState.COMPLETE
