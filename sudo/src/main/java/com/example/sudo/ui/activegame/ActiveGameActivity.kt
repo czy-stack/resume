@@ -16,19 +16,24 @@ import com.example.sudo.ui.newgame.NewGameActivity
  * @主要功能
  * @创建日期  2022/10/10
  */
-class ActiveGameActivity : AppCompatActivity(),ActiveGameContainer{
-    private lateinit var  logic:ActiveGameLogic
+class ActiveGameActivity : AppCompatActivity(), ActiveGameContainer {
+    private lateinit var logic: ActiveGameLogic
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val viewModel = ActiveGameViewModel()
 
-        setContent { GraphSudokuTheme {
-            ActiveGameScreen(onEventHandler = logic::onEvent, viewModel = viewModel)
-        } }
+        setContent {
+            GraphSudokuTheme {
+                ActiveGameScreen(
+                    onEventHandler = logic::onEvent,
+                    viewModel
+                )
+            }
+        }
 
-        logic = buildActiveGameLogic(this,viewModel,applicationContext)
+        logic = buildActiveGameLogic(this, viewModel, applicationContext)
     }
 
     override fun onStart() {
@@ -39,13 +44,18 @@ class ActiveGameActivity : AppCompatActivity(),ActiveGameContainer{
     override fun onStop() {
         super.onStop()
         logic.onEvent(ActiveGameEvent.OnStop)
+
         finish()
-    }
-    override fun showError() {
-        makeToast(getString(R.string.generic_error))
     }
 
     override fun onNewGameClick() {
-        startActivity(Intent(this,NewGameActivity::class.java))
+        startActivity(
+            Intent(
+                this,
+                NewGameActivity::class.java
+            )
+        )
     }
+
+    override fun showError() = makeToast(getString(R.string.generic_error))
 }

@@ -16,7 +16,8 @@ import com.example.sudo.ui.activegame.ActiveGameViewModel
 internal fun buildActiveGameLogic(
     container: ActiveGameContainer,
     viewModel: ActiveGameViewModel,
-    context: Context):ActiveGameLogic{
+    context: Context
+): ActiveGameLogic {
     return ActiveGameLogic(
         container,
         viewModel,
@@ -24,7 +25,9 @@ internal fun buildActiveGameLogic(
             LocalGameStorageImpl(context.filesDir.path),
             LocalSettingsStorageImpl(context.settingsDataStore)
         ),
-        LocalStatisticsStorageImpl(context.statsDataStore),
+        LocalStatisticsStorageImpl(
+            context.statsDataStore
+        ),
         ProductionDispatcherProvider
     )
 }

@@ -1,5 +1,6 @@
 package com.example.sudo.ui.activegame
 
+import android.util.Log
 import com.android.common.utils.LogUtils
 import com.example.sudo.domain.Difficulty
 import com.example.sudo.domain.SudokuPuzzle
@@ -44,7 +45,7 @@ class ActiveGameViewModel {
         }
 
         val contentState: ActiveGameScreenState
-        LogUtils.i("onEvent",isComplete.toString())
+
         if (isComplete) {
             isCompleteState = true
             contentState = ActiveGameScreenState.COMPLETE
@@ -57,6 +58,7 @@ class ActiveGameViewModel {
         timerState = puzzle.elapsedTime
 
         subIsCompleteState?.invoke(isCompleteState)
+        LogUtils.i("onEvent",contentState.name)
         subContentState?.invoke(contentState)
         subBoardState?.invoke(boardState)
     }

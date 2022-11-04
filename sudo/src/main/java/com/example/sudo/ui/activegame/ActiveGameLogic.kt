@@ -1,5 +1,6 @@
 package com.example.sudo.ui.activegame
 
+import android.util.Log
 import com.android.common.utils.LogUtils
 import com.example.sudo.common.BaseLogic
 import com.example.sudo.common.DispatcherProvider
@@ -22,15 +23,30 @@ class ActiveGameLogic(
     private val viewModel: ActiveGameViewModel,
     private val gameRepo: IGameRepository,
     private val statsRepo: IStatisticsRepository,
-    private val dispatcher : DispatcherProvider
-) : BaseLogic<ActiveGameEvent>(),CoroutineScope{
+    private val dispatcher: DispatcherProvider
+) : BaseLogic<ActiveGameEvent>(),
+    CoroutineScope {
 
-    init {
-        jobTracker = Job()
+    inline fun startCoroutineTimer(
+        crossinline action: () -> Unit
+    ) = launch {
+        while (true) {
+            action()
+            delay(1000)
+        }
     }
 
+    //Time offset makes the UI timer look more consistent
+    private val Long.timeOffset: Long
+        get() {
+            return if (this <= 0) 0
+            else this - 1
+        }
+
+    private var timerTracker: Job? = null
+
     override fun onEvent(event: ActiveGameEvent) {
-        LogUtils.i("onEvent",event.toString())
+        Log.i("onEvent",event.toString())
         when (event) {
             is ActiveGameEvent.OnInput -> onInput(
                 event.input,
@@ -42,40 +58,36 @@ class ActiveGameLogic(
             is ActiveGameEvent.OnTileFocused -> onTileFocused(event.x, event.y)
         }
     }
-    inline fun startCoroutineTimer(crossinline action:() ->Unit) = launch {
-        while (true){
-            action()
-            delay(1000)
-        }
+
+
+
+    init {
+        //allows cancellation
+        jobTracker = Job()
     }
-
-    private val Long.timeOffset : Long
-        get() {
-            return if (this <= 0) 0
-            else this -1
-        }
-
-    private var timerTracker : Job? = null
 
     override val coroutineContext: CoroutineContext
         get() = dispatcher.provideUIContext() + jobTracker
 
-    private fun onTileFocused(x : Int,y : Int){
-        viewModel.updateFocusState(x,y)
+
+
+    private fun onTileFocused(x: Int, y: Int) {
+        viewModel.updateFocusState(x, y)
     }
 
-    private fun onStop(){
-        if (!viewModel.isCompleteState){
+    private fun onStop() {
+        if (!viewModel.isCompleteState) {
             launch {
-                gameRepo.saveGame(viewModel.timerState.timeOffset,
-                    {cancelStuff()},
+                gameRepo.saveGame(
+                    viewModel.timerState.timeOffset,
+                    { cancelStuff() },
                     {
                         cancelStuff()
                         container?.showError()
                     }
                 )
             }
-        }else{
+        } else {
             cancelStuff()
         }
     }

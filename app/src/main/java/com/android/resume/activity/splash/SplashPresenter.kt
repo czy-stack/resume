@@ -50,7 +50,7 @@ class SplashPresenter(
     }
 
     override fun start() {
-        context.startActivity(Intent(context, MainActivity::class.java))
+        context.startActivity(Intent(context, ActiveGameActivity::class.java))
         view.finish()
     }
 
