@@ -6,9 +6,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.LifecycleOwner
 import com.android.common.base.BaseActivity
 import com.example.kotlin.databinding.ActivityTestCameraBinding
-import com.google.android.cameraview.CameraImpl
-import me.pqpo.smartcameralib.MaskView
-import me.pqpo.smartcameralib.SmartScanner
+//import com.google.android.cameraview.CameraImpl
+//import me.pqpo.smartcameralib.MaskView
+//import me.pqpo.smartcameralib.SmartScanner
 
 
 /**
@@ -57,55 +57,55 @@ class CameraTestActivity : BaseActivity<CameraTestContract.Presenter, ActivityTe
 //            }
 //            false
 //        }
-        binding.cameraView.addCallback(object : CameraImpl.Callback(){
-            override fun onPictureTaken(camera: CameraImpl?, data: ByteArray?) {
-                super.onPictureTaken(camera, data)
-            }
-        })
-        binding.btnTakePhoto.setOnClickListener {
-            binding.cameraView.start()
-            binding.cameraView.startScan()
-        }
+//        binding.cameraView.addCallback(object : CameraImpl.Callback(){
+//            override fun onPictureTaken(camera: CameraImpl?, data: ByteArray?) {
+//                super.onPictureTaken(camera, data)
+//            }
+//        })
+//        binding.btnTakePhoto.setOnClickListener {
+//            binding.cameraView.start()
+//            binding.cameraView.startScan()
+//        }
     }
 
     private fun initScannerParams() {
-        SmartScanner.DEBUG = true
-        SmartScanner.detectionRatio = 0.1f
-        SmartScanner.checkMinLengthRatio = 0.8f
-        SmartScanner.cannyThreshold1 = 20
-        SmartScanner.cannyThreshold2 = 50
-        SmartScanner.houghLinesThreshold = 130
-        SmartScanner.houghLinesMinLineLength = 80
-        SmartScanner.houghLinesMaxLineGap = 10
-//        SmartScanner.firstGaussianBlurRadius = 3;
-//        SmartScanner.secondGaussianBlurRadius = 3;
-        SmartScanner.maxSize = 300f
-        SmartScanner.angleThreshold = 5f
-        // don't forget reload params
-        SmartScanner.reloadParams()
+//        SmartScanner.DEBUG = true
+//        SmartScanner.detectionRatio = 0.1f
+//        SmartScanner.checkMinLengthRatio = 0.8f
+//        SmartScanner.cannyThreshold1 = 20
+//        SmartScanner.cannyThreshold2 = 50
+//        SmartScanner.houghLinesThreshold = 130
+//        SmartScanner.houghLinesMinLineLength = 80
+//        SmartScanner.houghLinesMaxLineGap = 10
+////        SmartScanner.firstGaussianBlurRadius = 3;
+////        SmartScanner.secondGaussianBlurRadius = 3;
+//        SmartScanner.maxSize = 300f
+//        SmartScanner.angleThreshold = 5f
+//        // don't forget reload params
+//        SmartScanner.reloadParams()
 
     }
 
     private fun initMaskView() {
-        val maskView = binding.cameraView.maskView as MaskView
-        maskView.setMaskLineColor(-0xff524b)
-        maskView.setShowScanLine(true)
-        maskView.setScanLineGradient(-0xff524b, 0x0000adb5)
-        maskView.setMaskLineWidth(2)
-        maskView.setMaskRadius(5)
-        maskView.setScanSpeed(6)
-        maskView.setScanGradientSpread(80)
-        binding.cameraView.post({
-            val width: Int = binding.cameraView.getWidth()
-            val height: Int = binding.cameraView.getHeight()
-            if (width < height) {
-                maskView.setMaskSize((width * 0.6f).toInt(), (width * 0.6f / 0.63).toInt())
-                maskView.setMaskOffset(0, -(width * 0.1).toInt())
-            } else {
-                maskView.setMaskSize((width * 0.6f).toInt(), (width * 0.6f * 0.63).toInt())
-            }
-        })
-        binding.cameraView.maskView = maskView
+//        val maskView = binding.cameraView.maskView as MaskView
+//        maskView.setMaskLineColor(-0xff524b)
+//        maskView.setShowScanLine(true)
+//        maskView.setScanLineGradient(-0xff524b, 0x0000adb5)
+//        maskView.setMaskLineWidth(2)
+//        maskView.setMaskRadius(5)
+//        maskView.setScanSpeed(6)
+//        maskView.setScanGradientSpread(80)
+//        binding.cameraView.post({
+//            val width: Int = binding.cameraView.getWidth()
+//            val height: Int = binding.cameraView.getHeight()
+//            if (width < height) {
+//                maskView.setMaskSize((width * 0.6f).toInt(), (width * 0.6f / 0.63).toInt())
+//                maskView.setMaskOffset(0, -(width * 0.1).toInt())
+//            } else {
+//                maskView.setMaskSize((width * 0.6f).toInt(), (width * 0.6f * 0.63).toInt())
+//            }
+//        })
+//        binding.cameraView.maskView = maskView
     }
 
 

@@ -22,5 +22,5 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(path: ':common')
-    implementation  "com.github.pqpo:SmartCamera:v2.0.0"
+//    implementation  "com.github.pqpo:SmartCamera:v2.0.0"
 }

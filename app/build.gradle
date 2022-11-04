@@ -73,12 +73,12 @@ android {
     productFlavors{
         //正式包
         resume {
-            resValue "string", "app_name", "LitePal"//正式环境下app名称
+            resValue "string", "app_name", "Resume"//正式环境下app名称
             dimension "app"
         }
         //测试包
         resumetest {
-            resValue "string", "app_name", "LitePal_Text"//正式环境下app名称
+            resValue "string", "app_name", "Resume_Text"//正式环境下app名称
             dimension "app"
         }
         production{
