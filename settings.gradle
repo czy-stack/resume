@@ -1,2 +1,69 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        mavenLocal()
+        maven { url "https://jitpack.io" }
+        mavenCentral(){url "https://jcenter.bintray.com/"}
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        mavenLocal()
+        maven { url "https://jitpack.io" }
+        mavenCentral(){url "https://jcenter.bintray.com/"}
+    }
+}
 include ':app', ':common', ':sign', ':kotlin' , ':java' , ':jetpack',':sudo'
 rootProject.name = 'resume'
+
+//buildscript {
+//    ext.kotlin_version = '1.7.10'
+//    ext.navigation = '2.4.2'
+//    repositories {
+//        google()
+//        maven { url 'https://maven.aliyun.com/repository/public' }
+//        maven { url 'https://maven.aliyun.com/repository/google' }
+//        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+//        mavenLocal()
+//        mavenCentral()
+//        google()
+//        maven { url "https://jitpack.io" }
+//        mavenCentral(){url "https://jcenter.bintray.com/"}
+//    }
+//    dependencies {
+//        classpath 'com.android.tools.build:gradle:7.3.0'
+//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+//        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation"
+//        // NOTE: Do not place your application dependencies here; they belong
+//        // in the individual module build.gradle files
+//    }
+//}
+//
+//allprojects {
+//    repositories {
+//        google()
+//        maven { url 'https://maven.aliyun.com/repository/public' }
+//        maven { url 'https://maven.aliyun.com/repository/google' }
+//        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+//        mavenLocal()
+//        mavenCentral()
+//        google()
+//        maven { url "https://jitpack.io" }
+//        mavenCentral(){url "https://jcenter.bintray.com/"}
+//    }
+//}
+//
+//task clean(type: Delete) {
+//    delete rootProject.buildDir
+//}

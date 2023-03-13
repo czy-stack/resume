@@ -1,45 +1,9 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
-buildscript {
-    ext.kotlin_version = '1.7.10'
-    ext.navigation = '2.4.2'
-    repositories {
-        google()
-        maven { url 'https://maven.aliyun.com/repository/public' }
-        maven { url 'https://maven.aliyun.com/repository/google' }
-        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
-        mavenLocal()
-        mavenCentral()
-        google()
-        maven { url "https://jitpack.io" }
-        mavenCentral(){url "https://jcenter.bintray.com/"}
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:7.3.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation"
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
+plugins {
+    id 'com.android.application' version '7.4.1' apply false
+    id 'com.android.library' version '7.4.1' apply false
+    id 'org.jetbrains.kotlin.android' version '1.8.10' apply false
 }
 
-allprojects {
-    repositories {
-        google()
-        maven { url 'https://maven.aliyun.com/repository/public' }
-        maven { url 'https://maven.aliyun.com/repository/google' }
-        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
-        mavenLocal()
-        mavenCentral()
-        google()
-        maven { url "https://jitpack.io" }
-        mavenCentral(){url "https://jcenter.bintray.com/"}
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
 
 
 ext {
@@ -61,6 +25,7 @@ ext {
     archLifecycle = "2.4.1"
     compose = "1.2.1"
     room = "2.4.3"
+    navigation = "2.4.2"
 
     //test
     junit = "4.13.1"
@@ -83,7 +48,7 @@ ext {
     //数据库框架 https://github.com/LitePalFramework/LitePal
     litepal = "3.0.0"
     //LeakCanary
-    leakcanary = "leakcanary-android:2.0-beta-2"
+    leakcanary = "leakcanary-android:2.7"
     //hotfix
     hotfix = "3.2.8"
     //EventBus

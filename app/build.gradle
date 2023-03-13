@@ -72,15 +72,15 @@ android {
     flavorDimensions "app","environment"
     productFlavors{
         //正式包
-        resume {
-            resValue "string", "app_name", "Resume"//正式环境下app名称
-            dimension "app"
-        }
+//        resume {
+//            resValue "string", "app_name", "Resume"//正式环境下app名称
+//            dimension "app"
+//        }
         //测试包
-        resumetest {
-            resValue "string", "app_name", "Resume_Text"//正式环境下app名称
-            dimension "app"
-        }
+//        resumetest {
+//            resValue "string", "app_name", "Resume_Text"//测试环境下app名称
+//            dimension "app"
+//        }
         production{
             dimension "environment"
             buildConfigField('String','BASE_URL','"http://183.134.216.111:18003/"')
@@ -96,6 +96,22 @@ android {
         camera{
             dimension "app"
             applicationId "com.android.camera"
+        }
+        sign{
+            dimension "app"
+            applicationId "com.android.sign"
+        }
+        sudo{
+            dimension "app"
+            applicationId "com.android.sudo"
+        }
+        kotlin{
+            dimension "app"
+            applicationId "com.android.kotlin"
+        }
+        jetpack{
+            dimension "app"
+            applicationId "com.android.jetpack"
         }
     }
 

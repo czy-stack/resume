@@ -11,4 +11,15 @@ object Constants {
     const val INTENT_INT = "intent_int"
     const val INTENT_PARCELABLE = "intent_parcelable"
     const val INTENT_BOOLEAN = "intent_boolean"
+    /**
+     *@see com.android.resume.activity.splash.SplashPresenter
+     */
+    const val SIGN = "sign"
+    const val OCR = "ocr"
+    const val CAMERA = "camera"
+    const val SUDO = "sudo"
+    const val KOTLIN = "kotlin"
+    const val JETPACK = "jetpack"
+
+
 }

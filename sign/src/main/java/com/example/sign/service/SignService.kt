@@ -43,20 +43,26 @@ class SignService : Service() {
     }
 
     private fun open(packageName: String = url, context: Context) {
-        val packageManager = context.packageManager
-        val resolveInfo = packageManager.queryIntentActivities(Intent(Intent.ACTION_MAIN, null)
-            .let {
-                it.addCategory(Intent.CATEGORY_LAUNCHER)
-                it.setPackage(packageManager.getPackageInfo(url, 0).packageName)
-            }, 0).iterator().next()
-        if (resolveInfo != null) {
-            val className = resolveInfo.activityInfo.name
-            Intent(Intent.ACTION_MAIN).let {
-                it.addCategory(Intent.CATEGORY_LAUNCHER)
-                it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                it.component = ComponentName(packageName, className)
-                context.startActivity(it)
-            }
-        }
+//        val packageManager = context.packageManager
+//        val resolveInfo = packageManager.queryIntentActivities(Intent(Intent.ACTION_MAIN, null)
+//            .let {
+//                it.addCategory(Intent.CATEGORY_LAUNCHER)
+//                it.setPackage(packageManager.getPackageInfo(url, 0).packageName)
+//            }, 0).iterator().next()
+//        if (resolveInfo != null) {
+//            val className = resolveInfo.activityInfo.name
+//            Intent(Intent.ACTION_MAIN).let {
+//                it.addCategory(Intent.CATEGORY_LAUNCHER)
+//                it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                it.component = ComponentName(packageName, className)
+//                context.startActivity(it)
+//            }
+//        }
+
+        startActivity(Intent().apply {
+            component = ComponentName("com.alibaba.android.rimet","com.alibaba.android.rimet.biz.LaunchHomeActivity")
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(this)
+        })
     }
 }

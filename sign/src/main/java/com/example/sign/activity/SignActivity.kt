@@ -25,12 +25,16 @@ class SignActivity: BaseActivity<SignContract.Presenter,ActivitySignBinding>(), 
 
     override fun initListener() {
         binding.editHour.addTextChangedListener {
-            it.let {
+            it?.let {
+                if (it.isEmpty())
+                    return@let
                 SignService.temp1 = it.toString().toInt()
             }
         }
         binding.editMinute.addTextChangedListener {
-            it.let {
+            it?.let {
+                if (it.isEmpty())
+                    return@let
                 SignService.temp2 = it.toString().toInt()
             }
         }

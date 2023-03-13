@@ -3,15 +3,17 @@ package com.android.resume.activity.splash
 import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.LifecycleOwner
+import com.android.common.constants.Constants
 import com.android.common.http.RxSimpleObserver
 import com.android.common.lifecycle.LifecyclePresenter
 import com.android.common.utils.RxUtils
+import com.android.resume.BuildConfig
 import com.android.resume.http.ApiClient
 import com.example.jetpack.MainActivity
-import com.example.jetpack.ui.activity.word.WordActivity
-import com.example.kotlin.activity.pqpo.CameraTestActivity
+import com.example.kotlin.activity.camera.CameraActivity
 import com.example.kotlin.activity.test.TestActivity
 import com.example.kotlin.bean.Record
+import com.example.sign.activity.SignActivity
 import com.example.sudo.ui.activegame.ActiveGameActivity
 import org.litepal.LitePal
 import java.util.concurrent.TimeUnit
@@ -50,7 +52,13 @@ class SplashPresenter(
     }
 
     override fun start() {
-        context.startActivity(Intent(context, ActiveGameActivity::class.java))
+        when(BuildConfig.FLAVOR_app){
+            Constants.SIGN -> context.startActivity(Intent(context, SignActivity::class.java))
+            Constants.JETPACK -> context.startActivity(Intent(context, MainActivity::class.java))
+            Constants.KOTLIN -> context.startActivity(Intent(context, TestActivity::class.java))
+            Constants.SUDO -> context.startActivity(Intent(context, ActiveGameActivity::class.java))
+            Constants.CAMERA -> context.startActivity(Intent(context, CameraActivity::class.java))
+        }
         view.finish()
     }
 

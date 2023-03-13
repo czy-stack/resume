@@ -32,8 +32,6 @@ abstract class BaseActivity<T : BasePresenter,B:ViewBinding> : AppCompatActivity
     override lateinit var presenter: T
     lateinit var binding : B
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = setBinding()
