@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.LayoutRes
 import androidx.lifecycle.LifecycleOwner
 import com.android.common.base.BaseActivity
 import com.android.common.manager.BluetoothExt
@@ -28,9 +27,6 @@ class CameraActivity : BaseActivity<CameraContract.Presenter, ActivityCameraBind
     LifecycleOwner {
     private lateinit var registerForActivityResult : ActivityResultLauncher<Uri>
     private var uri : Uri? = null
-    override fun getLayoutId(): Int {
-        return 0
-    }
 
     override fun setBinding(): ActivityCameraBinding {
         return ActivityCameraBinding.inflate(layoutInflater)

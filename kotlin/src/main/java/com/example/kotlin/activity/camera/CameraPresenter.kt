@@ -37,18 +37,24 @@ class CameraPresenter (private val context: Context, private val view: CameraCon
         BluetoothService(BluetoothExt.instance.getAdapter()!!,mHandler)
     }
 
-    override fun getPhotoUri() : Uri? {
-       val uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val values = ContentValues()
-            values.put(MediaStore.MediaColumns.DISPLAY_NAME, "图片名称.jpg")
-            values.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
+    override fun getPhotoUri(): Uri? {
+        val fileName = "IMG_${System.currentTimeMillis()}.jpg"
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val values = ContentValues().apply {
+                put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
+                put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
+            }
             context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
-        }else{
-            FileProvider.getUriForFile(context, "com.example.kotlin.provider",
-                File(context.externalCacheDir!!.absolutePath+"img.jpg")
+        } else {
+            // authority 必须与合并后的 applicationId 一致，硬编码 com.example.kotlin.provider
+            // 会导致 FileProvider 找不到配置的 root；路径拼接也不能少分隔符。
+            val dir = context.externalCacheDir ?: return null
+            FileProvider.getUriForFile(
+                context,
+                "${context.packageName}.provider",
+                File(dir, fileName)
             )
         }
-        return uri
     }
 
     override fun connectDevice(data: Intent?, secure: Boolean) {

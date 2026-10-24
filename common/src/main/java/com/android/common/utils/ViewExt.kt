@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import com.android.common.R
 import com.google.android.material.snackbar.Snackbar
@@ -13,35 +12,43 @@ import java.util.concurrent.TimeUnit
 
 /**
  * @作者 陈忠岳
- * @主要功能 view工具类
+ * @主要功能 view 相关扩展
  * @创建日期 2019-05-31
  * @see android.view.ViewPropertyAnimator
  * @see android.animation.Animator
  * @see android.view.animation.Animation
- * https://blog.csdn.net/guolin_blog/article/details/44171115
  */
 
+private var toastInstance: Toast? = null
+
+private fun Context?.showToast(text: CharSequence?, duration: Int) {
+    val ctx = this ?: return
+    if (text.isNullOrEmpty()) return
+    toastInstance?.cancel()
+    toastInstance = Toast.makeText(ctx.applicationContext, text, duration).also { it.show() }
+}
 
 fun Any.snack(view: View, duration: Int = Snackbar.LENGTH_SHORT) {
     Snackbar.make(view, this.toString(), duration).show()
 }
 
-fun Any.snack(view: View, duration: Int = Snackbar.LENGTH_INDEFINITE,listener :View.OnClickListener) {
+fun Any.snack(view: View, duration: Int = Snackbar.LENGTH_INDEFINITE, listener: View.OnClickListener) {
     Snackbar.make(view, this.toString(), duration)
-        .setAction("朕晓得了",listener).show()
+        .setAction(R.string.confirm, listener)
+        .show()
 }
 
+/**
+ * 全局复用同一个 Toast，避免连续调用时排队堆积。
+ * 原实现里 `Toast(context).cancel()` 新建了一个空 Toast 再取消，既无意义也可能 NPE。
+ */
 fun Any.toast(context: Context?, duration: Int = Toast.LENGTH_SHORT) {
-    Toast(context).cancel()
-    Toast.makeText(context, this.toString(), duration).show()
+    context.showToast(this.toString(), duration)
 }
-
 
 fun Context?.toast(@StringRes stringRes: Int, duration: Int = Toast.LENGTH_SHORT) {
-    Toast(this).cancel()
-    Toast.makeText(this, this?.getString(stringRes), duration).show()
+    showToast(this?.getString(stringRes), duration)
 }
-
 
 fun View.fade(fade: Boolean) {
     if (fade) {
@@ -60,59 +67,48 @@ fun View.fade(fade: Boolean) {
 }
 
 fun View.visibility(visibility: Boolean) {
-    if (visibility) {
-        this.visibility = View.VISIBLE
-    } else {
-        this.visibility = View.GONE
-    }
+    this.visibility = if (visibility) View.VISIBLE else View.GONE
 }
 
+/**
+ * 涨跌配色：红涨绿跌（A 股习惯）
+ */
 fun Double.setTextColorTrends(context: Context, view: TextView, float: Boolean = false) {
-    if (this > 0) {
-        view.setTextColor(context.getCompatColor(R.color.colorMore))
-    } else if (this < 0) {
-        view.setTextColor(context.getCompatColor(R.color.colorLess))
-    } else {
-        view.setTextColor(context.getCompatColor(R.color.colorBlack))
-    }
+    view.applyTrendColor(context, this)
     view.text = if (float) {
-        StringBuilder(String.format("%.2f", this)).append("%")
+        String.format("%.2f", this) + "%"
     } else {
         String.format("%.2f", this)
     }
-
 }
 
 fun TextView.setTextColorTrends(context: Context, double: Double) {
-    if (double > 0) {
-        this.setTextColor(context.getCompatColor(R.color.colorMore))
-    } else if (double < 0) {
-        this.setTextColor(context.getCompatColor(R.color.colorLess))
-    } else {
-        this.setTextColor(context.getCompatColor(R.color.colorBlack))
-    }
+    applyTrendColor(context, double)
 }
 
 fun Double.setTextColorTrends(context: Context, double: Double, view: TextView) {
-    if (double > 0) {
-        view.setTextColor(context.getCompatColor(R.color.colorMore))
-    } else if (double < 0) {
-        view.setTextColor(context.getCompatColor(R.color.colorLess))
-    } else {
-        view.setTextColor(context.getCompatColor(R.color.colorBlack))
-    }
+    view.applyTrendColor(context, double)
     view.text = String.format("%.2f", this)
 }
 
+/**
+ * 以 this 为基准比较 double：高于基准显示绿色、低于基准显示红色
+ */
 fun Double.setCompareTextColorTrends(context: Context, double: Double, view: TextView) {
-    if (double > this) {
-        view.setTextColor(context.getCompatColor(R.color.colorLess))
-    } else if (double < this) {
-        view.setTextColor(context.getCompatColor(R.color.colorMore))
-    } else {
-        view.setTextColor(context.getCompatColor(R.color.colorBlack))
+    when {
+        double > this -> view.setTextColor(context.getCompatColor(R.color.colorLess))
+        double < this -> view.setTextColor(context.getCompatColor(R.color.colorMore))
+        else -> view.setTextColor(context.getCompatColor(R.color.colorBlack))
     }
     view.text = String.format("%.2f", this)
 }
 
-
+private fun TextView.applyTrendColor(context: Context, value: Double) {
+    setTextColor(
+        when {
+            value > 0 -> context.getCompatColor(R.color.colorMore)
+            value < 0 -> context.getCompatColor(R.color.colorLess)
+            else -> context.getCompatColor(R.color.colorBlack)
+        }
+    )
+}

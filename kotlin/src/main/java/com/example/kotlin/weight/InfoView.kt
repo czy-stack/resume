@@ -4,143 +4,96 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
-import androidx.annotation.Nullable
-import com.android.common.utils.LogUtils
 import com.example.kotlin.R
 import com.example.kotlin.databinding.ViewInfoBinding
 
 /**
  * @作者 陈忠岳
- * @主要功能
+ * @主要功能 通用「标签 + 输入框 + 后缀」表单行
  * @创建日期  2020/12/15
+ *
+ * 相对早期实现的修正：
+ * 1. `ViewInfoBinding.inflate(...)` 之后从未 `addView`，控件根本没被挂到 InfoView 上，
+ *    自定义 View 在布局里是空白的；改为 inflate 时直接 attach 到自身；
+ * 2. 读属性用 `getInteger` 读 `format="integer"` 的属性，语义不符，改为 `getInt`；
+ * 3. `setViewType` 里用的是 edit_type 那组常量（SCAN/WRITE/CHOOSE），
+ *    与 view_type 的 EDIT/NO_EDIT 常量组混用，导致两个方法职责相反；
+ * 4. 去掉了层层嵌套的日志与 `performClick` 转发，行为更容易预期。
  */
-class InfoView : LinearLayout {
-    constructor(context: Context) : this(context, null)
-
-    constructor(context: Context, @Nullable attrs: AttributeSet?) : this(context, attrs,0)
-
-
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr,0)
-    constructor(
-        context: Context,
-        attrs: AttributeSet?,
-        defStyleAttr: Int,
-        defStyleRes: Int
-    ) : super(context, attrs, defStyleAttr, defStyleRes){
-        binding = ViewInfoBinding.inflate(LayoutInflater.from(context))
-//        LayoutInflater.from(context).inflate(R.layout.view_info, this);
-        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.InfoView)
-        typedArray.apply {
-            getString(R.styleable.InfoView_head_text)?.let {
-                headText = it
-            }
-            getString(R.styleable.InfoView_foot_text)?.let {
-                footText = it
-            }
-            getInteger(R.styleable.InfoView_view_type, EDIT).let {
-                viewType = it
-            }
-            getInteger(R.styleable.InfoView_edit_type, WRITE).let {
-                editType = it
-            }
-        }
-        typedArray.recycle()
-        initView()
-    }
-
-
-    private var list: List<String> = listOf()
-    private var headText: String = ""
-    private var footText: String = ""
-    private var viewType: Int
-    private var editType: Int
-    private lateinit var binding : ViewInfoBinding
+class InfoView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0,
+    defStyleRes: Int = 0
+) : LinearLayout(context, attrs, defStyleAttr, defStyleRes) {
 
     companion object {
-        const val EDIT = 1;//viewType 可编辑
-        const val NO_EDIT = 2 //viewType 不可编辑
+        /** view_type：可编辑 */
+        const val EDIT = 1
+        /** view_type：不可编辑 */
+        const val NO_EDIT = 2
 
-        const val SCAN = 1 //扫描二维码
-        const val WRITE = 2 //输入
-        const val CHOOSE = 3 //列表选择
+        /** edit_type：扫码录入 */
+        const val SCAN = 1
+        /** edit_type：手动输入 */
+        const val WRITE = 2
+        /** edit_type：列表选择 */
+        const val CHOOSE = 3
     }
 
-    private fun initView() {
-        if (headText.isNotEmpty()) {
-            binding.tvHead.text = headText
-        }
-        if (footText.isNotEmpty()) {
-            binding.tvFoot.text = footText
-        }
-        setEditType(editType)
-        setViewType(viewType)
-        setOnClickListener { binding.edInfo.performClick()
-            binding.tvHead.setOnClickListener {
-                LogUtils.i(msg ="tv_head" )
-            }
-        LogUtils.i(msg ="performClick" )}
-        binding.edInfo.setOnTouchListener { v, event ->
-            super.onTouchEvent(event)
-//            if (v.id == R.id.ed_info&&canScrollVertically(ed_info.id)){
-//                v.parent.requestDisallowInterceptTouchEvent(true)
-            LogUtils.i(msg ="ed_info" )
-//            }
-            true
-        }
-        binding.edInfo.setOnClickListener { LogUtils.i(msg ="ed_setOnClickListener" ) }
-//        ed_info.isFocusable = true
-//        ed_info.isFocusableInTouchMode = true
-//        ed_info.requestFocus();
-//        ed_info.dispatchTouchEvent(event:MotionEvent ){
-//            super.dispatchTouchEvent(event)
-//        }
-//        ed_info.setOnTouchListener(object : View.OnTouchListener{
-//            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-//                LogUtils.i(msg = "OnTouchListener")
-//                return true
-//            }
-//        })
-//        setOnTouchListener { v, event ->  LogUtils.i(msg = "LinearLayout")
-//            true
-//        }
-    }
+    private val binding = ViewInfoBinding.inflate(LayoutInflater.from(context), this, true)
 
-    public fun setList(list: List<String>) {
-        this.list = list
-    }
+    var headText: String = ""
+        set(value) {
+            field = value
+            binding.tvHead.text = value
+        }
 
-    public fun setViewType(viewType: Int) {
-        this.viewType = viewType
-        when(viewType){
-            SCAN -> {
-                binding.edInfo.isFocusable = false
-            }
-            WRITE -> {
-                binding.edInfo.isFocusable = true
-            }
-            CHOOSE ->{
-                binding.edInfo.isFocusable = false
-            }
+    var footText: String = ""
+        set(value) {
+            field = value
+            binding.tvFoot.text = value
+        }
+
+    private var viewType: Int = EDIT
+    private var editType: Int = WRITE
+
+    init {
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.InfoView)
+        try {
+            headText = typedArray.getString(R.styleable.InfoView_head_text).orEmpty()
+            footText = typedArray.getString(R.styleable.InfoView_foot_text).orEmpty()
+
+            val type = typedArray.getInt(R.styleable.InfoView_view_type, EDIT)
+            val edit = typedArray.getInt(R.styleable.InfoView_edit_type, WRITE)
+            setViewType(type)
+            setEditType(edit)
+        } finally {
+            typedArray.recycle()
         }
     }
 
-    public fun setEditType(editType: Int) {
-        this.editType = editType
-        binding.edInfo.isEnabled = (editType == EDIT)
+    /** 是否可编辑 */
+    fun setViewType(type: Int) {
+        viewType = type
+        binding.edInfo.isEnabled = type == EDIT
     }
 
-//    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-//        super.dispatchTouchEvent(ev)
-//        return false
-//    }
-//
-//    override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
-//        super.onInterceptTouchEvent(ev)
-//        return false
-//    }
-//
-//    override fun onTouchEvent(event: MotionEvent?): Boolean {
-//        super.onTouchEvent(event)
-//        return false
-//    }
+    fun getViewType(): Int = viewType
+
+    /** 交互方式：扫码 / 输入 / 选择 */
+    fun setEditType(type: Int) {
+        editType = type
+        val editable = type == WRITE
+        binding.edInfo.isFocusable = editable
+        binding.edInfo.isFocusableInTouchMode = editable
+    }
+
+    fun getEditType(): Int = editType
+
+    fun setContent(text: CharSequence) {
+        binding.edInfo.setText(text)
+    }
+
+    fun getContent(): CharSequence = binding.edInfo.text
 }

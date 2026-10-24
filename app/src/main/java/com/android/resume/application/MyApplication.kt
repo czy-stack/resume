@@ -1,58 +1,40 @@
 package com.android.resume.application
 
-import android.app.Application
 import android.content.MutableContextWrapper
 import android.webkit.WebView
-import com.android.common.utils.CrashHandlerOptic
+import com.android.common.utils.CrashHandler
 import com.android.resume.BuildConfig
 import com.example.jetpack.WordsApplication
-import com.example.jetpack.db.WordRoomDatabase
-import com.example.jetpack.repository.inDb.WordRepository
 import io.reactivex.plugins.RxJavaPlugins
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
 import org.litepal.LitePal
 
 /**
  * @作者 陈忠岳
- * @主要功能
+ * @主要功能 应用入口：全局初始化
  * @创建日期  2019-11-21
+ *
+ * 继承 jetpack 模块的 WordsApplication，复用其协程作用域与数据库初始化。
  */
 class MyApplication : WordsApplication() {
 
     override fun onCreate() {
         super.onCreate()
-        /*WebView创建初始化
-首次初始化WebView会比第二次初始化慢很多。初始化后，即使WebView已释放，但一些多WebView共用的全局服务/资源对想仍未释放，而第二次初始化不需要生成，因此初始化变快。*/
+
+        // 首次初始化 WebView 会加载内核，耗时明显；提前在启动阶段预热，
+        // 后续创建 WebView 可省去这部分开销。实例本身用完即可被回收。
         WebView(MutableContextWrapper(this))
-        //LitePal初始化
+
         LitePal.initialize(this)
 
-//        SophixManager.getInstance().queryAndLoadNewPatch()
-
         if (BuildConfig.DEBUG) {
-            RxJavaPlugins.setErrorHandler {
+            // RxJava 的全局异常默认会走 uncaught handler 导致崩溃，这里吞掉仅打印
+            RxJavaPlugins.setErrorHandler { throwable ->
+                throwable.printStackTrace()
             }
-            //CrashHandler.instance.init(this)
-            CrashHandlerOptic.getInstance().init(this)
+            CrashHandler.instance.init(this)
         }
-        //设置全局的Header构建器
-//        SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, layout ->
-            //            layout.setPrimaryColorsId(
-//                R.color.colorLess, R.color.colorMore
-//            )
-//            return@setDefaultRefreshHeaderCreator MaterialHeader(context).apply {
-                //                setColorSchemeResources(R.color.colorAccent)
-//                setProgressBackgroundColorSchemeResource(R.color.colorMore)
-//                setBackgroundColor(R.color.colorLess)
-//            }
-//        }
-        //设置全局的Footer构建器
-//        SmartRefreshLayout.setDefaultRefreshFooterCreator { context, layout ->
-//            return@setDefaultRefreshFooterCreator ClassicsFooter(context).apply {
-//                setPrimaryColorId(R.color.colorWrite)
-//                setAccentColorId(R.color.colorBlack)
-//            }
-//        }
+
+        // 热修复：启动时拉取补丁（需要阿里云控制台配置，演示环境未启用）
+        // SophixManager.getInstance().queryAndLoadNewPatch()
     }
 }

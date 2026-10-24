@@ -40,6 +40,8 @@ ext {
     //okhttp & retrofit  https://github.com/square/okhttp https://github.com/square/retrofit
     retrofit = "2.9.0"
     okhttp = "4.2.2"
+    //gson：java 模块的 Record 需要 @SerializedName，显式声明版本
+    gson = "2.9.0"
 
     //轻量级WebView
     agentweb = "4.1.3"

@@ -1,4 +1,4 @@
-package com.android.resume.http
+package com.example.kotlin.http
 
 import androidx.collection.ArrayMap
 import com.example.kotlin.bean.Record

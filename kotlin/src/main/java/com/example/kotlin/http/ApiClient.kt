@@ -1,4 +1,4 @@
-package com.android.resume.http
+package com.example.kotlin.http
 
 import com.android.common.http.ApiHttp
 import com.example.kotlin.bean.Record

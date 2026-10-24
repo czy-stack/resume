@@ -1,52 +1,39 @@
 package com.example.kotlin.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import com.android.common.base.BaseAdapter
-import com.android.common.constants.EventConstants
-import com.android.common.event.Event
-import com.android.common.utils.post
-import com.example.kotlin.R
 import com.example.kotlin.bean.ShareData
-import com.example.kotlin.constants.MainConstants
 import com.example.kotlin.databinding.ItemHistorySearchBinding
-import com.example.kotlin.db.DBManager
-
-
 
 /**
  * @作者 陈忠岳
- * @主要功能
- * @创建日期  2019-11-2
+ * @主要功能 历史搜索列表
+ * @创建日期  2019-11-22
+ *
+ * 调整：删除动作交由上层处理（原来在 Adapter 里 `DBManager.delete(item)` 后直接 `removeItem`，
+ * 数据与视图各改一半，一旦删除失败两边就不一致）。
  */
-class HistorySearchAdapter(private val context: Context, list: List<ShareData>) :
-    BaseAdapter<ShareData,ItemHistorySearchBinding>(list) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<ItemHistorySearchBinding> {
-        val view = ItemHistorySearchBinding.inflate(LayoutInflater.from(context), parent, false)
-        return ViewHolder(view)
+class HistorySearchAdapter(
+    private val onItemClick: (ShareData) -> Unit,
+    private val onDeleteClick: (ShareData) -> Unit
+) : BaseAdapter<ShareData, ItemHistorySearchBinding>() {
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): ViewHolder<ItemHistorySearchBinding> {
+        val binding = ItemHistorySearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder<ItemHistorySearchBinding>, position: Int) {
         val item = list[position]
         holder.binding.apply {
-            when (item.type) {
-                MainConstants.HK -> {
-                    ivIcon.setImageDrawable(context.getDrawable(R.mipmap.icon_hk))
-                }
-                MainConstants.USA -> {
-                    ivIcon.setImageDrawable(context.getDrawable(R.mipmap.icon_m))
-                }
-            }
-            tvName.text = StringBuilder(item.name).append("        ").append(item.describe)
-
-            holder.itemView.setOnClickListener { Event(type = EventConstants.FUTURES_TAB,message = item.name).post() }
-
-            ivDelete.setOnClickListener {
-                DBManager.delete(item)
-                removeItem(position)
-            }
+            ivIcon.bindMarketIcon(item.type)
+            tvName.text = item.displayName()
+            root.setOnClickListener { onItemClick(item) }
+            ivDelete.setOnClickListener { onDeleteClick(item) }
         }
     }
 }

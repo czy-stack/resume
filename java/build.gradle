@@ -32,4 +32,8 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(path: ':common')
+
+    // common 已收敛为 implementation，这里按实际使用显式声明
+    implementation "org.litepal.android:kotlin:$litepal"
+    implementation "com.google.code.gson:gson:$gson"
 }

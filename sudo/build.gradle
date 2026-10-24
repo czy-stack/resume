@@ -46,6 +46,8 @@ dependencies {
     implementation "androidx.compose.material:material-icons-extended:$compose"
     implementation project(path: ':common')
 
+    // 模板测试依赖 JUnit，原先缺失导致 testDebugUnitTest 直接编译失败
+    testImplementation "junit:junit:$junit"
 }
 
 protobuf {

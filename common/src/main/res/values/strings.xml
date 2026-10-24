@@ -13,6 +13,38 @@
     <string name="toast_common_data_error">数据异常</string>
     <string name="login_invalid_error">登录超时，请重新登陆</string>
 
+    <!-- 业务错误码文案：与 ErrorCodes 一一对应 -->
+    <string name="error_code_param_invalid">上传参数错误</string>
+    <string name="error_code_account_exists">该账号已注册</string>
+    <string name="error_code_operation_failed">操作执行失败</string>
+    <string name="error_code_password_incorrect">原密码不正确</string>
+    <string name="error_code_no_permission">没有操作权限</string>
+    <string name="error_code_login_required">登录已失效，请重新登录</string>
+    <string name="error_code_account_disabled">账号已被禁用</string>
+    <string name="error_code_bank_card_missing">请先完善银行卡信息</string>
+    <string name="error_code_insufficient_balance">余额不足</string>
+    <string name="error_code_risk_stock_forbidden">风险股票不可买入</string>
+    <string name="error_code_leverage_unsupported">不支持当前杠杆倍数</string>
+    <string name="error_code_daily_quota_exceeded">已达当日买入额度上限</string>
+    <string name="error_code_verify_code_invalid">验证码错误</string>
+    <string name="error_code_too_frequent">操作过于频繁，请稍后再试</string>
+    <string name="error_code_suspended_stock_forbidden">停牌股票不可卖出</string>
+    <string name="error_code_lot_size_too_small">委托数量不足一手（100 股）</string>
+    <string name="error_code_not_trading_time">当前不在可交易时间内</string>
+    <string name="error_code_request_error">请求参数有误</string>
+    <string name="error_code_red_packet_locked">需完成交易后才可解锁提现</string>
+    <string name="error_code_not_apply_time">当前不在可申请时间内</string>
+    <string name="error_code_renew_only_on_expiry">仅可在合约到期当日续约</string>
+    <string name="error_code_no_buy_on_expiry">合约到期当日不可买入</string>
+    <string name="error_code_insufficient_quota">可买入额度不足</string>
+    <string name="error_code_bank_verify_failed">银行身份验证失败</string>
+    <string name="error_code_position_limit_exceeded">单只持仓不可超过总资产的 50%</string>
+    <string name="error_code_not_contest_time">当前不在比赛交易时间内</string>
+    <string name="error_code_not_eligible">暂不符合领取条件</string>
+    <string name="error_code_free_capital_not_allowed">免费体验资金不可添加</string>
+    <string name="error_code_reset_only_in_regular">仅常规赛期间可重置资金</string>
+    <string name="error_code_qualification_too_low">请先提升资质评分</string>
+
     <!---->
     <string name="item_main_one">交易</string>
     <string name="item_main_two">持仓</string>
@@ -21,6 +53,9 @@
     <string name="item_main_five">我的</string>
 
     <string name="string_history">历史记录</string>
+    <string name="string_history_empty">暂无历史记录，输入关键词试试</string>
+    <string name="string_search_result">搜索结果</string>
+    <string name="string_search_empty">没有匹配的结果</string>
 
     <string-array name="string_array_bank">
         <item>中国银行</item>

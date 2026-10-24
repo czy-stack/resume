@@ -1,57 +1,51 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
+# 演示项目：保留最小但必要的混淆规则，确保 release 包可运行
 #
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# 核心风险点：LitePal 与 Gson 都依赖「字段名」反射，一旦被 R8 重命名就会失效。
+# 实测未加规则时：ShareData.symbol -> g、name -> h，导致
+#   1) LitePal 建表/查询的列名变化，硬编码 SQL 直接 no such column
+#   2) Gson 按字段名匹配 JSON，反序列化结果全为 null / 0
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# ---------- 数据模型：LitePal 表结构 + Gson 反序列化 ----------
+-keep class com.example.kotlin.bean.** { *; }
+-keep class com.example.java.bean.** { *; }
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# ---------- LitePal ----------
+-keep class org.litepal.** { *; }
+-keep class * extends org.litepal.crud.LitePalSupport { *; }
+-dontwarn org.litepal.**
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
-
-# 指定代码的压缩级别 0 - 7(指定代码进行迭代优化的次数，在Android里面默认是5，这条指令也只有在可以优化时起作用。)
--optimizationpasses 5
-# 混淆时不会产生形形色色的类名(混淆时不使用大小写混合类名)
--dontusemixedcaseclassnames
-# 指定不去忽略非公共的库类(不跳过library中的非public的类)
--dontskipnonpubliclibraryclasses
-# 指定不去忽略包可见的库类的成员
--dontskipnonpubliclibraryclassmembers
-#不进行优化，建议使用此选项，
--dontoptimize
- # 不进行预校验,Android不需要,可加快混淆速度。
--dontpreverify
-# 屏蔽警告
--ignorewarnings
-# 指定混淆是采用的算法，后面的参数是一个过滤器
-# 这个过滤器是谷歌推荐的算法，一般不做更改
--optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
-# 保护代码中的Annotation不被混淆
--keepattributes *Annotation*
-# 避免混淆泛型, 这在JSON实体映射时非常重要
+# ---------- Gson ----------
 -keepattributes Signature
-# 抛出异常时保留代码行号
--keepattributes SourceFile,LineNumberTable
- #优化时允许访问并修改有修饰符的类和类的成员，这可以提高优化步骤的结果。
-# 比如，当内联一个公共的getter方法时，这也可能需要外地公共访问。
-# 虽然java二进制规范不需要这个，要不然有的虚拟机处理这些代码会有问题。当有优化和使用-repackageclasses时才适用。
-#指示语：不能用这个指令处理库中的代码，因为有的类和类成员没有设计成public ,而在api中可能变成public
--allowaccessmodification
-#当有优化和使用-repackageclasses时才适用。
--repackageclasses ''
- # 混淆时记录日志(打印混淆的详细信息)
- # 这句话能够使我们的项目混淆后产生映射文件
- # 包含有类名->混淆后类名的映射关系
--verbose
+-keepattributes *Annotation*
+-keep class com.google.gson.reflect.TypeToken { *; }
+-keep class * extends com.google.gson.reflect.TypeToken
 
+# ---------- EventBus ----------
+-keepattributes *Annotation*
+-keepclassmembers class * {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+
+# ---------- 自研事件总线：反射查找 @Subscribe 方法与线程模式 ----------
+-keep class com.android.common.event.** { *; }
+-keepclassmembers class * {
+    @com.android.common.event.Subscribe <methods>;
+}
+-keep class com.android.common.event.ThreadMode { *; }
+
+# ---------- WebView JS 桥（当前未使用，保留以免后续接入踩坑） ----------
+-keepclassmembers class * {
+    @android.webkit.JavascriptInterface <methods>;
+}
+
+# ---------- 阿里云热修复 ----------
+-keep class com.taobao.sophix.** { *; }
+-keep class com.ta.utdid2.device.** { *; }
+-dontwarn com.taobao.sophix.**
+-dontwarn com.ta.utdid2.**
+
+# ---------- 通用 ----------
+# 保留行号，崩溃栈才可读
+-keepattributes SourceFile,LineNumberTable
+-renamesourcefileattribute SourceFile

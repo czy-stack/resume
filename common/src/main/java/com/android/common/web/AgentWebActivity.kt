@@ -31,12 +31,6 @@ class AgentWebActivity : BaseActivity<AgentWebContract.Presenter, ActivityAgentW
         }
     }
 
-    override fun getLayoutId(): Int {
-        binding = ActivityAgentWebBinding.inflate(layoutInflater)
-        return R.layout.activity_agent_web
-    }
-
-
     override fun initView() {
         presenter          = AgentWebPresenter(this, this, this)
 

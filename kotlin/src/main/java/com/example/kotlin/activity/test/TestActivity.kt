@@ -1,136 +1,122 @@
 package com.example.kotlin.activity.test
 
-import android.view.View
 import android.widget.SearchView
-import androidx.lifecycle.LifecycleOwner
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.common.base.BaseActivity
 import com.android.common.constants.EventConstants
 import com.android.common.event.Event
-import com.android.common.inter.OnItemClickListener
-import com.android.resume.activity.test.TestPresenter
+import com.android.common.event.Subscribe
+import com.android.common.event.rxRegister
+import com.android.common.event.rxUnregister
 import com.example.kotlin.R
 import com.example.kotlin.adapter.HistorySearchAdapter
 import com.example.kotlin.adapter.SearchAdapter
 import com.example.kotlin.bean.ShareData
 import com.example.kotlin.constants.MainConstants
 import com.example.kotlin.databinding.ActivityTestBinding
-import com.example.kotlin.db.DBManager
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.subjects.PublishSubject
-import org.greenrobot.eventbus.Subscribe
-import java.util.concurrent.TimeUnit
 
 /**
  * @作者 陈忠岳
- * @主要功能
+ * @主要功能 行情搜索页
  * @创建日期  2019-11-21
+ *
+ * 这里只做三件事：把交互转成 Presenter 的调用、把数据渲染到列表、订阅跨页面事件。
+ * 防抖、去重、读写数据库都在 Presenter 内部完成。
  */
-class TestActivity : BaseActivity<TestContract.Presenter,ActivityTestBinding>(), TestContract.View, LifecycleOwner ,
-    OnItemClickListener {
-    override fun setShares(list: List<ShareData>, history: Boolean) {
-        if (history) {
-            binding.recView.adapter = historySearchAdapter
-            binding.tvTip.text = getString(R.string.string_history)
-            binding.tvClear.visibility = View.VISIBLE
-            historySearchAdapter.list = list
-            historySearchAdapter.notifyDataSetChanged()
-        } else {
-            binding.recView.adapter = adapter
-            binding.tvTip.text = "搜索结果"
-            binding.tvClear.visibility = View.GONE
-            adapter.list = list
-            adapter.notifyDataSetChanged()
-        }
-    }
-
+class TestActivity : BaseActivity<TestContract.Presenter, ActivityTestBinding>(), TestContract.View {
 
     override lateinit var presenter: TestContract.Presenter
 
-    private lateinit var adapter: SearchAdapter
-    private lateinit var historySearchAdapter: HistorySearchAdapter
-    private val subject = PublishSubject.create<String>()
-    private var notes = ""
-    private var type = MainConstants.H
+    private lateinit var searchAdapter: SearchAdapter
+    private lateinit var historyAdapter: HistorySearchAdapter
 
-    override fun getLayoutId(): Int {
-        return R.layout.activity_test
-    }
     override fun setBinding(): ActivityTestBinding {
         return ActivityTestBinding.inflate(layoutInflater)
     }
 
     override fun initView() {
-        presenter = TestPresenter(this, this, this)
-        binding.recView.layoutManager = LinearLayoutManager(this)
-        binding.recView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
-        subject.debounce(800, TimeUnit.MILLISECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .filter { search -> notes != search }
-            .doOnNext { search -> notes = search; presenter.getShares(search, type) }
-            .subscribe()
-        binding.rbTwo.isChecked = true
+        presenter = TestPresenter(this, this)
+
+        searchAdapter = SearchAdapter { item -> presenter.onShareSelected(item) }
+        historyAdapter = HistorySearchAdapter(
+            onItemClick = { item -> presenter.onShareSelected(item) },
+            onDeleteClick = { item -> presenter.onHistoryDeleted(item) }
+        )
+
+        binding.recView.apply {
+            layoutManager = LinearLayoutManager(this@TestActivity)
+            addItemDecoration(
+                DividerItemDecoration(this@TestActivity, LinearLayoutManager.VERTICAL)
+            )
+            adapter = historyAdapter
+        }
     }
 
     override fun initData() {
-        adapter = SearchAdapter(this, listOf())
-        historySearchAdapter = HistorySearchAdapter(this, listOf())
-        binding.tvTip.text = getString(R.string.string_history)
-        presenter.getShares("", type)
+        binding.rbTwo.isChecked = true
+        rxRegister()
     }
 
     override fun initListener() {
         binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {// 当点击搜索按钮时触发该方法
-                if (!query.isNullOrEmpty() && notes != query) {
-                    notes = query
-                    presenter.getShares(query, type)
-                }
-                return false
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                presenter.onKeywordSubmitted(query.orEmpty())
+                return true
             }
 
-            override fun onQueryTextChange(newText: String?): Boolean {// 当搜索内容改变时触发该方法
-                if (newText != null) {
-                    subject.onNext(newText)
-                }
-                return false
+            override fun onQueryTextChange(newText: String?): Boolean {
+                presenter.onKeywordChanged(newText.orEmpty())
+                return true
             }
         })
-        binding.tvClear.setOnClickListener {
-            DBManager.clear()
-            historySearchAdapter.clear()
-            binding.tvClear.visibility = View.GONE
-        }
-        adapter.addItemClickListener(this)
-        binding.radio.setOnCheckedChangeListener { group, checkedId ->
+
+        binding.tvClear.setOnClickListener { presenter.onClearHistory() }
+
+        binding.radio.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
-                R.id.rb_two -> {
-                    if (type != MainConstants.H) {
-                        type = MainConstants.H
-                        presenter.getShares(notes, MainConstants.H)
-                    }
-                }
-                R.id.rb_three -> {
-                    if (type != MainConstants.M) {
-                        type = MainConstants.M
-                        presenter.getShares(notes, MainConstants.M)
-                    }
-                }
+                R.id.rb_two -> presenter.onTypeChanged(MainConstants.HK)
+                R.id.rb_three -> presenter.onTypeChanged(MainConstants.USA)
             }
         }
     }
 
-
-    override fun onItemClick(position: Int, type: Int) {
-    }
-
-    @Subscribe
-    fun event(event :Event){
-        if (event.type == EventConstants.FUTURES_TAB){
-            showToastView("点击  "+event.message)
+    override fun showShares(list: List<ShareData>, fromHistory: Boolean) {
+        if (fromHistory) {
+            binding.recView.adapter = historyAdapter
+            binding.tvTip.text = if (list.isEmpty()) {
+                getString(R.string.string_history_empty)
+            } else {
+                getString(R.string.string_history)
+            }
+            binding.tvClear.isVisible = list.isNotEmpty()
+            historyAdapter.submitList(list)
+        } else {
+            binding.recView.adapter = searchAdapter
+            binding.tvTip.text = if (list.isEmpty()) {
+                getString(R.string.string_search_empty)
+            } else {
+                getString(R.string.string_search_result)
+            }
+            binding.tvClear.isVisible = false
+            searchAdapter.submitList(list)
         }
     }
 
+    /**
+     * 示例：其他页面点击结果后发出事件，这里接收并提示
+     * （原先用 EventBus 的 @Subscribe，现统一到 RxBus）
+     */
+    @Subscribe
+    fun onEvent(event: Event) {
+        if (event.type == EventConstants.FUTURES_TAB) {
+            showToastView("已选择  ${event.message}")
+        }
+    }
 
+    override fun onDestroy() {
+        rxUnregister()
+        super.onDestroy()
+    }
 }

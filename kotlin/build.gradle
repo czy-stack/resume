@@ -17,10 +17,17 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    testOptions {
+        // 纯 JVM 单测会间接调用 android.util.Log 等桩方法，
+        // 默认实现是抛 "not mocked"，这里改为返回默认值
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(path: ':common')
 //    implementation  "com.github.pqpo:SmartCamera:v2.0.0"
+
+    testImplementation "junit:junit:$junit"
 }

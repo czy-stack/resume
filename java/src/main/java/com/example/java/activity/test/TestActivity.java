@@ -34,11 +34,6 @@ class TestActivity extends BaseActivity<TestContract.Presenter, ActivityTestBind
     }
 
     @Override
-    protected int getLayoutId() {
-        return 0;
-    }
-
-    @Override
     protected void initView() {
 
     }

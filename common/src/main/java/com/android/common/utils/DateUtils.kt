@@ -1,139 +1,57 @@
 package com.android.common.utils
 
-import java.util.*
-
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.time.LocalTime
 
 /**
  * @作者 陈忠岳
  * @主要功能 时间工具类
- * 复杂功能建议使用android 工具类
  * @创建日期 2019-05-31
  * @see android.text.format.DateUtils
  * @see android.text.format.DateFormat
+ *
+ * 相对早期实现的修正：
+ * 1. 原实现持有一个 object 级共享的 `Calendar` 实例，且 `getCurrentMonthDay()` 会
+ *    对它执行 `set(DATE, 1)` + `roll(-1)`，导致此后 getYear/getMonth/getDay 读到的
+ *    都是被改过的日期——典型的共享可变状态缺陷；
+ * 2. Calendar 本身非线程安全，放在 object 里跨线程调用存在竞态；
+ * 3. 改用 java.time（minSdk 28 已支持），每次取当前时间，天然线程安全。
  */
 object DateUtils {
-    private val instance: Calendar = Calendar.getInstance()
-    private val stringBuilder: StringBuilder = StringBuilder()
 
-    private fun getInstance(): Calendar {
-        return instance
-    }
+    fun getYear(): Int = LocalDate.now().year
 
-    /**
-     * 获取年
-     *
-     * @return int
-     */
-    fun getYear(): Int {
-        return getInstance().get(Calendar.YEAR)
-    }
+    /** 1-12 */
+    fun getMonth(): Int = LocalDate.now().monthValue
 
-    /**
-     * 获取月
-     *
-     * @return int
-     */
-    fun getMonth(): Int {
-        return getInstance().get(Calendar.MONTH) + 1
-    }
+    fun getDay(): Int = LocalDate.now().dayOfMonth
+
+    /** 24 小时制 */
+    fun getHour(): Int = LocalTime.now().hour
+
+    fun getMinute(): Int = LocalTime.now().minute
+
+    fun getSecond(): Int = LocalTime.now().second
+
+    fun getCurrentTimeMillis(): Long = System.currentTimeMillis()
+
+    /** 当月天数 */
+    fun getCurrentMonthDay(): Int = LocalDate.now().lengthOfMonth()
 
     /**
-     * 获取日
+     * 是否工作日
      *
-     * @return int
-     */
-    fun getDay(): Int {
-        return getInstance().get(Calendar.DATE)
-    }
-
-    /**
-     * 获取时 (24小时制)
-     *
-     * @return int
-     */
-    fun getHour(): Int {
-        return Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-    }
-
-    /**
-     * 获取分
-     *
-     * @return int
-     */
-    fun getMinute(): Int {
-        return Calendar.getInstance().get(Calendar.MINUTE)
-    }
-
-    /**
-     * 获取秒
-     *
-     * @return int
-     */
-    fun getSecond(): Int {
-        return Calendar.getInstance().get(Calendar.SECOND)
-    }
-
-    /**
-     * 获取当前时间的时间戳
-     *
-     * @return int
-     */
-    fun getCurrentTimeMillis(): Long {
-        return System.currentTimeMillis()
-    }
-
-    /**
-     * 获取当月天数
-     *
-     * @return int
-     */
-
-    fun getCurrentMonthDay(): Int {
-        return getInstance().let {
-            it.set(Calendar.DATE, 1)//把日期设置为当月第一天
-            it.roll(Calendar.DATE, -1)//日期回滚一天，也就是最后一天
-            it.get(Calendar.DATE)
-        }
-    }
-
-    /**
-     * 是否双休日
-     *
-     * @return Boolean  true 不是双休日
+     * @return true 表示周一至周五
      */
     fun isWeek(): Boolean {
-        return Calendar.getInstance().get(Calendar.DAY_OF_WEEK)!=1 && Calendar.getInstance().get(Calendar.DAY_OF_WEEK)!=7
+        val day = LocalDate.now().dayOfWeek
+        return day != DayOfWeek.SATURDAY && day != DayOfWeek.SUNDAY
     }
 
-    /**
-     * 获取已拼接的时分秒字符串
-     *
-     * @return String
-     */
+    /** 距当天 24 点还剩多久，格式 HH:mm:ss */
     fun getDateString(): String {
-        stringBuilder.clear()
-        val instance = Calendar.getInstance()
-        val i = 23 - instance.get(Calendar.HOUR_OF_DAY)
-        val i1 = 59 - instance.get(Calendar.MINUTE)
-        val i2 = 59 - instance.get(Calendar.SECOND)
-        if (i < 10) {
-            stringBuilder.append(0)
-        }
-        stringBuilder.append(i).append(":")
-        if (i1 < 10) {
-            stringBuilder.append(0)
-        }
-        stringBuilder.append(i1).append(":")
-        if (i2 < 10) {
-            stringBuilder.append(0)
-        }
-        stringBuilder.append(i2)
-        return stringBuilder.toString()
-//        val simpleDateFormat = SimpleDateFormat("HH:mm:ss",Locale.getDefault())
-//        获取当前时间
-//        val date = Date(System.currentTimeMillis());
-//        return simpleDateFormat.format(date)
+        val now = LocalTime.now()
+        return "%02d:%02d:%02d".format(23 - now.hour, 59 - now.minute, 59 - now.second)
     }
-
-
 }

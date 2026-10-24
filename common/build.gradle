@@ -19,15 +19,18 @@ android {
 
     buildTypes {
         release {
-            buildConfigField("String", "API_HOST", "${API_DEV_HOST}")
+            buildConfigField("String", "API_HOST", "\"${API_DEV_HOST}\"")
         }
         debug {
-            buildConfigField("String", "API_HOST", "${API_DEV_HOST}")
+            buildConfigField("String", "API_HOST", "\"${API_DEV_HOST}\"")
         }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    testOptions {
+        unitTests.returnDefaultValues = true
     }
 
 }
@@ -67,7 +70,5 @@ dependencies {
 //    api "com.scwang.smart:refresh-header-material:$refresh"  //谷歌刷新头
 //    api "com.scwang.smart:refresh-footer-classics:$refresh"    //经典加载
 
-//    testImplementation "junit:junit:$junit"
-//    androidTestImplementation "androidx.test:runner:$runner"
-//    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso"
+    testImplementation "junit:junit:$junit"
 }

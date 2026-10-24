@@ -33,11 +33,6 @@ class WebActivity : BaseActivity<WebContract.Presenter,ActivityWebBinding>(), We
         }
     }
 
-    override fun getLayoutId(): Int {
-        return R.layout.activity_web
-    }
-
-
     override fun initView() {
         presenter         = WebPresenter(this, this, this)
 

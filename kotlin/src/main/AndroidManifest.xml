@@ -6,21 +6,30 @@
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
 
     <application>
-<!--        <provider-->
-<!--            android:authorities="${applicationId}.provider"-->
-<!--            android:name="androidx.core.content.FileProvider"-->
-<!--            android:exported="false"-->
-<!--            android:grantUriPermissions="true">-->
-<!--            <meta-data-->
-<!--                android:name="android.support.FILE_PROVIDER_PATHS"-->
-<!--                android:resource="@xml/file_paths"/>-->
-<!--        </provider>-->
+        <!-- 拍照输出到 externalCacheDir 需要 FileProvider，authority 跟随宿主 applicationId -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
-        <activity android:name=".activity.test.TestActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.camera.CameraActivity"/>
-        <activity android:name=".activity.pqpo.CameraTestActivity"/>
-        <activity android:name=".activity.device.DeviceListActivity"/>
+        <activity
+            android:name=".activity.test.TestActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.camera.CameraActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.device.DeviceListActivity"
+            android:exported="false" />
+
+        <!-- 注意：.activity.pqpo.CameraTestActivity 的源码已删除，
+             原先残留的 <activity> 声明会造成运行时找不到类，已一并移除 -->
 
     </application>
 
