@@ -221,23 +221,3 @@ class TestPresenter(
 6. **测试只覆盖纯逻辑**：事件总线、Presenter 交互、错误码映射、金额与时间工具已有 38 个用例；
    `LitePalShareRepository` 与 Activity/Adapter 渲染层尚未覆盖（需要 Robolectric 或仪器测试）。
 7. **UI 未做视觉打磨**：重点在工程结构与逻辑正确性，界面沿用早期样式。
-
----
-
-## 变更记录
-
-本轮基于 2023-03 的 `develop`（AGP 7.4.1 / Kotlin 1.8.10 / 多 flavor 壳）修复的问题：
-
-- **事件总线 `RxBus`**：从「反射 `newInstance()` 派发到新实例」改为「注册真实实例 +
-  弱引用防泄漏 + 继承链扫描 + 反射结果缓存」，并接入真实场景
-- **基础框架缺陷**：`isDisposed` 判断取反、`addAll` 的 `notifyItemRangeInserted` 参数错误、
-  错误码用整个响应体做相等比较、`DateUtils` 共享可变 `Calendar`、`BaseFragment` 构造期取 context、
-  `BaseActivity` 里被丢弃的分号语句
-- **拍照链路**：`FileProvider` authority 硬编码与路径拼接缺分隔符，并启用 manifest 中
-  原本被注释掉的 provider；同时移除已删除 `CameraTestActivity` 的残留声明
-- **分层落地**：数据访问下沉到 `ShareRepository`，Adapter 不再直接写库或发事件
-- **错误码收敛**：两处重复的 30 行 `when` 合并为 `ErrorCodes` + `strings.xml`
-- **混淆规则**：补 LitePal / Gson / RxBus 的 keep 规则，release 包不再因字段混淆而失效
-- **工程化**：38 个 JVM 单元测试、GitHub Actions（test + assemble + lint）、README 与 ARCHITECTURE
-- **清理**：拆分 `LumberExt` 为 Image/Number/Text/Uri 四个扩展文件，删除 `TypeConstants`、
-  `CrashHandlerOptic`、`AppConstant` 等死代码
