@@ -85,3 +85,6 @@ vcs.xml
 Resume.iml
 app/app.iml
 common/common.iml
+
+# 评估报告等生成物
+/outputs/
