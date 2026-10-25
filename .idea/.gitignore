@@ -1,0 +1,15 @@
+# IDE 本地状态，不入库。
+# 团队共享的 codeStyles/ 与 inspectionProfiles/ 保持跟踪。
+/shelf/
+/workspace.xml
+/misc.xml
+/compiler.xml
+/modules.xml
+/jarRepositories.xml
+/deploymentTargetSelector.xml
+/deviceManager.xml
+/AndroidProjectSystem.xml
+/kotlinc.xml
+/statistics.xml
+/libraries/
+/caches/
