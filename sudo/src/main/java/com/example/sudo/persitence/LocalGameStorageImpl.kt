@@ -50,7 +50,7 @@ class LocalGameStorageImpl(
     ): GameStorageResult = withContext(Dispatchers.IO) {
         try {
             val game = getGame()
-            game.graph[getHash(x, y)]!!.first.color = color
+            game.graph[getHash(x, y)]!!.first().color = color
             game.elapsedTime = elapsedTime
             updateGameData(game)
             GameStorageResult.OnSuccess(game)

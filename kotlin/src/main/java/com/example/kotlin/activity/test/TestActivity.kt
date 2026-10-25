@@ -86,18 +86,18 @@ class TestActivity : BaseActivity<TestContract.Presenter, ActivityTestBinding>()
         if (fromHistory) {
             binding.recView.adapter = historyAdapter
             binding.tvTip.text = if (list.isEmpty()) {
-                getString(R.string.string_history_empty)
+                getString(com.android.common.R.string.string_history_empty)
             } else {
-                getString(R.string.string_history)
+                getString(com.android.common.R.string.string_history)
             }
             binding.tvClear.isVisible = list.isNotEmpty()
             historyAdapter.submitList(list)
         } else {
             binding.recView.adapter = searchAdapter
             binding.tvTip.text = if (list.isEmpty()) {
-                getString(R.string.string_search_empty)
+                getString(com.android.common.R.string.string_search_empty)
             } else {
-                getString(R.string.string_search_result)
+                getString(com.android.common.R.string.string_search_result)
             }
             binding.tvClear.isVisible = false
             searchAdapter.submitList(list)

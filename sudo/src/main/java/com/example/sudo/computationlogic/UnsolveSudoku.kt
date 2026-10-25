@@ -29,7 +29,7 @@ internal fun SudokuPuzzle.unsolve(): SudokuPuzzle {
             val randX = Random.nextInt(1, boundary + 1)
             val randY = Random.nextInt(1, boundary + 1)
 
-            val node = this.graph[getHash(randX, randY)]!!.first
+            val node = this.graph[getHash(randX, randY)]!!.first()
 
 
 
@@ -55,13 +55,13 @@ internal fun SudokuPuzzle.unsolve(): SudokuPuzzle {
         SolvingStrategy.BASIC -> if (this.difficulty == Difficulty.EASY || this.difficulty == Difficulty.MEDIUM) this.apply {
             //success
             allocations.forEach { node ->
-                this.graph[node.hashCode()]!!.first.color = 0
-                this.graph[node.hashCode()]!!.first.readOnly = false
+                this.graph[node.hashCode()]!!.first().color = 0
+                this.graph[node.hashCode()]!!.first().readOnly = false
             }
         } else {        //failure
             this.apply {
                 allocations.forEach { node ->
-                    this.graph[node.hashCode()]!!.first.color = node.color
+                    this.graph[node.hashCode()]!!.first().color = node.color
                 }
             }.unsolve()
         }
@@ -69,20 +69,20 @@ internal fun SudokuPuzzle.unsolve(): SudokuPuzzle {
         //success
             this.apply {
                 allocations.forEach { node ->
-                    this.graph[node.hashCode()]!!.first.color = 0
-                    this.graph[node.hashCode()]!!.first.readOnly = false
+                    this.graph[node.hashCode()]!!.first().color = 0
+                    this.graph[node.hashCode()]!!.first().readOnly = false
                 }
             } else
         //failure
             this.apply {
                 allocations.forEach { node ->
-                    this.graph[node.hashCode()]!!.first.color = node.color
+                    this.graph[node.hashCode()]!!.first().color = node.color
                 }
             }.unsolve()
         //failure
         else -> this.apply {
             allocations.forEach { node ->
-                this.graph[node.hashCode()]!!.first.color = node.color
+                this.graph[node.hashCode()]!!.first().color = node.color
             }
         }.unsolve()
     }
@@ -144,11 +144,11 @@ internal fun isBasic(puzzle: SudokuPuzzle): Boolean {
  * corresponding column, row, and sub-grid
  */
 internal fun basicSolver(clique: LinkedList<SudokuNode>, boundary: Int): Boolean {
-    if (clique.first.color == 0) {
+    if (clique.first().color == 0) {
         val options = getPossibleValues(clique, boundary)
 
         if (options.size == 1) {
-            clique.first.color = options.first()
+            clique.first().color = options.first()
             //if a single node can be colored, assume it is still solvable for now
             return true
         }
@@ -177,11 +177,11 @@ internal fun isAdvanced(puzzle: SudokuPuzzle): Boolean {
     while (solveable) {
         solveable = false
 
-        puzzle.graph.values.filter { adjList -> adjList.first.color == 0 }.forEach {
+        puzzle.graph.values.filter { adjList -> adjList.first().color == 0 }.forEach {
             //attempt with easy solver
             if (basicSolver(it, puzzle.boundary)) solveable = true
             else {
-                val superClique: LinkedList<SudokuNode> = getSuperClique(it.first, puzzle)
+                val superClique: LinkedList<SudokuNode> = getSuperClique(it.first(), puzzle)
                 if (advancedSolver(puzzle, superClique, puzzle.boundary)) solveable = true
             }
         }
@@ -325,7 +325,7 @@ internal fun getSuperClique(first: SudokuNode, puzzle: SudokuPuzzle): LinkedList
     //get nodes by x interval:
     ((iMaxX - puzzle.boundary.sqrt) + 1..iMaxX).forEach { xIndex ->
         (1..puzzle.boundary).forEach { yIndex ->
-            val node = puzzle.graph[getHash(xIndex, yIndex)]!!.first
+            val node = puzzle.graph[getHash(xIndex, yIndex)]!!.first()
             if (!superClique.contains(node)) superClique.add(node)
         }
     }
@@ -333,7 +333,7 @@ internal fun getSuperClique(first: SudokuNode, puzzle: SudokuPuzzle): LinkedList
     //get nodes by y interval:
     ((iMaxY - puzzle.boundary.sqrt) + 1..iMaxY).forEach { yIndex ->
         (1..puzzle.boundary).forEach { xIndex ->
-            val node = puzzle.graph[getHash(xIndex, yIndex)]!!.first
+            val node = puzzle.graph[getHash(xIndex, yIndex)]!!.first()
             if (!superClique.contains(node)) superClique.add(node)
         }
     }

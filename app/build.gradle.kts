@@ -1,0 +1,134 @@
+import com.android.build.gradle.internal.api.BaseVariantOutputImpl
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    id("kotlin-parcelize")
+}
+
+android {
+    namespace = "com.android.resume"
+    compileSdk = libs.versions.compileSdk.get().toInt()
+
+    buildFeatures {
+        viewBinding = true
+        // AGP 8 起 BuildConfig 默认不生成，用到 buildConfigField 必须显式开启
+        buildConfig = true
+    }
+
+    // APK 命名：原 Groovy 版本先用 apkName 拼了 versionName/flavorName，
+    // 但紧接着又被 `apkName = "_release" + time + ".apk"` 覆盖，实际输出始终是
+    // "LitePal_release|debug<时间>.apk"。这里按实际生效的行为实现。
+    applicationVariants.all {
+        // 外层 applicationVariants.all 与内层 outputs.all 同名，return@all 会有歧义，
+        // 这里给内层 lambda 显式标签
+        outputs.all output@{
+            val output = this as? BaseVariantOutputImpl ?: return@output
+            val time = SimpleDateFormat("_YYYYMMddHH", Locale.getDefault()).format(Date())
+            output.outputFileName = "LitePal_${buildType.name}$time.apk"
+        }
+    }
+
+    defaultConfig {
+        applicationId = "com.android.resume"
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
+        versionCode = libs.versions.versionCode.get().toInt()
+        versionName = libs.versions.versionName.get()
+
+        ndk {
+            abiFilters += listOf("armeabi", "armeabi-v7a", "arm64-v8a")
+        }
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+        debug {
+        }
+    }
+
+    flavorDimensions += listOf("app", "environment")
+
+    productFlavors {
+        create("production") {
+            dimension = "environment"
+            buildConfigField("String", "BASE_URL", "\"http://183.134.216.111:18003/\"")
+        }
+        create("envtest") {
+            dimension = "environment"
+            buildConfigField("String", "BASE_URL", "\"http://183.134.216.111:18003/\"")
+        }
+        create("ocr") {
+            dimension = "app"
+            applicationId = "com.android.ocr"
+        }
+        create("camera") {
+            dimension = "app"
+            applicationId = "com.android.camera"
+        }
+        create("sign") {
+            dimension = "app"
+            applicationId = "com.android.sign"
+        }
+        create("sudo") {
+            dimension = "app"
+            applicationId = "com.android.sudo"
+        }
+        create("kotlin") {
+            dimension = "app"
+            applicationId = "com.android.kotlin"
+        }
+        create("jetpack") {
+            dimension = "app"
+            applicationId = "com.android.jetpack"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = libs.versions.jvmTarget.get()
+    }
+
+    lint {
+        // 以下为不可修复的第三方实现或产品决策项，显式抑制以减少噪音。
+        // 若条件变化（适配 ChromeOS、迁移 KSP、支持 Android 13 主题图标），应逐条重新评估。
+        disable += setOf(
+            "TrustAllX509TrustManager", // 阿里云 hotfix / utdid SDK 内部实现
+            "ObsoleteLintCustomCheck",  // constraintlayout-compose 携带的 lint.jar 版本偏旧
+            "ChromeOsAbiSupport",       // 本项目只分发 ARM ABI，不面向 ChromeOS
+            "MonochromeLauncherIcon",   // 尚未适配 Android 13 主题化图标
+            "GradleDependency",         // 依赖按兼容性选版（如 Kotlin 保持 2.0.21）
+            "CustomSplashScreen",       // 产品设计：保留自定义启动页
+            // allowBackup 负责 Android 11 及以下，dataExtractionRules 负责 12+，
+            // 两者并存才是完整配置；lint 只是提示 allowBackup 未来可能移除
+            "DataExtractionRules",
+        )
+    }
+}
+
+dependencies {
+    implementation(fileTree("libs") { include("*.jar") })
+    implementation(project(":common"))
+    implementation(project(":sign"))
+    implementation(project(":kotlin"))
+    implementation(project(":java"))
+    implementation(project(":jetpack"))
+    implementation(project(":sudo"))
+
+    debugImplementation(libs.leakcanary)
+    implementation(libs.hotfix)
+}

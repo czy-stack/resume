@@ -107,9 +107,9 @@ internal fun getNodesByColumn(graph: LinkedHashMap<Int,
         LinkedList<SudokuNode>>, x: Int): List<SudokuNode> {
     val edgeList = mutableListOf<SudokuNode>()
     graph.values.filter {
-        it.first.x == x
+        it.first().x == x
     }.forEach {
-        edgeList.add(it.first)
+        edgeList.add(it.first())
     }
     return edgeList
 }
@@ -117,7 +117,7 @@ internal fun getNodesByColumn(graph: LinkedHashMap<Int,
 internal fun getNodesByRow(graph: LinkedHashMap<Int,
         LinkedList<SudokuNode>>, y: Int): List<SudokuNode> {
     val edgeList = mutableListOf<SudokuNode>()
-    graph.values.filter { it.first.y == y }.forEach { edgeList.add(it.first) }
+    graph.values.filter { it.first().y == y }.forEach { edgeList.add(it.first()) }
     return edgeList
 }
 
@@ -142,7 +142,7 @@ internal fun getNodesBySubgrid(graph: LinkedHashMap<Int,
     ((iMaxX - boundary.sqrt) + 1..iMaxX).forEach { xIndex ->
         ((iMaxY - boundary.sqrt) + 1..iMaxY).forEach { yIndex ->
             edgeList.add(
-                    graph[getHash(xIndex, yIndex)]!!.first
+                    graph[getHash(xIndex, yIndex)]!!.first()
             )
         }
     }
@@ -185,9 +185,9 @@ internal fun SudokuPuzzle.print() {
     var outputLine = ""
     (1..boundary).forEach { yIndex ->
         graph.values.filter { node ->
-            node.first.y == yIndex
+            node.first().y == yIndex
         }.forEach { node ->
-            outputLine += node.first.color
+            outputLine += node.first().color
             outputLine += " "
         }
         outputLine += "\n"

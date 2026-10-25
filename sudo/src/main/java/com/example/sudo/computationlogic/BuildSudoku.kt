@@ -75,8 +75,8 @@ internal fun buildNodes(n: Int, difficulty: Difficulty): SudokuPuzzle {
  */
 internal fun SudokuPuzzle.buildEdges(): SudokuPuzzle {
     this.graph.forEach {
-        val x = it.value.first.x
-        val y = it.value.first.y
+        val x = it.value.first().x
+        val y = it.value.first().y
 
         it.value.mergeWithoutRepeats(
             getNodesByColumn(this.graph, x)
@@ -197,9 +197,9 @@ internal fun SudokuPuzzle.seedColors(): SudokuPuzzle {
                     }
                 }
 
-                hashList.firstOrNull { this.graph[it]?.first?.color == 0 }.let {
+                hashList.firstOrNull { this.graph[it]?.first()?.color == 0 }.let {
                     if (it != null) {
-                        this.graph[it]!!.first.color = newInt
+                        this.graph[it]!!.first().color = newInt
                         allocations++
                     }
                 }

@@ -23,4 +23,8 @@
     <string name="insecure_connect">Connect a device - Insecure</string>
     <string name="discoverable">Make discoverable</string>
 
+    <!-- CameraActivity -->
+    <string name="camera_permission_denied">需要相机权限才能拍照</string>
+    <string name="camera_create_file_failed">无法创建图片文件，请稍后重试</string>
+
 </resources>

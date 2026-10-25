@@ -27,7 +27,7 @@ import java.net.UnknownHostException
  * 3. 超时、网络不可达两个分支原本被注释掉，用户得不到任何反馈，现统一给出提示；
  * 4. 失败文案抽到 [toUserMessage]，与业务错误码共用一份映射。
  */
-abstract class RxObserver<T>(protected val context: Context) : Observer<T> {
+abstract class RxObserver<T : Any>(protected val context: Context) : Observer<T> {
 
     private var disposable: Disposable? = null
 

@@ -2,6 +2,7 @@ package com.example.sudo.ui.newgame
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import com.example.sudo.R
@@ -29,6 +30,13 @@ class NewGameActivity : AppCompatActivity(),NewGameContainer {
             }
         }
         logic = buildNewGameLogic(this,viewModel,applicationContext)
+
+        // API 33 起 Activity.onBackPressed() 已废弃，改用 OnBackPressedDispatcher
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                startActiveGameActivity()
+            }
+        })
     }
 
     override fun showError() = makeToast(getString(R.string.generic_error))
@@ -39,10 +47,6 @@ class NewGameActivity : AppCompatActivity(),NewGameContainer {
     }
 
     override fun onDoneClick() {
-        startActiveGameActivity()
-    }
-
-    override fun onBackPressed() {
         startActiveGameActivity()
     }
 
