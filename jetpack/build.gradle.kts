@@ -1,31 +1,20 @@
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
     id("kotlin-parcelize")
     id("kotlin-kapt")
 }
 
-val extCompileSdk: Int = rootProject.extra["compileSdkVersion"] as Int
-val extMinSdk: Int = rootProject.extra["minSdkVersion"] as Int
-val extTargetSdk: Int = rootProject.extra["targetSdkVersion"] as Int
-val extJvmTarget: String = rootProject.extra["jvmTarget"] as String
-val extRoom: String = rootProject.extra["room"] as String
-val extArchLifecycle: String = rootProject.extra["archLifecycle"] as String
-val extAppcompat: String = rootProject.extra["appcompat"] as String
-val extCompose: String = rootProject.extra["compose"] as String
-val extAccompanist: String = rootProject.extra["accompanist"] as String
-val extNavigation: String = rootProject.extra["navigation"] as String
-
 android {
-    compileSdk = extCompileSdk
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     buildFeatures {
         viewBinding = true
     }
 
     defaultConfig {
-        minSdk = extMinSdk
-        targetSdk = extTargetSdk
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -36,41 +25,41 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = extJvmTarget
+        jvmTarget = libs.versions.jvmTarget.get()
     }
 }
 
 dependencies {
     implementation(fileTree("libs") { include("*.jar") })
     implementation(project(":common"))
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
+    testImplementation(libs.junit4Jetpack)
+    androidTestImplementation(libs.androidx.test.junit)
 
     // Architecture Components
-    implementation("androidx.room:room-runtime:$extRoom")
-    annotationProcessor("androidx.room:room-compiler:$extRoom")
-    kapt("androidx.room:room-compiler:$extRoom")
-    implementation("androidx.room:room-ktx:$extRoom")
-    implementation("androidx.room:room-rxjava2:$extRoom")
-    implementation("androidx.room:room-paging:$extRoom")
-    androidTestImplementation("androidx.room:room-testing:$extRoom")
+    implementation(libs.room.runtime)
+    annotationProcessor(libs.room.compiler)
+    kapt(libs.room.compiler)
+    implementation(libs.room.ktx)
+    implementation(libs.room.rxjava2)
+    implementation(libs.room.paging)
+    androidTestImplementation(libs.room.testing)
 
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$extArchLifecycle")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$extArchLifecycle")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$extArchLifecycle")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$extArchLifecycle")
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     // Jetpack Compose
-    implementation("androidx.activity:activity-compose:$extAppcompat")
-    implementation("androidx.compose.material:material:$extCompose")
-    implementation("androidx.compose.animation:animation:$extCompose")
-    implementation("androidx.compose.ui:ui-tooling-preview:$extCompose")
-    implementation("com.google.accompanist:accompanist-appcompat-theme:$extAccompanist")
-    implementation("com.google.accompanist:accompanist-swiperefresh:$extAccompanist")
-    implementation("androidx.navigation:navigation-fragment-ktx:$extNavigation")
-    implementation("androidx.navigation:navigation-ui-ktx:$extNavigation")
-    implementation("androidx.navigation:navigation-compose:$extNavigation")
+    implementation(libs.composeActivity)
+    implementation(libs.composeMaterial)
+    implementation(libs.composeAnimation)
+    implementation(libs.composeUiToolingPreview)
+    implementation(libs.accompanist.appcompat.theme)
+    implementation(libs.accompanist.swiperefresh)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.navigation.compose)
 
-    debugImplementation("androidx.compose.ui:ui-tooling:$extCompose")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:$extCompose")
+    debugImplementation(libs.composeUiTooling)
+    debugImplementation(libs.composeUiTestManifest)
 }

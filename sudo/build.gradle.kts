@@ -5,22 +5,15 @@ import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
 
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
     id("kotlin-parcelize")
     id("kotlin-kapt")
-    id("com.google.protobuf")
+    alias(libs.plugins.protobuf)
 }
 
-val extCompileSdk: Int = rootProject.extra["compileSdkVersion"] as Int
-val extMinSdk: Int = rootProject.extra["minSdkVersion"] as Int
-val extTargetSdk: Int = rootProject.extra["targetSdkVersion"] as Int
-val extJvmTarget: String = rootProject.extra["jvmTarget"] as String
-val extCompose: String = rootProject.extra["compose"] as String
-val extJunit: String = rootProject.extra["junit"] as String
-
 android {
-    compileSdk = extCompileSdk
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     buildFeatures {
         viewBinding = true
@@ -28,8 +21,8 @@ android {
     }
 
     defaultConfig {
-        minSdk = extMinSdk
-        targetSdk = extTargetSdk
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -40,7 +33,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = extJvmTarget
+        jvmTarget = libs.versions.jvmTarget.get()
     }
 
     composeOptions {
@@ -50,27 +43,27 @@ android {
 
 dependencies {
     // Proto DataStore
-    implementation("androidx.datastore:datastore:1.0.0")
-    implementation("com.google.protobuf:protobuf-javalite:3.14.0")
+    implementation(libs.datastore)
+    implementation(libs.protobuf.javalite)
 
     // Compose stuff
-    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.0")
-    implementation("androidx.compose.ui:ui:$extCompose")
-    implementation("androidx.activity:activity-compose:1.4.0")
-    implementation("androidx.compose.ui:ui-tooling:$extCompose")
-    implementation("androidx.compose.material:material:$extCompose")
-    implementation("androidx.compose.material:material-icons-extended:$extCompose")
+    implementation(libs.composeConstraintlayout)
+    implementation(libs.composeUi)
+    implementation(libs.composeActivity)
+    implementation(libs.composeUiTooling)
+    implementation(libs.composeMaterial)
+    implementation(libs.composeMaterialIconsExtended)
     implementation(project(":common"))
 
     // 模板测试依赖 JUnit，原先缺失导致 testDebugUnitTest 直接编译失败
-    testImplementation("junit:junit:$extJunit")
+    testImplementation(libs.junit4)
 }
 
 // protobuf-gradle-plugin 0.8.12 的 Kotlin DSL 入口是顶层扩展函数，
 // 必须显式 import（见文件顶部），否则 protobuf {} / protoc {} 无法解析。
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:3.10.0"
+        artifact = "com.google.protobuf:protoc:${libs.versions.protoc.get()}"
     }
 
     // 为本项目中的 .proto 生成 protobuf-lite 的 Java 代码

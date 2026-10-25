@@ -1,43 +1,22 @@
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
     id("kotlin-parcelize")
-    id("org.jetbrains.kotlin.android")
 }
 
-val extCompileSdk: Int = rootProject.extra["compileSdkVersion"] as Int
-val extMinSdk: Int = rootProject.extra["minSdkVersion"] as Int
-val extTargetSdk: Int = rootProject.extra["targetSdkVersion"] as Int
-
-// gradle.properties 里的 API_DEV_HOST，等价于 Groovy 里的 "${API_DEV_HOST}"
+// gradle.properties 里的 API_DEV_HOST，等价于原 Groovy 的 "${API_DEV_HOST}"
 val apiDevHost: String = providers.gradleProperty("API_DEV_HOST").get()
 
-val extCoroutines: String = rootProject.extra["coroutines"] as String
-val extAppcompat: String = rootProject.extra["appcompat"] as String
-val extKtx: String = rootProject.extra["ktx"] as String
-val extConstraintlayout: String = rootProject.extra["constraintlayout"] as String
-val extMaterial: String = rootProject.extra["material"] as String
-val extGlide: String = rootProject.extra["glide"] as String
-val extRxjava: String = rootProject.extra["rxjava"] as String
-val extRxandroid: String = rootProject.extra["rxandroid"] as String
-val extOkhttp: String = rootProject.extra["okhttp"] as String
-val extRetrofit: String = rootProject.extra["retrofit"] as String
-val extRxdelay: String = rootProject.extra["rxdelay"] as String
-val extAgentweb: String = rootProject.extra["agentweb"] as String
-val extLitepal: String = rootProject.extra["litepal"] as String
-val extEvent: String = rootProject.extra["event"] as String
-val extJunit: String = rootProject.extra["junit"] as String
-
 android {
-    compileSdk = extCompileSdk
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     buildFeatures {
         viewBinding = true
     }
 
     defaultConfig {
-        minSdk = extMinSdk
-        targetSdk = extTargetSdk
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -64,31 +43,31 @@ android {
 dependencies {
     implementation(fileTree("libs") { include("*.jar") })
 
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$extCoroutines")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-android:$extCoroutines")
+    api(libs.kotlinx.coroutines.core)
+    api(libs.kotlinx.coroutines.android)
 
-    api("androidx.appcompat:appcompat:$extAppcompat")
-    api("androidx.core:core-ktx:$extKtx")
-    api("androidx.constraintlayout:constraintlayout:$extConstraintlayout")
-    api("com.google.android.material:material:$extMaterial")
-    api("androidx.annotation:annotation:$extAppcompat")
+    api(libs.androidx.appcompat)
+    api(libs.androidx.core.ktx)
+    api(libs.androidx.constraintlayout)
+    api(libs.material)
+    api(libs.androidx.annotation)
 
-    api("com.github.bumptech.glide:glide:$extGlide")
+    api(libs.glide)
 
-    api("io.reactivex.rxjava2:rxjava:$extRxjava")
-    api("io.reactivex.rxjava2:rxandroid:$extRxandroid")
-    api("com.squareup.okhttp3:okhttp:$extOkhttp")
-    api("com.squareup.okhttp3:logging-interceptor:$extOkhttp")
-    api("com.squareup.retrofit2:retrofit:$extRetrofit")
-    api("com.squareup.retrofit2:converter-gson:$extRetrofit")
-    api("com.squareup.retrofit2:converter-scalars:$extRetrofit")
-    api("com.squareup.retrofit2:retrofit-adapters:2.8.0")
-    api("com.squareup.retrofit2:adapter-rxjava2:$extRetrofit")
-    api("com.jakewharton.rxrelay2:rxrelay:$extRxdelay")
-    api("com.just.agentweb:agentweb:$extAgentweb")
+    api(libs.rxjava)
+    api(libs.rxandroid)
+    api(libs.okhttp3)
+    api(libs.okhttp.logging)
+    api(libs.retrofit2)
+    api(libs.retrofit.converter.gson)
+    api(libs.retrofit.converter.scalars)
+    api(libs.retrofit.adapters)
+    api(libs.retrofit.adapter.rxjava2)
+    api(libs.rxrelay)
+    api(libs.agentweb)
 
-    api("org.litepal.android:kotlin:$extLitepal")
-    api("org.greenrobot:eventbus:$extEvent")
+    api(libs.litepal)
+    api(libs.eventbus)
 
-    testImplementation("junit:junit:$extJunit")
+    testImplementation(libs.junit4)
 }

@@ -1,23 +1,17 @@
 plugins {
-    id("com.android.library")
+    alias(libs.plugins.android.library)
 }
 
-val extCompileSdk: Int = rootProject.extra["compileSdkVersion"] as Int
-val extMinSdk: Int = rootProject.extra["minSdkVersion"] as Int
-val extTargetSdk: Int = rootProject.extra["targetSdkVersion"] as Int
-val extLitepal: String = rootProject.extra["litepal"] as String
-val extGson: String = rootProject.extra["gson"] as String
-
 android {
-    compileSdk = extCompileSdk
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     buildFeatures {
         viewBinding = true
     }
 
     defaultConfig {
-        minSdk = extMinSdk
-        targetSdk = extTargetSdk
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -43,6 +37,6 @@ dependencies {
     implementation(project(":common"))
 
     // common 已收敛为 implementation，这里按实际使用显式声明
-    implementation("org.litepal.android:kotlin:$extLitepal")
-    implementation("com.google.code.gson:gson:$extGson")
+    implementation(libs.litepal)
+    implementation(libs.gson)
 }

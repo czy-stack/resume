@@ -4,24 +4,13 @@ import java.util.Date
 import java.util.Locale
 
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
     id("kotlin-parcelize")
 }
 
-// 显式从根项目 extra 取值。
-// 不用 `by rootProject.extra` 委托：AGP 的 ApplicationExtension 上存在同名的
-// 废弃属性 compileSdkVersion: String?，在 android {} 块内容易解析到它而非本地变量。
-val extCompileSdk: Int = rootProject.extra["compileSdkVersion"] as Int
-val extMinSdk: Int = rootProject.extra["minSdkVersion"] as Int
-val extTargetSdk: Int = rootProject.extra["targetSdkVersion"] as Int
-val extVersionCode: Int = rootProject.extra["versionCode"] as Int
-val extVersionName: String = rootProject.extra["versionName"] as String
-val extLeakcanary: String = rootProject.extra["leakcanary"] as String
-val extHotfix: String = rootProject.extra["hotfix"] as String
-
 android {
-    compileSdk = extCompileSdk
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     buildFeatures {
         viewBinding = true
@@ -29,7 +18,7 @@ android {
 
     // APK 命名：原 Groovy 版本先用 apkName 拼了 versionName/flavorName，
     // 但紧接着又被 `apkName = "_release" + time + ".apk"` 覆盖，实际输出始终是
-    // "LitePal_release|debug<时间>.apk"。这里按实际生效的行为重写，去掉无效计算。
+    // "LitePal_release|debug<时间>.apk"。这里按实际生效的行为实现。
     applicationVariants.all {
         outputs.all {
             val output = this as? BaseVariantOutputImpl ?: return@all
@@ -40,10 +29,10 @@ android {
 
     defaultConfig {
         applicationId = "com.android.resume"
-        minSdk = extMinSdk
-        targetSdk = extTargetSdk
-        versionCode = extVersionCode
-        versionName = extVersionName
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
+        versionCode = libs.versions.versionCode.get().toInt()
+        versionName = libs.versions.versionName.get()
 
         ndk {
             abiFilters += listOf("armeabi", "armeabi-v7a", "arm64-v8a")
@@ -117,6 +106,6 @@ dependencies {
     implementation(project(":jetpack"))
     implementation(project(":sudo"))
 
-    debugImplementation("com.squareup.leakcanary:$extLeakcanary")
-    implementation("com.aliyun.ams:alicloud-android-hotfix:$extHotfix")
+    debugImplementation(libs.leakcanary)
+    implementation(libs.hotfix)
 }
