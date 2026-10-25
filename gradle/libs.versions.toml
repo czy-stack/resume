@@ -30,6 +30,7 @@ coroutines = "1.6.1"
 
 # Compose
 compose = "1.2.1"
+composeCompiler = "1.4.3"
 accompanist = "0.23.0"
 composeActivity = "1.4.0"
 composeConstraintlayout = "1.0.0"
