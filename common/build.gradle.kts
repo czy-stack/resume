@@ -8,10 +8,13 @@ plugins {
 val apiDevHost: String = providers.gradleProperty("API_DEV_HOST").get()
 
 android {
+    namespace = "com.android.common"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     buildFeatures {
         viewBinding = true
+        // AGP 8 起 BuildConfig 默认不生成，buildConfigField 需要显式开启
+        buildConfig = true
     }
 
     defaultConfig {
@@ -31,8 +34,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = libs.versions.jvmTarget.get()
     }
 
     testOptions {
@@ -61,7 +68,6 @@ dependencies {
     api(libs.retrofit2)
     api(libs.retrofit.converter.gson)
     api(libs.retrofit.converter.scalars)
-    api(libs.retrofit.adapters)
     api(libs.retrofit.adapter.rxjava2)
     api(libs.rxrelay)
     api(libs.agentweb)

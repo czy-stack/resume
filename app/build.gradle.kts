@@ -10,10 +10,13 @@ plugins {
 }
 
 android {
+    namespace = "com.android.resume"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     buildFeatures {
         viewBinding = true
+        // AGP 8 起 BuildConfig 默认不生成，用到 buildConfigField 必须显式开启
+        buildConfig = true
     }
 
     // APK 命名：原 Groovy 版本先用 apkName 拼了 versionName/flavorName，
@@ -92,8 +95,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = libs.versions.jvmTarget.get()
     }
 }
 

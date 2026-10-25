@@ -1,18 +1,14 @@
-import com.google.protobuf.gradle.builtins
-import com.google.protobuf.gradle.generateProtoTasks
-import com.google.protobuf.gradle.id
-import com.google.protobuf.gradle.protobuf
-import com.google.protobuf.gradle.protoc
-
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     id("kotlin-parcelize")
     id("kotlin-kapt")
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.protobuf)
 }
 
 android {
+    namespace = "com.example.sudo"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     buildFeatures {
@@ -28,16 +24,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 }
 
@@ -71,7 +63,7 @@ protobuf {
     generateProtoTasks {
         all().forEach { task ->
             task.builtins {
-                id("java") {
+                create("java") {
                     option("lite")
                 }
             }

@@ -14,7 +14,10 @@ import com.android.common.R
 class BaseToolbar : Toolbar {
     constructor(context: Context) : this(context, null)
 
-    constructor(context: Context, @Nullable attrs: AttributeSet?) : this(context, attrs, R.attr.toolbarStyle)
+    // toolbarStyle 是 appcompat 定义的 attr，common 自身没有同名资源。
+    // AGP 8 默认 nonTransitiveRClass=true 后，R 类不再合并依赖库资源，必须用全限定名。
+    constructor(context: Context, @Nullable attrs: AttributeSet?) :
+            this(context, attrs, androidx.appcompat.R.attr.toolbarStyle)
 
     constructor(context: Context, @Nullable attrs: AttributeSet?, defStyleAttr: Int) : super(
         context,

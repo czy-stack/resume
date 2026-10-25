@@ -44,8 +44,8 @@ internal fun ShareData.displayName(): String =
 /** 按市场类型显示国旗/市场图标 */
 internal fun ImageView.bindMarketIcon(type: Int) {
     when (type) {
-        MainConstants.HK -> setImageResource(R.mipmap.icon_hk)
-        MainConstants.USA -> setImageResource(R.mipmap.icon_m)
+        MainConstants.HK -> setImageResource(com.android.common.R.mipmap.icon_hk)
+        MainConstants.USA -> setImageResource(com.android.common.R.mipmap.icon_m)
         else -> setImageDrawable(null)
     }
 }

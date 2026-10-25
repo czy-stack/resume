@@ -19,7 +19,7 @@ import io.reactivex.disposables.Disposable
  * 2. 释放逻辑同样取反，已修正；
  * 3. 不再在这里维护一份错误码 when，统一走 [ErrorCodes]。
  */
-abstract class RxSimpleObserver<T>(protected val context: Context) : Observer<T> {
+abstract class RxSimpleObserver<T : Any>(protected val context: Context) : Observer<T> {
 
     private var disposable: Disposable? = null
 

@@ -5,6 +5,7 @@ plugins {
 }
 
 android {
+    namespace = "com.example.kotlin"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     buildFeatures {
@@ -17,8 +18,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = libs.versions.jvmTarget.get()
     }
 
     testOptions {
