@@ -23,8 +23,10 @@ android {
     // 但紧接着又被 `apkName = "_release" + time + ".apk"` 覆盖，实际输出始终是
     // "LitePal_release|debug<时间>.apk"。这里按实际生效的行为实现。
     applicationVariants.all {
-        outputs.all {
-            val output = this as? BaseVariantOutputImpl ?: return@all
+        // 外层 applicationVariants.all 与内层 outputs.all 同名，return@all 会有歧义，
+        // 这里给内层 lambda 显式标签
+        outputs.all output@{
+            val output = this as? BaseVariantOutputImpl ?: return@output
             val time = SimpleDateFormat("_YYYYMMddHH", Locale.getDefault()).format(Date())
             output.outputFileName = "LitePal_${buildType.name}$time.apk"
         }
@@ -46,14 +48,12 @@ android {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
-            isZipAlignEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
         debug {
-            isZipAlignEnabled = true
         }
     }
 
@@ -101,6 +101,22 @@ android {
 
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()
+    }
+
+    lint {
+        // 以下为不可修复的第三方实现或产品决策项，显式抑制以减少噪音。
+        // 若条件变化（适配 ChromeOS、迁移 KSP、支持 Android 13 主题图标），应逐条重新评估。
+        disable += setOf(
+            "TrustAllX509TrustManager", // 阿里云 hotfix / utdid SDK 内部实现
+            "ObsoleteLintCustomCheck",  // constraintlayout-compose 携带的 lint.jar 版本偏旧
+            "ChromeOsAbiSupport",       // 本项目只分发 ARM ABI，不面向 ChromeOS
+            "MonochromeLauncherIcon",   // 尚未适配 Android 13 主题化图标
+            "GradleDependency",         // 依赖按兼容性选版（如 Kotlin 保持 2.0.21）
+            "CustomSplashScreen",       // 产品设计：保留自定义启动页
+            // allowBackup 负责 Android 11 及以下，dataExtractionRules 负责 12+，
+            // 两者并存才是完整配置；lint 只是提示 allowBackup 未来可能移除
+            "DataExtractionRules",
+        )
     }
 }
 

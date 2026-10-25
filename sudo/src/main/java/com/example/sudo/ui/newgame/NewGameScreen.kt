@@ -51,7 +51,7 @@ fun NewGameScreen(
         )
     }
 
-    val transition = updateTransition(contentStateTransition, label = "")
+    val transition = rememberTransition(contentStateTransition, label = "")
 
     val loadingAlpha by transition.animateFloat(
         transitionSpec = { tween(durationMillis = 300) }, label = ""

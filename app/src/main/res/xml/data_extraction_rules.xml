@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Android 12+ 用 dataExtractionRules 取代 allowBackup 的粗粒度控制。
-  本应用不涉及跨设备迁移数据，直接关闭云备份与设备迁移。
+    allowBackup=false 的原意是「不做任何备份」。
+    Android 12+ 起 allowBackup 不再决定备份行为，需要由 dataExtractionRules 显式声明，
+    因此这里排除全部数据域，保持与 allowBackup=false 一致的语义。
 -->
 <data-extraction-rules>
     <cloud-backup>
-        <exclude domain="root" path="." />
-        <exclude domain="database" path="." />
-        <exclude domain="sharedpref" path="." />
-        <exclude domain="file" path="." />
+        <exclude domain="root" />
+        <exclude domain="file" />
+        <exclude domain="database" />
+        <exclude domain="sharedpref" />
+        <exclude domain="external" />
     </cloud-backup>
     <device-transfer>
-        <exclude domain="root" path="." />
-        <exclude domain="database" path="." />
-        <exclude domain="sharedpref" path="." />
-        <exclude domain="file" path="." />
+        <exclude domain="root" />
+        <exclude domain="file" />
+        <exclude domain="database" />
+        <exclude domain="sharedpref" />
+        <exclude domain="external" />
     </device-transfer>
 </data-extraction-rules>

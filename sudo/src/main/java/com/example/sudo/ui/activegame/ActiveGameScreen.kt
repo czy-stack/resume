@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.core.updateTransition
+import androidx.compose.animation.core.rememberTransition
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -62,7 +62,7 @@ fun ActiveGameScreen(
 
     Log.i("ActiveGameScreen",contentTransitionState.targetState.name +"    "+contentTransitionState.currentState.name )
 
-    val transition = updateTransition(contentTransitionState, label = "")
+    val transition = rememberTransition(contentTransitionState, label = "")
 
     val loadingAlpha by transition.animateFloat(
         transitionSpec = { tween(durationMillis = 300) }, label = ""

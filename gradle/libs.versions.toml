@@ -62,7 +62,6 @@ protoc = "3.25.5"
 
 # 测试
 junit4 = "4.13.2"
-junit4Jetpack = "4.13.2"
 androidxTestJunit = "1.2.1"
 
 [libraries]
@@ -137,7 +136,6 @@ androidx-navigation-compose = { group = "androidx.navigation", name = "navigatio
 
 # --- 测试 ---
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
-junit4Jetpack = { group = "junit", name = "junit", version.ref = "junit4Jetpack" }
 androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxTestJunit" }
 
 [plugins]

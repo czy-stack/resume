@@ -15,7 +15,6 @@ android {
 
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
-        targetSdk = libs.versions.targetSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -33,7 +32,7 @@ android {
 dependencies {
     implementation(fileTree("libs") { include("*.jar") })
     implementation(project(":common"))
-    testImplementation(libs.junit4Jetpack)
+    testImplementation(libs.junit4)
     androidTestImplementation(libs.androidx.test.junit)
 
     // Architecture Components

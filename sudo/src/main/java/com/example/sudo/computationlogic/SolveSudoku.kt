@@ -35,7 +35,7 @@ internal fun SudokuPuzzle.solve()
     var newGraph = LinkedHashMap(this.graph)
     //all nodes which are of 0 value (uncolored)
     val uncoloredNodes = LinkedList<SudokuNode>()
-    newGraph.values.filter { it.first.color == 0 }.forEach { uncoloredNodes.add(it.first) }
+    newGraph.values.filter { it.first().color == 0 }.forEach { uncoloredNodes.add(it.first()) }
 
     while (uncoloredNodes.size > 0) {
         //backtracking
@@ -75,7 +75,7 @@ internal fun SudokuPuzzle.solve()
 
             newGraph = this.seedColors().graph
             uncoloredNodes.clear()
-            newGraph.values.filter { it.first.color == 0 }.forEach { uncoloredNodes.add(it.first) }
+            newGraph.values.filter { it.first().color == 0 }.forEach { uncoloredNodes.add(it.first()) }
             assignments.clear()
             fullbacktrackCounter = 0
             niceValue = (boundary / 2)
@@ -110,7 +110,7 @@ internal fun SudokuPuzzle.solve()
 fun getPossibleValues(adjList: LinkedList<SudokuNode>, boundary: Int): List<Int> {
     val options = mutableListOf<Int>()
     (1..boundary).forEach {
-        adjList.first.color = it
+        adjList.first().color = it
 
         val occurrences = adjList.count { node ->
             node.color == it
@@ -120,7 +120,7 @@ fun getPossibleValues(adjList: LinkedList<SudokuNode>, boundary: Int): List<Int>
     }
 
     //reset to 0
-    adjList.first.color = 0
+    adjList.first().color = 0
     return options
 }
 
