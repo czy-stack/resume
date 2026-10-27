@@ -26,7 +26,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        setSupportActionBar(binding.toolbar)
+        // 全局主题是 Theme.AppCompat.NoActionBar，NavigationUI.setupActionBarWithNavController
+        // 需要 Activity 上存在 ActionBar，否则注册监听时会因 setTitle 抛
+        // IllegalStateException（"does not have an ActionBar set via setSupportActionBar()"）。
+        // 这里把布局中的 MaterialToolbar 设为 ActionBar。
+        setSupportActionBar(binding.toolbar)
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
